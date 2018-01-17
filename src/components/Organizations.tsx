@@ -1,75 +1,71 @@
-import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
+import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css'
 
-import * as React from 'react';
-import { css } from 'glamor';
-import { Link } from 'react-router-dom';
-import { Row, Col, PageHeader, Button, Glyphicon } from 'react-bootstrap';
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import * as React from 'react'
+import { css } from 'glamor'
+import { Link, Redirect } from 'react-router-dom'
+import { Row, Col, PageHeader, Button, Glyphicon, Alert } from 'react-bootstrap'
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
 
-function timeout(ms: Number) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+import { fetchOrganizations } from '../network'
+
+export interface Organization {
+  description: string
+  id: string
+  name: string
 }
 
-async function fetchOrg() {
-  const url = 'http://localhost:8080/authorization/organizations';
-  const headers = {
-    authorization: 'ROOTid'
-  };
-
-  const response = await fetch(url, {
-    method: 'GET',
-    headers,
-    mode: 'cors'
-  });
-
-  await timeout(500);
-
-  if (!response.ok) {
-    throw new Error('bad network request');
-  }
-
-  return await response.json();
+export interface State {
+  loading: boolean
+  redirect: boolean
+  error: Error | null
+  organizations: Organization[]
 }
-
-type State = {
-  loading: Boolean;
-  organizations: Array<{
-    description: String;
-    id: String;
-    name: String;
-  }>;
-};
 
 class Organizations extends React.Component<{}, State> {
   state: State = {
     loading: false,
+    redirect: false,
+    error: null,
     organizations: []
-  };
-
-  async componentDidMount() {
-    this.refetch();
   }
 
-  async refetch() {
-    await this.setState({ loading: true });
-    const organizations = await fetchOrg();
+  setStateAsync<T>(state: T): Promise<void> {
+    return new Promise(resolve => this.setState(state, resolve))
+  }
 
-    this.setState({
+  componentDidMount(): void {
+    this.fetch()
+  }
+
+  async fetch(): Promise<void> {
+    await this.setStateAsync<{ loading: boolean; error: null }>({
+      loading: true,
+      error: null
+    })
+    const {
+      error = null,
+      redirect = false,
+      data = []
+    } = await fetchOrganizations<Array<Organization>>()
+
+    await this.setStateAsync<State>({
       loading: false,
-      organizations: organizations.data
-    });
+      error,
+      redirect,
+      organizations: data
+    })
   }
 
   render() {
-    const { organizations, loading } = this.state;
+    const { organizations, loading, error, redirect } = this.state
 
-    return loading ? (
-      <h1>Loading...</h1>
-    ) : (
+    if (redirect) return <Redirect to="/settings" />
+
+    return (
       <Row>
         <Row>
           <Col xs={12}>
-            <PageHeader>Organizations list</PageHeader>
+            <PageHeader>Organizations List</PageHeader>
           </Col>
         </Row>
         <Row>
@@ -82,90 +78,108 @@ class Organizations extends React.Component<{}, State> {
         </Row>
         <Row>
           <Col xs={12}>
-            <Button bsStyle="primary" onClick={() => this.refetch()}>
-              Refresh
-            </Button>
+            <Row>
+              <Col xs={12}>
+                {error && (
+                  <Alert bsStyle="danger">
+                    There was an <strong>error</strong> fetching organizations.
+                    Please try again.
+                  </Alert>
+                )}
+              </Col>
+              <Col xs={12}>
+                <Button onClick={() => this.fetch()} disabled={loading}>
+                  Refresh
+                </Button>
+              </Col>
+            </Row>
           </Col>
         </Row>
         <Row {...css({ marginTop: '30px' })}>
-          <Col xs={12}>
-            <BootstrapTable
-              data={organizations}
-              pagination={true}
-              options={{ noDataText: 'No Organizations Found.' }}
-            >
-              <TableHeaderColumn
-                dataField="id"
-                isKey={true}
-                dataAlign="center"
-                dataSort={true}
-                dataFormat={(cell, row) => {
-                  return (
-                    <Link to={`/organizations/${cell}`}>
-                      <Button bsStyle="success">{cell}</Button>
-                    </Link>
-                  );
-                }}
+          {loading ? (
+            <Col xsOffset={2} xs={2}>
+              <h1>Loading...</h1>
+            </Col>
+          ) : (
+            <Col xs={12}>
+              <BootstrapTable
+                data={organizations}
+                pagination
+                options={{ noDataText: 'No Organizations Found.' }}
               >
-                ID
-              </TableHeaderColumn>
-              <TableHeaderColumn
-                dataField="id"
-                dataAlign="center"
-                dataFormat={(cell, row) => {
-                  return (
-                    <Link to={`/policies/${cell}`}>
-                      <Button bsStyle="success">
-                        <Glyphicon glyph="info-sign" />
-                      </Button>
-                    </Link>
-                  );
-                }}
-              >
-                Policies
-              </TableHeaderColumn>
-              <TableHeaderColumn
-                dataField="id"
-                dataAlign="center"
-                dataFormat={(cell, row) => {
-                  return (
-                    <Link to={`/teams/${cell}`}>
-                      <Button bsStyle="success">
-                        <Glyphicon glyph="user" />
-                      </Button>
-                    </Link>
-                  );
-                }}
-              >
-                Teams
-              </TableHeaderColumn>
-              <TableHeaderColumn
-                dataField="id"
-                dataAlign="center"
-                dataFormat={(cell, row) => {
-                  return (
-                    <Link to={`/users/${cell}`}>
-                      <Button bsStyle="success">
-                        <Glyphicon glyph="user" />
-                      </Button>
-                    </Link>
-                  );
-                }}
-              >
-                Users
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField="name" dataSort={true}>
-                Name
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField="description" dataSort={true}>
-                Description
-              </TableHeaderColumn>
-            </BootstrapTable>
-          </Col>
+                <TableHeaderColumn
+                  dataField="id"
+                  isKey
+                  dataAlign="center"
+                  dataSort
+                  dataFormat={(cell, row) => {
+                    return (
+                      <Link to={`/organizations/${cell}`}>
+                        <Button bsStyle="success">{cell}</Button>
+                      </Link>
+                    )
+                  }}
+                >
+                  ID
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  dataField="id"
+                  dataAlign="center"
+                  dataFormat={(cell, row) => {
+                    return (
+                      <Link to={`/policies/${cell}`}>
+                        <Button bsStyle="success">
+                          <Glyphicon glyph="info-sign" />
+                        </Button>
+                      </Link>
+                    )
+                  }}
+                >
+                  Policies
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  dataField="id"
+                  dataAlign="center"
+                  dataFormat={(cell, row) => {
+                    return (
+                      <Link to={`/teams/${cell}`}>
+                        <Button bsStyle="success">
+                          <Glyphicon glyph="user" />
+                        </Button>
+                      </Link>
+                    )
+                  }}
+                >
+                  Teams
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  dataField="id"
+                  dataAlign="center"
+                  dataFormat={(cell, row) => {
+                    return (
+                      <Link to={`/users/${cell}`}>
+                        <Button bsStyle="success">
+                          <Glyphicon glyph="user" />
+                        </Button>
+                      </Link>
+                    )
+                  }}
+                >
+                  Users
+                </TableHeaderColumn>
+                <TableHeaderColumn dataField="name" dataSort>
+                  Name
+                </TableHeaderColumn>
+                <TableHeaderColumn dataField="description" dataSort>
+                  Description
+                </TableHeaderColumn>
+              </BootstrapTable>
+            </Col>
+          )}
         </Row>
       </Row>
-    );
+    )
   }
 }
 
-export default Organizations;
+export default Organizations

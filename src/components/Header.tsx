@@ -6,7 +6,7 @@ import { Nav, Navbar, NavItem } from 'react-bootstrap';
 class Header extends React.Component {
   render() {
     return (
-      <Navbar collapseOnSelect={true} staticTop={true}>
+      <Navbar collapseOnSelect staticTop>
         <Navbar.Header>
           <Navbar.Brand>
             <Link to="/">Udaru Admin</Link>
@@ -36,7 +36,7 @@ class Header extends React.Component {
               </NavItem>
             </LinkContainer>
           </Nav>
-          <Nav pullRight={true}>
+          <Nav pullRight>
             <LinkContainer to="/settings">
               <NavItem eventKey={1}>Settings</NavItem>
             </LinkContainer>
