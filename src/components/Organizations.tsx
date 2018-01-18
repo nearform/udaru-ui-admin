@@ -15,7 +15,7 @@ import {
 } from 'react-bootstrap'
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
 
-import { ComponentUnmounted, fetchOrganizations } from '../network'
+import { ComponentUnmountedMsg, fetchOrganizations } from '../network'
 
 export interface Organization {
   description: string
@@ -49,7 +49,7 @@ class Organizations extends React.Component<{}, State> {
   }
 
   componentWillUnmount(): void {
-    this.source.cancel(ComponentUnmounted.RequestCancelled)
+    this.source.cancel(ComponentUnmountedMsg.RequestCancelled)
   }
 
   async fetch(): Promise<void> {
@@ -63,7 +63,7 @@ class Organizations extends React.Component<{}, State> {
       data = []
     } = await fetchOrganizations<Organization[]>(this.source)
 
-    if (error && error.message === ComponentUnmounted.RequestCancelled) {
+    if (error && error.message === ComponentUnmountedMsg.RequestCancelled) {
       return
     }
 
@@ -90,8 +90,8 @@ class Organizations extends React.Component<{}, State> {
         <Row>
           <Col xs={12}>
             <p>
-              This page provides you with a list of all the orgs in the udaru
-              catalog.
+              This page provides you with a list of all the organizations in the
+              udaru catalog.
             </p>
           </Col>
         </Row>
@@ -149,7 +149,7 @@ class Organizations extends React.Component<{}, State> {
                             ' a': { margin: '0 10px' }
                           })}
                         >
-                          <Link to={`/organizations/${row.id}`}>
+                          <Link to={`/organization/${row.id}`}>
                             <Button bsStyle="success">
                               Organization: {row.id}
                             </Button>

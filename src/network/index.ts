@@ -7,7 +7,7 @@ export interface Settings {
   isValid: boolean
 }
 
-export enum ComponentUnmounted {
+export enum ComponentUnmountedMsg {
   RequestCancelled = 'component unmounted'
 }
 
@@ -50,6 +50,39 @@ export const fetchOrganizations = async <T>(
     })
 
     return await response.data
+  } catch (error) {
+    if (axios.isCancel(error)) {
+      console.log('Request cancelled:', error.message)
+    }
+    return {
+      error
+    }
+  }
+}
+
+export const fetchSingleOrganization = async <T>(
+  source: CancelTokenSource,
+  organizationId: string
+): Promise<GenericFetchProps<T>> => {
+  const settings = await getSettings()
+  if (!settings.isValid) {
+    return {
+      redirect: true
+    }
+  }
+
+  try {
+    const url = `${settings.url}/authorization/organizations/${organizationId}`
+    const headers = {
+      authorization: settings.rootUser
+    }
+
+    const response = await axios.get(url, {
+      headers,
+      cancelToken: source.token
+    })
+
+    return await response
   } catch (error) {
     if (axios.isCancel(error)) {
       console.log('Request cancelled:', error.message)

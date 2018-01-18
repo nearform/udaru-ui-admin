@@ -8,8 +8,13 @@ import Home from './Home'
 import Settings from './Settings'
 import Organizations from './Organizations'
 import Teams from './Teams'
-
+import SingleOrganization from './SingleOrganization'
+import { RouteComponentProps } from 'react-router'
 const logo = require('../logo.jpg')
+
+export interface SingleOrganizationRouteInfo {
+  id: string
+}
 
 class App extends React.Component {
   render() {
@@ -34,6 +39,17 @@ class App extends React.Component {
                     exact
                     path="/organizations"
                     render={() => <Organizations />}
+                  />
+                  <Route
+                    exact
+                    path="/organization/:id"
+                    render={({
+                      match
+                    }: RouteComponentProps<SingleOrganizationRouteInfo>) => {
+                      return (
+                        <SingleOrganization organizationId={match.params.id} />
+                      )
+                    }}
                   />
                   <Route exact path="/teams" render={() => <Teams />} />
                 </Switch>
