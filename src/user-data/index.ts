@@ -1,17 +1,17 @@
 import * as localforage from 'localforage'
 
-type UserItem = string | null
+type Item = string | null
 
 export interface UserData {
   isValid?: boolean
-  url: UserItem
-  rootUser: UserItem
+  url: Item
+  rootUser: Item
 }
 
 export async function getUserData(): Promise<UserData> {
   const [url, rootUser] = await Promise.all([
-    localforage.getItem<UserItem>('url'),
-    localforage.getItem<UserItem>('rootUser')
+    localforage.getItem<Item>('url'),
+    localforage.getItem<Item>('rootUser')
   ])
 
   return {
@@ -24,8 +24,8 @@ export async function setUserData(userData: UserData): Promise<boolean> {
   console.log('setUserData', userData)
   try {
     await Promise.all([
-      localforage.setItem<UserItem>('url', userData.url),
-      localforage.setItem<UserItem>('rootUser', userData.rootUser)
+      localforage.setItem<Item>('url', userData.url),
+      localforage.setItem<Item>('rootUser', userData.rootUser)
     ])
     return true
   } catch (error) {

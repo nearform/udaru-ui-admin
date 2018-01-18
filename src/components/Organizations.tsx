@@ -1,12 +1,21 @@
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css'
 
 import * as React from 'react'
+import axios from 'axios'
 import { css } from 'glamor'
 import { Link, Redirect } from 'react-router-dom'
-import { Row, Col, PageHeader, Button, Glyphicon, Alert } from 'react-bootstrap'
+import {
+  Row,
+  Col,
+  PageHeader,
+  ButtonGroup,
+  Button,
+  Glyphicon,
+  Alert
+} from 'react-bootstrap'
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
 
-import { fetchOrganizations } from '../network'
+import { ComponentUnmounted, fetchOrganizations } from '../network'
 
 export interface Organization {
   description: string
@@ -22,6 +31,8 @@ export interface State {
 }
 
 class Organizations extends React.Component<{}, State> {
+  source = axios.CancelToken.source()
+
   state: State = {
     loading: false,
     redirect: false,
@@ -37,6 +48,10 @@ class Organizations extends React.Component<{}, State> {
     this.fetch()
   }
 
+  componentWillUnmount(): void {
+    this.source.cancel(ComponentUnmounted.RequestCancelled)
+  }
+
   async fetch(): Promise<void> {
     await this.setStateAsync<{ loading: boolean; error: null }>({
       loading: true,
@@ -46,7 +61,11 @@ class Organizations extends React.Component<{}, State> {
       error = null,
       redirect = false,
       data = []
-    } = await fetchOrganizations<Array<Organization>>()
+    } = await fetchOrganizations<Organization[]>(this.source)
+
+    if (error && error.message === ComponentUnmounted.RequestCancelled) {
+      return
+    }
 
     await this.setStateAsync<State>({
       loading: false,
@@ -106,66 +125,66 @@ class Organizations extends React.Component<{}, State> {
                 data={organizations}
                 pagination
                 options={{ noDataText: 'No Organizations Found.' }}
+                striped
+                expandColumnOptions={{
+                  expandColumnVisible: true,
+                  expandColumnComponent: ({ isExpandableRow, isExpanded }) =>
+                    !isExpanded ? (
+                      <Glyphicon glyph="plus" />
+                    ) : (
+                      <Glyphicon glyph="minus" />
+                    )
+                }}
+                expandableRow={row => true}
+                expandComponent={row => {
+                  return (
+                    <Row>
+                      <Col xs={12}>
+                        <h3>View Details:</h3>
+
+                        <ButtonGroup
+                          {...css({
+                            textAlign: 'center',
+                            marginBottom: '20px',
+                            ' a': { margin: '0 10px' }
+                          })}
+                        >
+                          <Link to={`/organizations/${row.id}`}>
+                            <Button bsStyle="success">
+                              Organization: {row.id}
+                            </Button>
+                          </Link>
+
+                          <Link to={`/policies/${row.id}`}>
+                            <Button bsStyle="success">
+                              Policies <Glyphicon glyph="info-sign" />
+                            </Button>
+                          </Link>
+
+                          <Link to={`/teams/${row.id}`}>
+                            <Button bsStyle="success">
+                              Teams <Glyphicon glyph="user" />
+                            </Button>
+                          </Link>
+
+                          <Link to={`/users/${row.id}`}>
+                            <Button bsStyle="success">
+                              Users <Glyphicon glyph="user" />
+                            </Button>
+                          </Link>
+                        </ButtonGroup>
+                      </Col>
+                    </Row>
+                  )
+                }}
               >
                 <TableHeaderColumn
                   dataField="id"
                   isKey
                   dataAlign="center"
                   dataSort
-                  dataFormat={(cell, row) => {
-                    return (
-                      <Link to={`/organizations/${cell}`}>
-                        <Button bsStyle="success">{cell}</Button>
-                      </Link>
-                    )
-                  }}
                 >
                   ID
-                </TableHeaderColumn>
-                <TableHeaderColumn
-                  dataField="id"
-                  dataAlign="center"
-                  dataFormat={(cell, row) => {
-                    return (
-                      <Link to={`/policies/${cell}`}>
-                        <Button bsStyle="success">
-                          <Glyphicon glyph="info-sign" />
-                        </Button>
-                      </Link>
-                    )
-                  }}
-                >
-                  Policies
-                </TableHeaderColumn>
-                <TableHeaderColumn
-                  dataField="id"
-                  dataAlign="center"
-                  dataFormat={(cell, row) => {
-                    return (
-                      <Link to={`/teams/${cell}`}>
-                        <Button bsStyle="success">
-                          <Glyphicon glyph="user" />
-                        </Button>
-                      </Link>
-                    )
-                  }}
-                >
-                  Teams
-                </TableHeaderColumn>
-                <TableHeaderColumn
-                  dataField="id"
-                  dataAlign="center"
-                  dataFormat={(cell, row) => {
-                    return (
-                      <Link to={`/users/${cell}`}>
-                        <Button bsStyle="success">
-                          <Glyphicon glyph="user" />
-                        </Button>
-                      </Link>
-                    )
-                  }}
-                >
-                  Users
                 </TableHeaderColumn>
                 <TableHeaderColumn dataField="name" dataSort>
                   Name

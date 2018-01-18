@@ -1,16 +1,5 @@
+import axios, { CancelTokenSource } from 'axios'
 import { getUserData } from '../user-data'
-
-export interface FetchOrganizationsResponse {
-  data?: {
-    organizations: Array<{
-      description: string
-      id: string
-      name: string
-    }>
-  }
-  redirect?: boolean
-  error?: Error | null
-}
 
 export interface Settings {
   url: string
@@ -18,8 +7,9 @@ export interface Settings {
   isValid: boolean
 }
 
-const timeout = (ms: Number): Promise<void> =>
-  new Promise(resolve => setTimeout(resolve, ms))
+export enum ComponentUnmounted {
+  RequestCancelled = 'component unmounted'
+}
 
 const getSettings = async (): Promise<Settings> => {
   const userData = await getUserData()
@@ -38,9 +28,9 @@ export interface GenericFetchProps<T> {
   data?: T
 }
 
-export const fetchOrganizations = async <T>(): Promise<
-  GenericFetchProps<T>
-> => {
+export const fetchOrganizations = async <T>(
+  source: CancelTokenSource
+): Promise<GenericFetchProps<T>> => {
   const settings = await getSettings()
   if (!settings.isValid) {
     return {
@@ -54,21 +44,16 @@ export const fetchOrganizations = async <T>(): Promise<
       authorization: settings.rootUser
     }
 
-    const response = await fetch(url, {
-      method: 'GET',
+    const response = await axios.get(url, {
       headers,
-      mode: 'cors'
+      cancelToken: source.token
     })
 
-    await timeout(500)
-
-    if (!response.ok) {
-      throw new Error('bad network request')
-    }
-
-    return await response.json()
+    return await response.data
   } catch (error) {
-    console.error(error)
+    if (axios.isCancel(error)) {
+      console.log('Request cancelled:', error.message)
+    }
     return {
       error
     }
