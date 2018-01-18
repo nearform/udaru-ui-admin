@@ -16,6 +16,10 @@ export interface SingleOrganizationRouteInfo {
   id: string
 }
 
+export interface TeamsRouteInfo {
+  org: string
+}
+
 class App extends React.Component {
   render() {
     return (
@@ -52,6 +56,15 @@ class App extends React.Component {
                     }}
                   />
                   <Route exact path="/teams" render={() => <Teams />} />
+                  <Route
+                    exact
+                    path="/teams/:org"
+                    render={({
+                      match
+                    }: RouteComponentProps<TeamsRouteInfo>) => (
+                      <Teams org={match.params.org} />
+                    )}
+                  />
                 </Switch>
               </Col>
             </Row>

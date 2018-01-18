@@ -92,3 +92,38 @@ export const fetchSingleOrganization = async <T>(
     }
   }
 }
+
+export const fetchTeams = async <T>(
+  source: CancelTokenSource,
+  org?: string
+): Promise<GenericFetchProps<T>> => {
+  const settings = await getSettings()
+  if (!settings.isValid) {
+    return {
+      redirect: true
+    }
+  }
+
+  try {
+    const url = `${settings.url}/authorization/teams`
+    const headers = Boolean(org)
+      ? { authorization: settings.rootUser, org }
+      : {
+          authorization: settings.rootUser
+        }
+
+    const response = await axios.get(url, {
+      headers,
+      cancelToken: source.token
+    })
+
+    return await response.data
+  } catch (error) {
+    if (axios.isCancel(error)) {
+      console.log('Request cancelled:', error.message)
+    }
+    return {
+      error
+    }
+  }
+}

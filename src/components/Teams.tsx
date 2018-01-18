@@ -1,195 +1,173 @@
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css'
 
 import * as React from 'react'
+import axios from 'axios'
 import { css } from 'glamor'
-import { Row, Col, PageHeader, Button, Glyphicon } from 'react-bootstrap'
+import { Redirect } from 'react-router-dom'
+import { Row, Col, PageHeader, Button, Alert } from 'react-bootstrap'
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
 
-function timeout(ms: Number) {
-  return new Promise(resolve => setTimeout(resolve, ms))
+import { ComponentUnmountedMsg, fetchTeams } from '../network'
+
+export interface User {
+  id: string
+  name: string
 }
 
-async function fetchTeams() {
-  const url = 'http://localhost:8080/authorization/teams'
-  const headers = {
-    authorization: 'ROOTid',
-    org: 'WONKA'
-  }
-  try {
-    const response = await fetch(url, {
-      method: 'GET',
-      headers,
-      mode: 'cors'
-    })
-
-    await timeout(500)
-
-    if (!response.ok) {
-      throw new Error('bad network request')
-    }
-
-    return await response.json()
-  } catch (error) {
-    return error
-  }
+export interface Policy {
+  id: string
+  version: string
+  name: string
 }
 
-async function fetchTeam(id: Number) {
-  const url = `http://localhost:8080/authorization/teams/${id}`
-  const headers = {
-    authorization: 'ROOTid',
-    org: 'WONKA'
-  }
-
-  const response = await fetch(url, {
-    method: 'GET',
-    headers,
-    mode: 'cors'
-  })
-
-  await timeout(500)
-
-  if (!response.ok) {
-    throw new Error('bad network request')
-  }
-
-  return await response.json()
+export interface Team {
+  id: string
+  name: string
+  description: string
+  path: string
+  users: User[]
+  policies: Policy[]
+  organizationId: string
+  usersCount: number
 }
 
-type State = {
+export interface Props {
+  org?: string
+}
+
+export interface State {
   loading: boolean
+  redirect: boolean
   error: Error | null
-  team: {
-    id: string
-    name: string
-    description: string
-    path: string
-    organizationId: string
-    users: Array<{
-      id: string
-      name: string
-    }>
-    policies: Array<{
-      id: string
-      name: string
-      version: string
-      variables: {}
-    }>
-    usersCount: 1
-  } | null
-
-  teams: Array<{
-    description: string
-    id: string
-    name: string
-    organizationId: string
-    path: string
-    usersCount: Number
-  }>
+  teams: Team[]
 }
 
-class Teams extends React.Component<{}, State> {
+class Teams extends React.Component<Props, State> {
+  source = axios.CancelToken.source()
+
   state: State = {
     loading: false,
+    redirect: false,
     error: null,
-    teams: [],
-    team: null
+    teams: []
   }
 
-  async componentDidMount() {
-    this.refetch()
+  componentWillReceiveProps(nextProps: Props): void {
+    if (this.props.org !== nextProps.org) {
+      this.fetch()
+    }
   }
 
-  async fetchTeam(id: Number) {
-    const team = await fetchTeam(id)
-    console.log('team', team)
+  setStateAsync<T>(state: T): Promise<void> {
+    return new Promise(resolve => this.setState(state, resolve))
+  }
 
-    this.setState({
-      loading: false,
-      team: team.data
+  componentDidMount(): void {
+    this.fetch()
+  }
+
+  componentWillUnmount(): void {
+    this.source.cancel(ComponentUnmountedMsg.RequestCancelled)
+  }
+
+  async fetch(): Promise<void> {
+    await this.setStateAsync<{ loading: boolean; error: null }>({
+      loading: true,
+      error: null
     })
-  }
+    const { error = null, redirect = false, data = [] } = await fetchTeams<
+      Team[]
+    >(this.source, this.props.org)
 
-  async refetch() {
-    await this.setState({ loading: true })
-    const teams = await fetchTeams()
+    if (error && error.message === ComponentUnmountedMsg.RequestCancelled) {
+      return
+    }
 
-    teams instanceof Error
-      ? this.setState({
-          loading: false,
-          error: teams
-        })
-      : this.setState({
-          loading: false,
-          teams: teams.data
-        })
+    await this.setStateAsync<State>({
+      loading: false,
+      error,
+      redirect,
+      teams: data
+    })
   }
 
   render() {
-    const { teams, loading, error } = this.state
+    const { teams, loading, error, redirect } = this.state
 
-    return loading ? (
-      <h1>Loading...</h1>
-    ) : error ? (
-      <h1>There was an error retreiving this data.</h1>
-    ) : (
+    if (redirect) return <Redirect to="/settings" />
+
+    return (
       <Row>
         <Row>
           <Col xs={12}>
-            <PageHeader>Teams List</PageHeader>
+            <PageHeader>
+              {this.props.org ? `Teams List ${this.props.org}` : `Teams List`}
+            </PageHeader>
           </Col>
         </Row>
         <Row>
           <Col xs={12}>
             <p>
-              This page provides you with a list of active teams for the
-              selected organization.
+              This page provides you with a list of all teams from the current
+              organization.
             </p>
           </Col>
         </Row>
         <Row>
           <Col xs={12}>
-            <Button bsStyle="primary" onClick={() => this.refetch()}>
-              Refresh
-            </Button>
+            <Row>
+              <Col xs={12}>
+                {error && (
+                  <Alert bsStyle="danger">
+                    There was an <strong>error</strong> fetching organizations.
+                    Please try again.
+                  </Alert>
+                )}
+              </Col>
+              <Col xs={12}>
+                <Button onClick={() => this.fetch()} disabled={loading}>
+                  Refresh
+                </Button>
+              </Col>
+            </Row>
           </Col>
         </Row>
         <Row {...css({ marginTop: '30px' })}>
-          <Col xs={12}>
-            <BootstrapTable
-              data={teams}
-              pagination
-              options={{ noDataText: 'No Teams Found.' }}
-              striped
-              expandColumnOptions={{
-                expandColumnVisible: true,
-                expandColumnComponent: ({ isExpandableRow, isExpanded }) =>
-                  !isExpanded ? (
-                    <Glyphicon glyph="plus" />
-                  ) : (
-                    <Glyphicon glyph="minus" />
-                  )
-              }}
-              expandableRow={row => true}
-              expandComponent={row => <h1>Expanded {row.name}</h1>}
-            >
-              <TableHeaderColumn dataField="id" isKey dataSort>
-                ID
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField="name" dataSort>
-                Name
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField="description" dataSort>
-                Description
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField="path" dataSort>
-                Path
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField="usersCount" dataSort>
-                Users Count
-              </TableHeaderColumn>
-            </BootstrapTable>
-          </Col>
+          {loading ? (
+            <Col xsOffset={2} xs={2}>
+              <h1>Loading...</h1>
+            </Col>
+          ) : (
+            <Col xs={12}>
+              <BootstrapTable
+                data={teams}
+                pagination
+                options={{ noDataText: 'No Teams Found.' }}
+                striped
+              >
+                <TableHeaderColumn
+                  dataField="id"
+                  isKey
+                  dataAlign="center"
+                  dataSort
+                >
+                  ID
+                </TableHeaderColumn>
+                <TableHeaderColumn dataField="name" dataSort>
+                  Name
+                </TableHeaderColumn>
+                <TableHeaderColumn dataField="description" dataSort>
+                  Description
+                </TableHeaderColumn>
+                <TableHeaderColumn dataField="path" dataSort>
+                  Path
+                </TableHeaderColumn>
+                <TableHeaderColumn dataField="usersCount" dataSort>
+                  Users Count
+                </TableHeaderColumn>
+              </BootstrapTable>
+            </Col>
+          )}
         </Row>
       </Row>
     )
