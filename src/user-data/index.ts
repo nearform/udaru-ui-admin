@@ -1,16 +1,20 @@
 import * as localforage from 'localforage'
-
 type Item = string | null
 
-localforage.config({
-  name: 'Udaru Admin'
-})
+export interface SetUserData {
+  url: string
+  rootUser: string
+}
 
 export interface UserData {
   isValid?: boolean
   url: Item
   rootUser: Item
 }
+
+localforage.config({
+  name: 'Udaru Admin'
+})
 
 export async function getUserData(): Promise<UserData> {
   const [url, rootUser] = await Promise.all([
@@ -24,15 +28,20 @@ export async function getUserData(): Promise<UserData> {
   }
 }
 
-export async function setUserData(userData: UserData): Promise<boolean> {
+export async function setUserData(
+  userData: SetUserData
+): Promise<SetUserData | Error> {
   try {
-    await Promise.all([
-      localforage.setItem<Item>('url', userData.url),
-      localforage.setItem<Item>('rootUser', userData.rootUser)
+    const [url, rootUser] = await Promise.all([
+      // trim trailing slash in url
+      localforage.setItem<string>('url', userData.url.replace(/\/$/, '')),
+      localforage.setItem<string>('rootUser', userData.rootUser)
     ])
-    return true
+    return {
+      url,
+      rootUser
+    }
   } catch (error) {
-    console.error(error)
-    return false
+    return error
   }
 }

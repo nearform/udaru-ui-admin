@@ -38,6 +38,8 @@ class Settings extends React.Component<RouteComponentProps<{}>, State> {
     isSaving: false
   }
 
+  timers: number[] = []
+
   async componentDidMount(): Promise<void> {
     const settings = await getUserData()
     const { state = {} } = this.props.location
@@ -51,6 +53,11 @@ class Settings extends React.Component<RouteComponentProps<{}>, State> {
     })
   }
 
+  componentWillUnmount() {
+    // clear any running setTimeouts to prevent memory leaks
+    this.timers.forEach(timer => clearTimeout(timer))
+  }
+
   isValidForm(): boolean {
     return (
       this.validateUrl() === 'success' && this.validateRootUser() === 'success'
@@ -60,11 +67,15 @@ class Settings extends React.Component<RouteComponentProps<{}>, State> {
   componentDidUpdate(): void {
     if (this.state.showSuccessAlert) {
       // If success alert is displayed, hide after 5 seconds
-      setTimeout(this.setState.bind(this, { showSuccessAlert: false }), 5000)
+      this.timers.push(
+        setTimeout(this.setState.bind(this, { showSuccessAlert: false }), 5000)
+      )
     }
     if (this.state.showErrorAlert) {
       // If error alert is displayed, hide after 5 seconds
-      setTimeout(this.setState.bind(this, { showErrorAlert: false }), 5000)
+      this.timers.push(
+        setTimeout(this.setState.bind(this, { showErrorAlert: false }), 5000)
+      )
     }
   }
 
@@ -81,12 +92,26 @@ class Settings extends React.Component<RouteComponentProps<{}>, State> {
 
     if (this.isValidForm()) {
       await this.setState({ isSaving: true })
+
       const result = await setUserData({
-        url: this.state.url,
-        rootUser: this.state.rootUser
+        url: this.state.url || '',
+        rootUser: this.state.rootUser || ''
       })
 
-      setTimeout(this.showMessage.bind(this, result), 500)
+      if (result instanceof Error) {
+        await this.setState({
+          dirtyUrlInput: true,
+          dirtyRootUserInput: true
+        })
+        return
+      }
+
+      await this.setState({
+        url: result.url,
+        rootUser: result.rootUser
+      })
+
+      this.timers.push(setTimeout(this.showMessage.bind(this, result), 500))
     } else {
       await this.setState({
         dirtyUrlInput: true,
