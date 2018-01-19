@@ -36,15 +36,22 @@ class Users extends React.Component<Props, State> {
     users: []
   }
 
+  async componentWillReceiveProps(nextProps: Props): Promise<void> {
+    if (this.props.org !== nextProps.org) {
+      return await this.fetch()
+    }
+  }
+
   setStateAsync<T>(state: T): Promise<void> {
     return new Promise(resolve => this.setState(state, resolve))
   }
 
-  componentDidMount(): void {
-    this.fetch()
+  async componentDidMount(): Promise<void> {
+    return await this.fetch()
   }
 
   componentWillUnmount(): void {
+    // cancel any outstanding ajax requests
     this.source.cancel(ComponentUnmountedMsg.RequestCancelled)
   }
 
@@ -53,24 +60,28 @@ class Users extends React.Component<Props, State> {
       loading: true,
       error: null
     })
-    const { error = null, redirect = false, data = [] } = await fetchUsers<
-      User[]
-    >(this.source, this.props.org)
+    const {
+      error = null,
+      redirect = false,
+      data: users = []
+    } = await fetchUsers<User[]>(this.source, this.props.org)
 
     if (error && error.message === ComponentUnmountedMsg.RequestCancelled) {
+      // return without setting state, page transition in progress
       return
     }
 
-    await this.setStateAsync<State>({
+    return await this.setStateAsync<State>({
       loading: false,
       error,
       redirect,
-      users: data
+      users
     })
   }
 
   render() {
     const { users, loading, error, redirect } = this.state
+    const { org } = this.props
 
     if (redirect) return <RedirectToSettings />
 
@@ -79,10 +90,7 @@ class Users extends React.Component<Props, State> {
         <Row>
           <Col xs={12}>
             <PageHeader>
-              User List{' '}
-              <small>
-                {this.props.org ? `${this.props.org}` : `Root User`}
-              </small>
+              User List <small>{org ? `${org}` : `Root User`}</small>
             </PageHeader>
           </Col>
         </Row>

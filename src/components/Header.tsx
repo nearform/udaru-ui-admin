@@ -1,9 +1,9 @@
-import * as React from 'react';
-import { Link } from 'react-router-dom';
-import { LinkContainer } from 'react-router-bootstrap';
-import { Nav, Navbar, NavItem } from 'react-bootstrap';
+import * as React from 'react'
+import { Link } from 'react-router-dom'
+import { LinkContainer } from 'react-router-bootstrap'
+import { Nav, Navbar, NavItem } from 'react-bootstrap'
 
-class Header extends React.Component {
+class Header extends React.Component<{}, {}> {
   render() {
     return (
       <Navbar collapseOnSelect staticTop>
@@ -43,8 +43,8 @@ class Header extends React.Component {
           </Nav>
         </Navbar.Collapse>
       </Navbar>
-    );
+    )
   }
 }
 
-export default Header;
+export default Header

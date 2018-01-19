@@ -15,7 +15,7 @@ import {
   PageHeader
 } from 'react-bootstrap'
 
-type State = {
+export interface State {
   url: string | null
   dirtyUrlInput: boolean
   rootUser: string | null
@@ -41,13 +41,13 @@ class Settings extends React.Component<RouteComponentProps<{}>, State> {
   timers: number[] = []
 
   async componentDidMount(): Promise<void> {
-    const settings = await getUserData()
+    const { url, rootUser } = await getUserData()
     const { state = {} } = this.props.location
     const { showErrorValidation = false } = state
 
-    this.setState({
-      url: settings.url,
-      rootUser: settings.rootUser,
+    return this.setState({
+      url,
+      rootUser,
       dirtyUrlInput: showErrorValidation,
       dirtyRootUserInput: showErrorValidation
     })
@@ -80,48 +80,51 @@ class Settings extends React.Component<RouteComponentProps<{}>, State> {
   }
 
   showMessage(result: boolean): void {
-    this.setState({ isSaving: false })
-
-    result
-      ? this.setState({ showSuccessAlert: true })
-      : this.setState({ showErrorAlert: true })
+    return this.setState(
+      { isSaving: false },
+      () =>
+        result
+          ? this.setState({ showSuccessAlert: true })
+          : this.setState({ showErrorAlert: true })
+    )
   }
 
   onSubmit = async (e: React.FormEvent<Form>): Promise<void> => {
     e.preventDefault()
 
     if (this.isValidForm()) {
-      await this.setState({ isSaving: true })
+      this.setState({ isSaving: true })
 
       const result = await setUserData({
         url: this.state.url || '',
         rootUser: this.state.rootUser || ''
       })
 
-      if (result instanceof Error) {
-        await this.setState({
-          dirtyUrlInput: true,
-          dirtyRootUserInput: true
-        })
-        return
-      }
-
-      await this.setState({
-        url: result.url,
-        rootUser: result.rootUser
-      })
-
-      this.timers.push(setTimeout(this.showMessage.bind(this, result), 500))
-    } else {
-      await this.setState({
-        dirtyUrlInput: true,
-        dirtyRootUserInput: true
-      })
+      return result instanceof Error
+        ? this.setState({
+            dirtyUrlInput: true,
+            dirtyRootUserInput: true
+          })
+        : this.setState(
+            {
+              url: result.url,
+              rootUser: result.rootUser
+            },
+            () =>
+              this.timers.push(
+                setTimeout(this.showMessage.bind(this, result), 500)
+              )
+          )
     }
+
+    return this.setState({
+      dirtyUrlInput: true,
+      dirtyRootUserInput: true
+    })
   }
 
   handleUrlChange = (e: React.FormEvent<EventTarget>): void => {
-    this.setState({
+    return this.setState({
       url: (e.target as HTMLInputElement).value
     })
   }
@@ -141,7 +144,7 @@ class Settings extends React.Component<RouteComponentProps<{}>, State> {
   }
 
   handleRootUserChange = (e: React.FormEvent<EventTarget>): void => {
-    this.setState({
+    return this.setState({
       rootUser: (e.target as HTMLInputElement).value
     })
   }

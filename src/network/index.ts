@@ -12,13 +12,12 @@ export enum ComponentUnmountedMsg {
 }
 
 const getSettings = async (): Promise<Settings> => {
-  const userData = await getUserData()
-  const { url, rootUser } = userData
+  const { url, rootUser } = await getUserData()
 
   return {
-    url: url || '',
-    rootUser: rootUser || '',
-    isValid: Boolean(userData.url) && Boolean(userData.rootUser)
+    url,
+    rootUser,
+    isValid: Boolean(url) && Boolean(rootUser)
   }
 }
 
@@ -49,7 +48,7 @@ export const fetchOrganizations = async <T>(
       cancelToken: source.token
     })
 
-    return await response.data
+    return response.data
   } catch (error) {
     if (axios.isCancel(error)) {
       console.log('Request cancelled:', error.message)
@@ -77,12 +76,10 @@ export const fetchSingleOrganization = async <T>(
       authorization: settings.rootUser
     }
 
-    const response = await axios.get(url, {
+    return await axios.get(url, {
       headers,
       cancelToken: source.token
     })
-
-    return await response
   } catch (error) {
     if (axios.isCancel(error)) {
       console.log('Request cancelled:', error.message)
@@ -117,7 +114,7 @@ export const fetchTeams = async <T>(
       cancelToken: source.token
     })
 
-    return await response.data
+    return response.data
   } catch (error) {
     if (axios.isCancel(error)) {
       console.log('Request cancelled:', error.message)
@@ -152,7 +149,7 @@ export const fetchUsers = async <T>(
       cancelToken: source.token
     })
 
-    return await response.data
+    return response.data
   } catch (error) {
     if (axios.isCancel(error)) {
       console.log('Request cancelled:', error.message)
@@ -187,7 +184,7 @@ export const fetchPolicies = async <T>(
       cancelToken: source.token
     })
 
-    return await response.data
+    return response.data
   } catch (error) {
     if (axios.isCancel(error)) {
       console.log('Request cancelled:', error.message)

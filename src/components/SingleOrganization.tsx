@@ -46,11 +46,12 @@ class SingleOrganization extends React.Component<Props, State> {
     return new Promise(resolve => this.setState(state, resolve))
   }
 
-  componentDidMount(): void {
-    this.fetch()
+  async componentDidMount(): Promise<void> {
+    return await this.fetch()
   }
 
   componentWillUnmount(): void {
+    // cancel any outstanding ajax requests
     this.source.cancel(ComponentUnmountedMsg.RequestCancelled)
   }
 
@@ -62,21 +63,22 @@ class SingleOrganization extends React.Component<Props, State> {
     const {
       error = null,
       redirect = false,
-      data = null
+      data: organization = null
     } = await fetchSingleOrganization<Organization>(
       this.source,
       this.props.organizationId
     )
 
     if (error && error.message === ComponentUnmountedMsg.RequestCancelled) {
+      // return without setting state, page transition in progress
       return
     }
 
-    await this.setStateAsync<State>({
+    return await this.setStateAsync<State>({
       loading: false,
       error,
       redirect,
-      organization: data
+      organization
     })
   }
 
@@ -108,8 +110,8 @@ class SingleOrganization extends React.Component<Props, State> {
               <Col xs={12}>
                 {error && (
                   <Alert bsStyle="danger">
-                    There was an <strong>error</strong> fetching organizations.
-                    Please try again.
+                    There was an <strong>error</strong> fetching the
+                    organization. Please try again.
                   </Alert>
                 )}
               </Col>

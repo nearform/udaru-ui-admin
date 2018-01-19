@@ -1,4 +1,5 @@
 import * as localforage from 'localforage'
+
 type Item = string | null
 
 export interface SetUserData {
@@ -6,10 +7,8 @@ export interface SetUserData {
   rootUser: string
 }
 
-export interface UserData {
+export interface UserData extends SetUserData {
   isValid?: boolean
-  url: Item
-  rootUser: Item
 }
 
 localforage.config({
@@ -23,8 +22,8 @@ export async function getUserData(): Promise<UserData> {
   ])
 
   return {
-    url,
-    rootUser
+    url: url || '',
+    rootUser: rootUser || ''
   }
 }
 

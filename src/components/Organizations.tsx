@@ -4,6 +4,7 @@ import * as React from 'react'
 import axios from 'axios'
 import { css } from 'glamor'
 import { Link } from 'react-router-dom'
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
 import {
   Row,
   Col,
@@ -13,7 +14,6 @@ import {
   Glyphicon,
   Alert
 } from 'react-bootstrap'
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
 
 import { ComponentUnmountedMsg, fetchOrganizations } from '../network'
 import RedirectToSettings from './RedirectToSettings'
@@ -45,11 +45,12 @@ class Organizations extends React.Component<{}, State> {
     return new Promise(resolve => this.setState(state, resolve))
   }
 
-  componentDidMount(): void {
-    this.fetch()
+  async componentDidMount(): Promise<void> {
+    return await this.fetch()
   }
 
   componentWillUnmount(): void {
+    // cancel any outstanding ajax requests
     this.source.cancel(ComponentUnmountedMsg.RequestCancelled)
   }
 
@@ -61,18 +62,19 @@ class Organizations extends React.Component<{}, State> {
     const {
       error = null,
       redirect = false,
-      data = []
+      data: organizations = []
     } = await fetchOrganizations<Organization[]>(this.source)
 
     if (error && error.message === ComponentUnmountedMsg.RequestCancelled) {
+      // return without setting state, page transition in progress
       return
     }
 
-    await this.setStateAsync<State>({
+    return await this.setStateAsync<State>({
       loading: false,
       error,
       redirect,
-      organizations: data
+      organizations
     })
   }
 

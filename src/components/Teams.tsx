@@ -52,9 +52,9 @@ class Teams extends React.Component<Props, State> {
     teams: []
   }
 
-  componentWillReceiveProps(nextProps: Props): void {
+  async componentWillReceiveProps(nextProps: Props): Promise<void> {
     if (this.props.org !== nextProps.org) {
-      this.fetch()
+      return await this.fetch()
     }
   }
 
@@ -62,11 +62,12 @@ class Teams extends React.Component<Props, State> {
     return new Promise(resolve => this.setState(state, resolve))
   }
 
-  componentDidMount(): void {
-    this.fetch()
+  async componentDidMount(): Promise<void> {
+    return await this.fetch()
   }
 
   componentWillUnmount(): void {
+    // cancel any outstanding ajax requests
     this.source.cancel(ComponentUnmountedMsg.RequestCancelled)
   }
 
@@ -75,24 +76,28 @@ class Teams extends React.Component<Props, State> {
       loading: true,
       error: null
     })
-    const { error = null, redirect = false, data = [] } = await fetchTeams<
-      Team[]
-    >(this.source, this.props.org)
+    const {
+      error = null,
+      redirect = false,
+      data: teams = []
+    } = await fetchTeams<Team[]>(this.source, this.props.org)
 
     if (error && error.message === ComponentUnmountedMsg.RequestCancelled) {
+      // return without setting state, page transition in progress
       return
     }
 
-    await this.setStateAsync<State>({
+    return await this.setStateAsync<State>({
       loading: false,
       error,
       redirect,
-      teams: data
+      teams
     })
   }
 
   render() {
     const { teams, loading, error, redirect } = this.state
+    const { org } = this.props
 
     if (redirect) return <RedirectToSettings />
 
@@ -101,10 +106,7 @@ class Teams extends React.Component<Props, State> {
         <Row>
           <Col xs={12}>
             <PageHeader>
-              Teams List{' '}
-              <small>
-                {this.props.org ? `${this.props.org}` : `Root User`}
-              </small>
+              Teams List <small>{org ? `${org}` : `Root User`}</small>
             </PageHeader>
           </Col>
         </Row>
