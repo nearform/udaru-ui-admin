@@ -1,4 +1,6 @@
 import * as React from 'react'
+import * as validUrl from 'valid-url'
+import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { getUserData, setUserData } from '../user-data'
 import {
   Row,
@@ -12,7 +14,6 @@ import {
   Alert,
   PageHeader
 } from 'react-bootstrap'
-import * as validUrl from 'valid-url'
 
 type State = {
   url: string | null
@@ -26,7 +27,7 @@ type State = {
 
 type ValidateInput = 'success' | 'error' | null
 
-class Settings extends React.Component<{}, State> {
+class Settings extends React.Component<RouteComponentProps<{}>, State> {
   state: State = {
     url: null,
     dirtyUrlInput: false,
@@ -39,10 +40,14 @@ class Settings extends React.Component<{}, State> {
 
   async componentDidMount(): Promise<void> {
     const settings = await getUserData()
+    const { state = {} } = this.props.location
+    const { showErrorValidation = false } = state
 
     this.setState({
       url: settings.url,
-      rootUser: settings.rootUser
+      rootUser: settings.rootUser,
+      dirtyUrlInput: showErrorValidation,
+      dirtyRootUserInput: showErrorValidation
     })
   }
 
@@ -224,4 +229,4 @@ class Settings extends React.Component<{}, State> {
   }
 }
 
-export default Settings
+export default withRouter(Settings)

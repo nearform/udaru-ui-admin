@@ -6,29 +6,13 @@ import { css } from 'glamor'
 import { Row, Col, PageHeader, Button, Alert } from 'react-bootstrap'
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
 
-import { ComponentUnmountedMsg, fetchTeams } from '../network'
+import { ComponentUnmountedMsg, fetchUsers } from '../network'
 import RedirectToSettings from './RedirectToSettings'
 
 export interface User {
-  id: string
-  name: string
-}
-
-export interface Policy {
-  id: string
-  version: string
-  name: string
-}
-
-export interface Team {
-  id: string
-  name: string
   description: string
-  path: string
-  users: User[]
-  policies: Policy[]
-  organizationId: string
-  usersCount: number
+  id: string
+  name: string
 }
 
 export interface Props {
@@ -39,23 +23,17 @@ export interface State {
   loading: boolean
   redirect: boolean
   error: Error | null
-  teams: Team[]
+  users: User[]
 }
 
-class Teams extends React.Component<Props, State> {
+class Users extends React.Component<Props, State> {
   source = axios.CancelToken.source()
 
   state: State = {
     loading: false,
     redirect: false,
     error: null,
-    teams: []
-  }
-
-  componentWillReceiveProps(nextProps: Props): void {
-    if (this.props.org !== nextProps.org) {
-      this.fetch()
-    }
+    users: []
   }
 
   setStateAsync<T>(state: T): Promise<void> {
@@ -75,8 +53,8 @@ class Teams extends React.Component<Props, State> {
       loading: true,
       error: null
     })
-    const { error = null, redirect = false, data = [] } = await fetchTeams<
-      Team[]
+    const { error = null, redirect = false, data = [] } = await fetchUsers<
+      User[]
     >(this.source, this.props.org)
 
     if (error && error.message === ComponentUnmountedMsg.RequestCancelled) {
@@ -87,12 +65,12 @@ class Teams extends React.Component<Props, State> {
       loading: false,
       error,
       redirect,
-      teams: data
+      users: data
     })
   }
 
   render() {
-    const { teams, loading, error, redirect } = this.state
+    const { users, loading, error, redirect } = this.state
 
     if (redirect) return <RedirectToSettings />
 
@@ -101,7 +79,7 @@ class Teams extends React.Component<Props, State> {
         <Row>
           <Col xs={12}>
             <PageHeader>
-              Teams List{' '}
+              User List{' '}
               <small>
                 {this.props.org ? `${this.props.org}` : `Root User`}
               </small>
@@ -111,7 +89,7 @@ class Teams extends React.Component<Props, State> {
         <Row>
           <Col xs={12}>
             <p>
-              This page provides you with a list of all teams from the current
+              This page provides you with a list of all users in an
               organization.
             </p>
           </Col>
@@ -122,7 +100,7 @@ class Teams extends React.Component<Props, State> {
               <Col xs={12}>
                 {error && (
                   <Alert bsStyle="danger">
-                    There was an <strong>error</strong> fetching teams. Please
+                    There was an <strong>error</strong> fetching user. Please
                     try again.
                   </Alert>
                 )}
@@ -143,12 +121,14 @@ class Teams extends React.Component<Props, State> {
           ) : (
             <Col xs={12}>
               <BootstrapTable
-                data={teams}
-                search
-                searchPlaceholder="Search for team name"
+                data={users}
                 pagination
-                options={{ noDataText: 'No Teams Found.' }}
+                options={{
+                  noDataText: 'No Users Found.'
+                }}
                 striped
+                search
+                searchPlaceholder="Search For a User"
               >
                 <TableHeaderColumn
                   dataField="id"
@@ -161,15 +141,6 @@ class Teams extends React.Component<Props, State> {
                 <TableHeaderColumn dataField="name" dataSort>
                   Name
                 </TableHeaderColumn>
-                <TableHeaderColumn dataField="description" dataSort>
-                  Description
-                </TableHeaderColumn>
-                <TableHeaderColumn dataField="path" dataSort>
-                  Path
-                </TableHeaderColumn>
-                <TableHeaderColumn dataField="usersCount" dataSort>
-                  Users Count
-                </TableHeaderColumn>
               </BootstrapTable>
             </Col>
           )}
@@ -179,4 +150,4 @@ class Teams extends React.Component<Props, State> {
   }
 }
 
-export default Teams
+export default Users

@@ -2,6 +2,10 @@ import * as localforage from 'localforage'
 
 type Item = string | null
 
+localforage.config({
+  name: 'Udaru Admin'
+})
+
 export interface UserData {
   isValid?: boolean
   url: Item
@@ -21,7 +25,6 @@ export async function getUserData(): Promise<UserData> {
 }
 
 export async function setUserData(userData: UserData): Promise<boolean> {
-  console.log('setUserData', userData)
   try {
     await Promise.all([
       localforage.setItem<Item>('url', userData.url),

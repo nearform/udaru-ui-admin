@@ -1,7 +1,12 @@
 import * as React from 'react'
 import { css } from 'glamor'
-import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import { Grid, Row, Col } from 'react-bootstrap'
+import {
+  BrowserRouter,
+  Switch,
+  Route,
+  RouteComponentProps
+} from 'react-router-dom'
 
 import Header from './Header'
 import Home from './Home'
@@ -9,7 +14,9 @@ import Settings from './Settings'
 import Organizations from './Organizations'
 import Teams from './Teams'
 import SingleOrganization from './SingleOrganization'
-import { RouteComponentProps } from 'react-router'
+import Users from './Users'
+import Policies from './Policies'
+
 const logo = require('../logo.jpg')
 
 export interface SingleOrganizationRouteInfo {
@@ -17,6 +24,14 @@ export interface SingleOrganizationRouteInfo {
 }
 
 export interface TeamsRouteInfo {
+  org: string
+}
+
+export interface UsersRouteInfo {
+  org: string
+}
+
+export interface PoliciesRouteInfo {
   org: string
 }
 
@@ -63,6 +78,26 @@ class App extends React.Component {
                       match
                     }: RouteComponentProps<TeamsRouteInfo>) => (
                       <Teams org={match.params.org} />
+                    )}
+                  />
+                  <Route exact path="/users" render={() => <Users />} />
+                  <Route
+                    exact
+                    path="/users/:org"
+                    render={({
+                      match
+                    }: RouteComponentProps<UsersRouteInfo>) => (
+                      <Users org={match.params.org} />
+                    )}
+                  />
+                  <Route exact path="/policies" render={() => <Policies />} />
+                  <Route
+                    exact
+                    path="/policies/:org"
+                    render={({
+                      match
+                    }: RouteComponentProps<PoliciesRouteInfo>) => (
+                      <Policies org={match.params.org} />
                     )}
                   />
                 </Switch>

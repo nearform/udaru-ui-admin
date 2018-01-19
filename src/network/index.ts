@@ -127,3 +127,73 @@ export const fetchTeams = async <T>(
     }
   }
 }
+
+export const fetchUsers = async <T>(
+  source: CancelTokenSource,
+  org?: string
+): Promise<GenericFetchProps<T>> => {
+  const settings = await getSettings()
+  if (!settings.isValid) {
+    return {
+      redirect: true
+    }
+  }
+
+  try {
+    const url = `${settings.url}/authorization/users`
+    const headers = Boolean(org)
+      ? { authorization: settings.rootUser, org }
+      : {
+          authorization: settings.rootUser
+        }
+
+    const response = await axios.get(url, {
+      headers,
+      cancelToken: source.token
+    })
+
+    return await response.data
+  } catch (error) {
+    if (axios.isCancel(error)) {
+      console.log('Request cancelled:', error.message)
+    }
+    return {
+      error
+    }
+  }
+}
+
+export const fetchPolicies = async <T>(
+  source: CancelTokenSource,
+  org?: string
+): Promise<GenericFetchProps<T>> => {
+  const settings = await getSettings()
+  if (!settings.isValid) {
+    return {
+      redirect: true
+    }
+  }
+
+  try {
+    const url = `${settings.url}/authorization/policies`
+    const headers = Boolean(org)
+      ? { authorization: settings.rootUser, org }
+      : {
+          authorization: settings.rootUser
+        }
+
+    const response = await axios.get(url, {
+      headers,
+      cancelToken: source.token
+    })
+
+    return await response.data
+  } catch (error) {
+    if (axios.isCancel(error)) {
+      console.log('Request cancelled:', error.message)
+    }
+    return {
+      error
+    }
+  }
+}

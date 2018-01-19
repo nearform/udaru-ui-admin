@@ -3,42 +3,58 @@ import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css'
 import * as React from 'react'
 import axios from 'axios'
 import { css } from 'glamor'
-import { Link } from 'react-router-dom'
 import {
   Row,
   Col,
   PageHeader,
-  ButtonGroup,
   Button,
+  Alert,
   Glyphicon,
-  Alert
+  Panel
 } from 'react-bootstrap'
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
 
-import { ComponentUnmountedMsg, fetchOrganizations } from '../network'
+import { ComponentUnmountedMsg, fetchPolicies } from '../network'
 import RedirectToSettings from './RedirectToSettings'
 
-export interface Organization {
-  description: string
+export interface Statements {
+  statements: {
+    Statement: Statement[]
+  }
+}
+export interface Statement {
+  Action: string[]
+  Effect: string
+  Resource: string[]
+}
+
+export interface Policy {
   id: string
+  version: string
   name: string
+}
+
+export interface PolicyAndStatements extends Policy, Statements {}
+
+export interface Props {
+  org?: string
 }
 
 export interface State {
   loading: boolean
   redirect: boolean
   error: Error | null
-  organizations: Organization[]
+  policies: PolicyAndStatements[]
 }
 
-class Organizations extends React.Component<{}, State> {
+class Organizations extends React.Component<Props, State> {
   source = axios.CancelToken.source()
 
   state: State = {
     loading: false,
     redirect: false,
     error: null,
-    organizations: []
+    policies: []
   }
 
   setStateAsync<T>(state: T): Promise<void> {
@@ -58,11 +74,9 @@ class Organizations extends React.Component<{}, State> {
       loading: true,
       error: null
     })
-    const {
-      error = null,
-      redirect = false,
-      data = []
-    } = await fetchOrganizations<Organization[]>(this.source)
+    const { error = null, redirect = false, data = [] } = await fetchPolicies<
+      PolicyAndStatements[]
+    >(this.source, this.props.org)
 
     if (error && error.message === ComponentUnmountedMsg.RequestCancelled) {
       return
@@ -72,12 +86,12 @@ class Organizations extends React.Component<{}, State> {
       loading: false,
       error,
       redirect,
-      organizations: data
+      policies: data
     })
   }
 
   render() {
-    const { organizations, loading, error, redirect } = this.state
+    const { policies, loading, error, redirect } = this.state
 
     if (redirect) return <RedirectToSettings />
 
@@ -85,7 +99,8 @@ class Organizations extends React.Component<{}, State> {
       <Row>
         <Row>
           <PageHeader>
-            Organizations List <small>Root User</small>
+            Policies List{' '}
+            <small>{this.props.org ? `${this.props.org}` : `Root User`}</small>
           </PageHeader>
         </Row>
         <Row>
@@ -123,14 +138,14 @@ class Organizations extends React.Component<{}, State> {
           ) : (
             <Col xs={12}>
               <BootstrapTable
-                data={organizations}
+                data={policies}
                 pagination
                 options={{
-                  noDataText: 'No Organizations Found.'
+                  noDataText: 'No Policies Found.'
                 }}
                 striped
                 search
-                searchPlaceholder="Search For Organization"
+                searchPlaceholder="Search For a Policy"
                 expandColumnOptions={{
                   expandColumnVisible: true,
                   expandColumnComponent: ({ isExpandableRow, isExpanded }) =>
@@ -140,46 +155,58 @@ class Organizations extends React.Component<{}, State> {
                       <Glyphicon glyph="minus" />
                     )
                 }}
-                expandableRow={row => true}
+                expandableRow={(row: PolicyAndStatements) =>
+                  Boolean(row.statements.Statement.length)
+                }
                 expandComponent={row => {
                   return (
-                    <Row>
-                      <Col xs={12}>
-                        <h3>View Details:</h3>
-
-                        <ButtonGroup
-                          {...css({
-                            textAlign: 'center',
-                            marginBottom: '20px',
-                            ' a': { margin: '0 10px' }
-                          })}
-                        >
-                          <Link to={`/organization/${row.id}`}>
-                            <Button bsStyle="success">
-                              Organization: {row.id}
-                            </Button>
-                          </Link>
-
-                          <Link to={`/policies/${row.id}`}>
-                            <Button bsStyle="success">
-                              Policies <Glyphicon glyph="info-sign" />
-                            </Button>
-                          </Link>
-
-                          <Link to={`/teams/${row.id}`}>
-                            <Button bsStyle="success">
-                              Teams <Glyphicon glyph="user" />
-                            </Button>
-                          </Link>
-
-                          <Link to={`/users/${row.id}`}>
-                            <Button bsStyle="success">
-                              Users <Glyphicon glyph="user" />
-                            </Button>
-                          </Link>
-                        </ButtonGroup>
-                      </Col>
-                    </Row>
+                    <React.Fragment>
+                      <Row>
+                        <Col xs={12}>
+                          <h3>Statements:</h3>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col xs={12}>
+                          {row.statements.Statement.map(
+                            (statement: Statement, index: number) => (
+                              <Panel
+                                key={`${row.name}-${index}-${statement.Action}`}
+                                {...css({ fontSize: '1.5rem' })}
+                              >
+                                <Panel.Heading>
+                                  <Panel.Title componentClass="h1">
+                                    {statement.Action}
+                                  </Panel.Title>
+                                </Panel.Heading>
+                                <Panel.Body
+                                  {...css({
+                                    ' strong': {
+                                      display: 'block',
+                                      float: 'left',
+                                      width: '150px'
+                                    }
+                                  })}
+                                >
+                                  <p>
+                                    <strong>Action:</strong>
+                                    <span>{statement.Action}</span>
+                                  </p>
+                                  <p>
+                                    <strong>Effect:</strong>
+                                    <span>{statement.Effect}</span>
+                                  </p>
+                                  <p>
+                                    <strong>Resource:</strong>
+                                    <span>{statement.Resource}</span>
+                                  </p>
+                                </Panel.Body>
+                              </Panel>
+                            )
+                          )}
+                        </Col>
+                      </Row>
+                    </React.Fragment>
                   )
                 }}
               >
@@ -194,8 +221,8 @@ class Organizations extends React.Component<{}, State> {
                 <TableHeaderColumn dataField="name" dataSort>
                   Name
                 </TableHeaderColumn>
-                <TableHeaderColumn dataField="description" dataSort>
-                  Description
+                <TableHeaderColumn dataField="version" dataSort>
+                  Version
                 </TableHeaderColumn>
               </BootstrapTable>
             </Col>

@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { Link } from 'react-router-dom';
+import * as React from 'react'
+import { Link } from 'react-router-dom'
 
 const Home = () => (
   <div>
@@ -23,18 +23,12 @@ const Home = () => (
       information in Udaru.
     </p>
     <p>
-      To get started please, configure udaru url and udaru root user{' '}
-      <Link to="/" className="pure-button button-success">
-        here
-      </Link>
-    </p>
-
-    <p>
-      Press on the user button on the left menu to switch between root and user
-      mode. remember to configure the proper root, root org, user and user org
-      on the settings page
+      To get started, please configure udaru url and udaru root user{' '}
+      <strong>
+        <Link to="/settings">here</Link>
+      </strong>
     </p>
   </div>
-);
+)
 
-export default Home;
+export default Home

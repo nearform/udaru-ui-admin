@@ -3,10 +3,10 @@ import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css'
 import * as React from 'react'
 import axios from 'axios'
 import { css } from 'glamor'
-import { Redirect } from 'react-router-dom'
 import { Row, Col, PageHeader, Button, Alert, Panel } from 'react-bootstrap'
 
 import { ComponentUnmountedMsg, fetchSingleOrganization } from '../network'
+import RedirectToSettings from './RedirectToSettings'
 
 export interface Policy {
   id: string
@@ -82,14 +82,17 @@ class SingleOrganization extends React.Component<Props, State> {
 
   render() {
     const { organization, loading, error, redirect } = this.state
-    console.log(organization)
-    if (redirect) return <Redirect to="/settings" />
+
+    if (redirect) return <RedirectToSettings />
 
     return (
       <Row>
         <Row>
           <Col xs={12}>
-            <PageHeader>Organization Information</PageHeader>
+            <PageHeader>
+              Organization Information{' '}
+              <small>{this.props.organizationId}</small>
+            </PageHeader>
           </Col>
         </Row>
         <Row>
