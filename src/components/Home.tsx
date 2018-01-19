@@ -1,34 +1,51 @@
 import * as React from 'react'
 import { Link } from 'react-router-dom'
+import {
+  Grid,
+  Row,
+  Col,
+  PageHeader,
+  Button,
+  ListGroup,
+  ListGroupItem
+} from 'react-bootstrap'
 
 const Home = () => (
-  <div>
-    <h2>Description</h2>
-    <p>
-      Simple read only web UI for Udaru. Version one should allow users to view
-      the following:
-    </p>
-    <ul>
-      <li>All Organizations</li>
-      <li>Single Organization</li>
-      <li>Users</li>
-      <li>Teams</li>
-      <li>Policies</li>
-    </ul>
-    <p>
-      The intent here is that this won't be used directly as a real world user
-      facing admin tool, but rather act as a starting point for building one (or
-      integrating with an existing one). It should also be a useful tool in
-      itself for a developer/architect working on Udaru to easily see all the
-      information in Udaru.
-    </p>
-    <p>
-      To get started, please configure udaru url and udaru root user{' '}
-      <strong>
-        <Link to="/settings">here</Link>
-      </strong>
-    </p>
-  </div>
+  <Grid>
+    <Row>
+      <Col xs={12}>
+        <PageHeader>Udaru Admin</PageHeader>
+      </Col>
+    </Row>
+
+    <Row>
+      <Col xs={12}>
+        <p>
+          To get started, please configure udaru url and root user:{' '}
+          <strong>
+            <Link to="/settings">
+              <Button>Go To Settings</Button>
+            </Link>
+          </strong>
+        </p>
+      </Col>
+    </Row>
+
+    <Row>
+      <Col xs={8}>
+        <h3>Supported Functionality:</h3>
+        <Col xsOffset={2} xs={8}>
+          <ListGroup>
+            <ListGroupItem>All Organizations (Read)</ListGroupItem>
+            <ListGroupItem>A Single Organization (Read)</ListGroupItem>
+            <ListGroupItem>Users per Organization (Read)</ListGroupItem>
+            <ListGroupItem>Teams per Organization (Read)</ListGroupItem>
+            <ListGroupItem>Policies per Organization (Read)</ListGroupItem>
+          </ListGroup>
+        </Col>
+      </Col>
+    </Row>
+  </Grid>
 )
 
 export default Home

@@ -9,6 +9,7 @@ import {
 } from 'react-router-dom'
 
 import Header from './Header'
+import NoMatch from './NoMatch'
 import Home from './Home'
 import Settings from './Settings'
 import Organizations from './Organizations'
@@ -100,6 +101,7 @@ class App extends React.Component {
                       <Policies org={match.params.org} />
                     )}
                   />
+                  <Route render={() => <NoMatch />} />
                 </Switch>
               </Col>
             </Row>
