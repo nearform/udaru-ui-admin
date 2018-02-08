@@ -1,0 +1,21 @@
+{
+  "name": "admin-storybook",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "start-storybook -p 9001 -c .storybook",
+    "storybook": "build-storybook -c .storybook -o .out"
+  },
+  "devDependencies": {
+    "@storybook/addon-info": "^3.3.12",
+    "@storybook/react": "^3.3.12",
+    "babel-core": "^6.26.0"
+  },
+  "dependencies": {
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "admin-teams-table": "^1.0.0"
+  }
+}

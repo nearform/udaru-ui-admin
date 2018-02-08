@@ -1,0 +1,17 @@
+{
+  "presets": [["env", { "modules": false }], "react"],
+  "plugins": [
+    "transform-export-extensions",
+    ["transform-class-properties", { "spec": true }],
+    "external-helpers",
+    [
+      "transform-runtime",
+      {
+        "helpers": false,
+        "polyfill": false,
+        "regenerator": true,
+        "moduleName": "babel-runtime"
+      }
+    ]
+  ]
+}
