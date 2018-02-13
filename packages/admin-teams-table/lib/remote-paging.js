@@ -38,6 +38,11 @@ class RemotePaging extends React.Component {
         striped
         pagination
         fetchInfo={{ dataTotalSize }}
+        selectRow={{
+          mode: 'radio',
+          clickToSelect: true,
+          onSelect: this.props.onSelect
+        }}
         options={{
           sizePerPage,
           onPageChange,

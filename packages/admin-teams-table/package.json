@@ -1,28 +1,44 @@
 {
   "name": "admin-teams-table",
   "version": "1.0.0",
-  "main": "dist/bundle.cjs.js",
-  "module": "dist/bundle.es.js",
+  "main": "dist/index.js",
+  "module": "dist/es/index.js",
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "rollup -c",
-    "start": "rollup -c -w"
+    "build": "npm run build-es && npm run build-cjs && npm run build-umd",
+    "build-es": "babel lib -d dist/es",
+    "build-cjs":
+      "babel --no-babelrc lib -d dist --presets=env,stage-2,react --plugins=transform-export-extensions,transform-runtime",
+    "build-umd": "rollup -c",
+    "start": "babel lib -d dist/es -w",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
+  },
+  "peerDependencies": {
+    "react": ">=15",
+    "react-dom": ">=15"
   },
   "dependencies": {
     "react": "^16.2.0",
+    "react-bootstrap": "^0.32.1",
     "react-bootstrap-table": "^4.3.1",
     "react-dom": "^16.2.0"
   },
   "devDependencies": {
+    "@storybook/addon-actions": "^3.3.13",
+    "@storybook/addon-links": "^3.3.13",
+    "@storybook/addons": "^3.3.13",
+    "@storybook/react": "^3.3.13",
+    "babel-cli": "^6.26.0",
     "babel-core": "6",
     "babel-eslint": "7.2.3",
     "babel-plugin-external-helpers": "^6.22.0",
-    "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-export-extensions": "^6.22.0",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
     "babel-runtime": "6.23.0",
     "eslint": "^4.17.0",
     "eslint-config-react-app": "^2.1.0",

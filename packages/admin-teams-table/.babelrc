@@ -1,9 +1,7 @@
 {
-  "presets": [["env", { "modules": false }], "react"],
+  "presets": [["env", { "modules": false }], ["stage-2"], ["react"]],
   "plugins": [
     "transform-export-extensions",
-    ["transform-class-properties", { "spec": true }],
-    "external-helpers",
     [
       "transform-runtime",
       {
