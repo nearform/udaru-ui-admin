@@ -6,11 +6,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "npm run build-es && npm run build-cjs && npm run build-umd",
-    "build-es": "babel lib -d dist/es",
-    "build-cjs":
-      "babel --no-babelrc lib -d dist --presets=env,stage-2,react --plugins=transform-export-extensions,transform-runtime",
-    "build-umd": "rollup -c",
+    "build": "node build/index.js",
     "start": "babel lib -d dist/es -w",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
@@ -40,6 +36,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "babel-runtime": "6.23.0",
+    "del": "^3.0.0",
     "eslint": "^4.17.0",
     "eslint-config-react-app": "^2.1.0",
     "eslint-plugin-flowtype": "^2.42.0",

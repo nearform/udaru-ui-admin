@@ -1,15 +1,38 @@
 {
-  "presets": [["env", { "modules": false }], ["stage-2"], ["react"]],
-  "plugins": [
-    "transform-export-extensions",
-    [
-      "transform-runtime",
-      {
-        "helpers": false,
-        "polyfill": false,
-        "regenerator": true,
-        "moduleName": "babel-runtime"
-      }
-    ]
-  ]
+  "env": {
+    "cjs": {
+      "presets": ["env", "stage-2", "react"],
+      "plugins": [
+        "transform-export-extensions",
+        [
+          "transform-runtime",
+          {
+            "helpers": false,
+            "polyfill": false,
+            "regenerator": true,
+            "moduleName": "babel-runtime"
+          }
+        ]
+      ]
+    },
+    "umd": {
+      "presets": [["env", { "modules": false }], "stage-2", "react"],
+      "plugins": ["transform-export-extensions", "external-helpers"]
+    },
+    "development": {
+      "presets": [["env", { "modules": false }], ["stage-2"], ["react"]],
+      "plugins": [
+        "transform-export-extensions",
+        [
+          "transform-runtime",
+          {
+            "helpers": false,
+            "polyfill": false,
+            "regenerator": true,
+            "moduleName": "babel-runtime"
+          }
+        ]
+      ]
+    }
+  }
 }
