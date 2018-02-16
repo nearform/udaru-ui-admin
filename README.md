@@ -1,21 +1,49 @@
 # Udaru Admin
 
-Read-only Admin Tool for [Udaru](https://github.com/nearform/udaru)
+Available Packages:
 
-## Getting Started:
+`packages/udaru-admin-components` - Udaru React Component Library
 
-1. Clone this repo locally
-2. Run `npm install` or `yarn install`
-3. Confirm an instance of Udaru is running.
-4. Run `npm start` or `yarn start`.
-5. On application start, configure the Udaru url and root user account on the settings page (_/settings_).
-   <br />
-   **_NOTE:_** Accessing a page that requires these configurations will redirect to the settings page
+`packages/admin-ts` - Read-only Admin Tool
 
-You can find the other available (npm/yarn) script commands [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#available-scripts).
+## Getting started
 
----
+Start by installing Lerna globally with npm if not already installed.
 
-This project was bootstrapped with [Create React App with TypeScript](https://github.com/Microsoft/TypeScript-React-Starter).
+```sh
+$ npm install --global lerna
+```
 
-You can find the most recent version of this guide [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
+Then bootstrap the repo with:
+
+```sh
+$ lerna bootstrap
+```
+
+### Run
+
+To run the react component library, run:
+
+```sh
+$ yarn start # or npm start
+```
+
+from the project root directory.
+
+To run the admin app, run:
+
+```sh
+$ yarn admin # or npm run admin
+```
+
+from the project root directory.
+
+### Build
+
+To build the applications for production, run:
+
+```sh
+$ yarn build # or npm run build
+```
+
+from the root directory.

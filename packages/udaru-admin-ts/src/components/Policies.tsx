@@ -200,7 +200,7 @@ class Organizations extends React.Component<Props, State> {
                                 >
                                   <p>
                                     <strong>Action:</strong>
-                                    <span>{statement.Action}</span>
+                                    <span>{statement.Action.join(', ')}</span>
                                   </p>
                                   <p>
                                     <strong>Effect:</strong>

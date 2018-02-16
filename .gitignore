@@ -3,6 +3,12 @@
 # dependencies
 /node_modules
 
+**/node_modules/**
+
+**/dist/**
+
+**/storybook-static/**
+
 # testing
 /coverage
 
@@ -19,3 +25,5 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+lerna-debug.log*
