@@ -7,6 +7,8 @@
 
 **/dist/**
 
+**/storybook-static/**
+
 # testing
 /coverage
 

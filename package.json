@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "lerna run --parallel dev"
+    "clean": "lerna clean",
+    "build": "lerna run build --parallel ",
+    "start": "lerna run start --scope udaru-admin-components",
+    "admin": "lerna run start --scope udaru-admin-ts"
   },
   "devDependencies": {
     "lerna": "^2.8.0"

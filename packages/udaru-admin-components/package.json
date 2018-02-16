@@ -1,14 +1,16 @@
 {
-  "name": "admin-teams-table",
+  "name": "udaru-admin-components",
   "version": "1.0.0",
   "main": "dist/index.js",
   "module": "dist/es/index.js",
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "node build/index.js",
-    "start": "babel lib -d dist/es -w",
+    "start": "npm run storybook & npm run watch",
+    "build": "npm run build-library && npm run build-storybook",
+    "watch": "babel lib -d dist/es -w",
     "storybook": "start-storybook -p 6006",
+    "build-library": "node build",
     "build-storybook": "build-storybook"
   },
   "peerDependencies": {

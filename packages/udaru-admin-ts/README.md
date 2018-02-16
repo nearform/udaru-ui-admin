@@ -4,11 +4,10 @@ Read-only Admin Tool for [Udaru](https://github.com/nearform/udaru)
 
 ## Getting Started:
 
-1. Clone this repo locally
-2. Run `npm install` or `yarn install`
-3. Confirm an instance of Udaru is running.
-4. Run `npm start` or `yarn start`.
-5. On application start, configure the Udaru url and root user account on the settings page (_/settings_).
+1. Run `npm install` or `yarn install`
+2. Confirm an instance of Udaru is running.
+3. Run `npm start` or `yarn start`.
+4. On application start, configure the Udaru url and root user account on the settings page (_/settings_).
    <br />
    **_NOTE:_** Accessing a page that requires these configurations will redirect to the settings page
 
