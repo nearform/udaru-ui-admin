@@ -32,7 +32,7 @@ class UpdateTeam extends React.Component {
     headerText: 'Update Team',
     onCancel: () => {
       console.log(
-        'WARNING: No onCancel function passed into the <CreateTeam /> component.'
+        'WARNING: No onCancel function passed into the <UpdateTeam /> component.'
       )
     }
   }
