@@ -1,27 +1,9 @@
 import React from 'react'
-import {
-  Grid,
-  Row,
-  Col,
-  PageHeader,
-  Panel,
-  ListGroup,
-  ListGroupItem
-} from 'react-bootstrap'
+import { Grid, Row, Col, PageHeader, Panel } from 'react-bootstrap'
 
 class Team extends React.Component {
   render() {
-    const {
-      name,
-      id,
-      description,
-      path,
-      organizationId,
-      users = [],
-      policies = [],
-      usersCount
-    } = this.props
-    console.log('props', this.props)
+    const { name, description, organizationId, usersCount } = this.props
 
     return (
       <Grid>
