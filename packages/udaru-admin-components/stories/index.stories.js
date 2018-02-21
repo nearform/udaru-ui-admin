@@ -9,7 +9,8 @@ import {
   DeleteTeam,
   UpdateTeam,
   TeamsPoliciesMapper,
-  Toolbar
+  Toolbar,
+  ViewTeam
 } from '../dist/es'
 
 const LoadingCmp = () => <h1>Custom Loading...</h1>
@@ -92,6 +93,17 @@ storiesOf('Delete Team', module).add('delete team', () => {
       udaruUrl="http://localhost:8080"
       authorization="ROOTid"
       id="AlbertTeam"
+    />
+  )
+})
+
+storiesOf('View Team', module).add('View team', () => {
+  return (
+    <ViewTeam
+      udaruUrl="http://localhost:8080"
+      authorization="ROOTid"
+      org="WONKA"
+      id="1"
     />
   )
 })
