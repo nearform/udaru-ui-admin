@@ -13,10 +13,18 @@ import {
 class Toolbar extends React.Component {
   static propTypes = {
     onCreate: PropTypes.func,
+    onView: PropTypes.func,
+    disableView: PropTypes.bool,
     onUpdate: PropTypes.func,
     disableUpdate: PropTypes.bool,
     onDelete: PropTypes.func,
     disableDelete: PropTypes.bool
+  }
+
+  static defaultProps = {
+    disableView: true,
+    disableUpdate: true,
+    disableDelete: true
   }
 
   render() {
@@ -26,8 +34,37 @@ class Toolbar extends React.Component {
           <Col xs={12}>
             <ButtonToolbar>
               <Button bsStyle="success" onClick={this.props.onCreate}>
-                Create Team
+                New Team
               </Button>
+              <OverlayTrigger
+                trigger={
+                  this.props.disableView ? ['hover', 'focus', 'click'] : []
+                }
+                placement="top"
+                overlay={
+                  <Tooltip id="view-tooltip">
+                    Select a team to <strong>view</strong>.
+                  </Tooltip>
+                }
+              >
+                <div
+                  style={{
+                    display: 'inline-block',
+                    padding: '0 10px'
+                  }}
+                >
+                  <Button
+                    bsStyle="info"
+                    onClick={this.props.onView}
+                    disabled={this.props.disableView}
+                    style={
+                      this.props.disableView ? { pointerEvents: 'none' } : {}
+                    }
+                  >
+                    View Team
+                  </Button>
+                </div>
+              </OverlayTrigger>
               <OverlayTrigger
                 trigger={
                   this.props.disableUpdate ? ['hover', 'focus', 'click'] : []
@@ -42,7 +79,7 @@ class Toolbar extends React.Component {
                 <div
                   style={{
                     display: 'inline-block',
-                    padding: '0 10px'
+                    padding: '0 10px 0 0'
                   }}
                 >
                   <Button

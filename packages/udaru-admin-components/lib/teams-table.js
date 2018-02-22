@@ -5,6 +5,7 @@ import Toolbar from './toolbar'
 import CreateTeam from './create-team'
 import UpdateTeam from './update-team'
 import DeleteTeam from './delete-team'
+import ViewTeam from './view-team'
 import { makeCancellable } from './makeCancellable'
 
 const LoadingCmp = () => <h1>Loading...</h1>
@@ -31,7 +32,7 @@ class TeamsTable extends React.Component {
     org: PropTypes.string,
     Loading: PropTypes.func,
     Error: PropTypes.func,
-    view: PropTypes.oneOf(['CREATE', 'READ', 'UPDATE', 'DELETE'])
+    view: PropTypes.oneOf(['CREATE', 'READ', 'UPDATE', 'DELETE', 'LIST'])
   }
 
   static defaultProps = {
@@ -43,7 +44,7 @@ class TeamsTable extends React.Component {
     org: '',
     Loading: LoadingCmp,
     Error: ErrorCmp,
-    view: 'READ'
+    view: 'LIST'
   }
 
   setStateAsync(state) {
@@ -129,6 +130,13 @@ class TeamsTable extends React.Component {
     })
   }
 
+  onView = this.onView.bind(this)
+  onView() {
+    this.setState({
+      view: 'READ'
+    })
+  }
+
   onUpdate = this.onUpdate.bind(this)
   onUpdate() {
     this.setState({
@@ -146,7 +154,7 @@ class TeamsTable extends React.Component {
   onCancel = this.onCancel.bind(this)
   onCancel() {
     this.setState({
-      view: 'READ',
+      view: 'LIST',
       selectedRow: null
     })
     this.fetchTeams(this.state.currentPage, this.state.sizePerPage)
@@ -166,6 +174,14 @@ class TeamsTable extends React.Component {
         org={this.props.org}
         onCancel={this.onCancel}
       />
+    ) : this.state.view === 'READ' ? (
+      <ViewTeam
+        udaruUrl={this.props.udaruUrl}
+        authorization={this.props.authorization}
+        org={this.props.org}
+        id={this.state.selectedRow.id}
+        onCancel={this.onCancel}
+      />
     ) : this.state.view === 'UPDATE' ? (
       <UpdateTeam
         udaruUrl={this.props.udaruUrl}
@@ -183,10 +199,12 @@ class TeamsTable extends React.Component {
         name={this.state.selectedRow.name}
         onCancel={this.onCancel}
       />
-    ) : this.state.view === 'READ' ? (
+    ) : this.state.view === 'LIST' ? (
       <React.Fragment>
         <Toolbar
           onCreate={this.onCreate}
+          onView={this.onView}
+          disableView={!Boolean(this.state.selectedRow)}
           onUpdate={this.onUpdate}
           disableUpdate={!Boolean(this.state.selectedRow)}
           onDelete={this.onDelete}

@@ -2,6 +2,7 @@ export TeamsTable from './teams-table'
 export CreateTeam from './create-team'
 export UpdateTeam from './update-team'
 export DeleteTeam from './delete-team'
+export ViewTeam from './view-team'
 
 export Toolbar from './toolbar'
 
