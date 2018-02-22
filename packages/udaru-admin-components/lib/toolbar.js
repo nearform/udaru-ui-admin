@@ -29,7 +29,7 @@ class Toolbar extends React.Component {
 
   render() {
     return (
-      <Grid style={{ padding: '15px 0' }}>
+      <Grid>
         <Row>
           <Col xs={12}>
             <ButtonToolbar>

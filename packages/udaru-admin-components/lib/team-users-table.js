@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Grid, Row, Col } from 'react-bootstrap'
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
 
-class TeamUsers extends React.Component {
+class TeamUsersTable extends React.Component {
   static propTypes = {
     data: PropTypes.arrayOf(
       PropTypes.shape({
@@ -66,4 +66,4 @@ class TeamUsers extends React.Component {
   }
 }
 
-export default TeamUsers
+export default TeamUsersTable
