@@ -146,7 +146,6 @@ class ViewTeam extends React.Component {
   }
 
   render() {
-    console.log(this.state)
     return this.state.loading ? (
       <h3>Loading</h3>
     ) : this.state.error ? (
