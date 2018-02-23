@@ -54,7 +54,7 @@ class Toolbar extends React.Component {
                   }}
                 >
                   <Button
-                    bsStyle="info"
+                    bsStyle="primary"
                     onClick={this.props.onView}
                     disabled={this.props.disableView}
                     style={
