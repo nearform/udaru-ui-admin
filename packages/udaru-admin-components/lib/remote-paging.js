@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Grid, Row, Col } from 'react-bootstrap'
+import { Grid, Row, Col, Glyphicon } from 'react-bootstrap'
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
 
 class RemotePaging extends React.Component {
@@ -18,12 +18,16 @@ class RemotePaging extends React.Component {
     sizePerPage: PropTypes.number.isRequired,
     currentPage: PropTypes.number.isRequired,
     dataTotalSize: PropTypes.number.isRequired,
-    sizePerPageList: PropTypes.arrayOf(PropTypes.number).isRequired
+    sizePerPageList: PropTypes.arrayOf(PropTypes.number).isRequired,
+    expandRows: PropTypes.bool
   }
 
   render() {
     const {
       data,
+      udaruUrl,
+      authorization,
+      org,
       dataTotalSize,
       sizePerPage,
       onPageChange,
@@ -32,7 +36,10 @@ class RemotePaging extends React.Component {
       onSizePerPageList,
       onSelect,
       searchDelayTime,
-      onSearchChange
+      onSearchChange,
+      expandRows,
+      ExpandComponent,
+      expandComponentOnClick
     } = this.props
 
     return (
@@ -48,9 +55,42 @@ class RemotePaging extends React.Component {
               fetchInfo={{ dataTotalSize }}
               selectRow={{
                 mode: 'radio',
-                clickToSelect: true,
+                clickToSelect: false,
+                clickToExpand: true,
                 onSelect
               }}
+              expandColumnOptions={{
+                expandColumnVisible: expandRows,
+                expandColumnComponent({ isExpandableRow, isExpanded }) {
+                  return isExpandableRow ? (
+                    isExpanded ? (
+                      <div>
+                        <Glyphicon glyph="remove" />
+                      </div>
+                    ) : (
+                      <div>
+                        <Glyphicon
+                          glyph="signal"
+                          style={{ transform: 'scale(1, -1) rotate(90deg)' }}
+                        />
+                      </div>
+                    )
+                  ) : (
+                    <div>' '</div>
+                  )
+                }
+              }}
+              expandableRow={row => expandRows}
+              expandComponent={row => (
+                <ExpandComponent
+                  udaruUrl={udaruUrl}
+                  authorization={authorization}
+                  org={org}
+                  parentTeamId={row.id}
+                  parentName={row.name}
+                  expandComponentOnClick={expandComponentOnClick}
+                />
+              )}
               options={{
                 sizePerPage,
                 onPageChange,
@@ -59,17 +99,23 @@ class RemotePaging extends React.Component {
                 onSizePerPageList,
                 noDataText: 'No Teams Found.',
                 searchDelayTime,
-                onSearchChange
+                onSearchChange,
+                expandRowBgColor: 'rgb(221, 221, 221)'
               }}
             >
-              <TableHeaderColumn dataField="id" isKey dataAlign="center">
+              <TableHeaderColumn
+                dataField="id"
+                isKey
+                dataAlign="center"
+                width="70"
+              >
                 ID
               </TableHeaderColumn>
               <TableHeaderColumn dataField="name">Name</TableHeaderColumn>
               <TableHeaderColumn dataField="description">
                 Description
               </TableHeaderColumn>
-              <TableHeaderColumn dataField="usersCount">
+              <TableHeaderColumn dataField="usersCount" dataAlign="center">
                 Users Count
               </TableHeaderColumn>
             </BootstrapTable>

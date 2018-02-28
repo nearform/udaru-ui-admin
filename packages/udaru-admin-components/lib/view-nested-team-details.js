@@ -1,10 +1,10 @@
 import React from 'react'
 import { makeCancellable } from './makeCancellable'
-import { Grid, Row, Col, Button, PageHeader } from 'react-bootstrap'
+import { Grid, Row, Col, Button, Glyphicon, PageHeader } from 'react-bootstrap'
 import Team from './team'
 import TeamUsersTable from './team-users-table'
 
-class ViewTeam extends React.Component {
+class ViewNestedTeamDetails extends React.Component {
   state = {
     loading: false,
     loadingUsers: false,
@@ -160,7 +160,14 @@ class ViewTeam extends React.Component {
                 <small>{this.state.team && this.state.team.name}</small>
               </PageHeader>
             </Col>
-
+            <Col xs={12}>
+              <Button
+                style={{ margin: '20px 0' }}
+                onClick={() => this.props.onViewParent(this.props.parentTeamId)}
+              >
+                <Glyphicon glyph="arrow-up" /> View Parent
+              </Button>
+            </Col>
             <Team {...this.state.team} />
 
             {this.state.loadingUsers ? (
@@ -193,4 +200,4 @@ class ViewTeam extends React.Component {
   }
 }
 
-export default ViewTeam
+export default ViewNestedTeamDetails

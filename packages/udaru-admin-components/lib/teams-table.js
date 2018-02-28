@@ -6,6 +6,9 @@ import CreateTeam from './create-team'
 import UpdateTeam from './update-team'
 import DeleteTeam from './delete-team'
 import ViewTeam from './view-team'
+import ViewNestedTeam from './view-nested-team'
+import ViewNestedTeamDetails from './view-nested-team-details'
+
 import { makeCancellable } from './makeCancellable'
 
 const LoadingCmp = () => <h1>Loading...</h1>
@@ -22,7 +25,9 @@ class TeamsTable extends React.Component {
     sizePerPage: this.props.sizePerPage,
     currentPage: this.props.currentPage,
     selectedRow: null,
-    view: this.props.view
+    view: this.props.view,
+    parentTeamId: null,
+    nestedTeamId: null
   }
 
   static propTypes = {
@@ -34,8 +39,17 @@ class TeamsTable extends React.Component {
     org: PropTypes.string,
     Loading: PropTypes.func,
     Error: PropTypes.func,
-    view: PropTypes.oneOf(['CREATE', 'READ', 'UPDATE', 'DELETE', 'LIST']),
-    searchDelayTime: PropTypes.number
+    view: PropTypes.oneOf([
+      'CREATE',
+      'READ',
+      'READ_NESTED',
+      'UPDATE',
+      'DELETE',
+      'LIST'
+    ]),
+    searchDelayTime: PropTypes.number,
+    expandRows: PropTypes.bool,
+    expandComponent: PropTypes.func
   }
 
   static defaultProps = {
@@ -48,7 +62,9 @@ class TeamsTable extends React.Component {
     Loading: LoadingCmp,
     Error: ErrorCmp,
     view: 'LIST',
-    searchDelayTime: 300
+    searchDelayTime: 300,
+    expandRows: true,
+    expandComponent: ViewNestedTeam
   }
 
   setStateAsync(state) {
@@ -143,6 +159,25 @@ class TeamsTable extends React.Component {
     })
   }
 
+  onNestedView = this.onNestedView.bind(this)
+  onNestedView(parentId, nestedId) {
+    this.setState({
+      view: 'READ_NESTED',
+      parentTeamId: parentId,
+      nestedTeamId: nestedId
+    })
+  }
+
+  onViewParent = this.onViewParent.bind(this)
+  onViewParent(parentTeamId) {
+    this.setState({
+      view: 'READ',
+      selectedRow: {
+        id: parentTeamId
+      }
+    })
+  }
+
   onUpdate = this.onUpdate.bind(this)
   onUpdate() {
     this.setState({
@@ -215,6 +250,16 @@ class TeamsTable extends React.Component {
         id={this.state.selectedRow.id}
         onCancel={this.onCancel}
       />
+    ) : this.state.view === 'READ_NESTED' ? (
+      <ViewNestedTeamDetails
+        udaruUrl={this.props.udaruUrl}
+        authorization={this.props.authorization}
+        org={this.props.org}
+        id={this.state.nestedTeamId}
+        parentTeamId={this.state.parentTeamId}
+        onCancel={this.onCancel}
+        onViewParent={this.onViewParent}
+      />
     ) : this.state.view === 'UPDATE' ? (
       <UpdateTeam
         udaruUrl={this.props.udaruUrl}
@@ -246,6 +291,9 @@ class TeamsTable extends React.Component {
         <div style={{ margin: '30px 0' }} />
         <RemotePaging
           data={this.state.data}
+          udaruUrl={this.props.udaruUrl}
+          authorization={this.props.authorization}
+          org={this.props.org}
           onPageChange={this.onPageChange}
           onSizePerPageList={this.onSizePerPageList}
           onSelect={this.onSelect}
@@ -255,6 +303,9 @@ class TeamsTable extends React.Component {
           sizePerPageList={this.props.sizePerPageList}
           searchDelayTime={this.props.searchDelayTime}
           onSearchChange={this.onSearchChange}
+          expandRows={this.props.expandRows}
+          ExpandComponent={this.props.expandComponent}
+          expandComponentOnClick={this.onNestedView}
         />
       </React.Fragment>
     ) : (
