@@ -1,25 +1,14 @@
 import React from 'react'
 import { makeCancellable } from './makeCancellable'
-import { Grid, Row, Col, Button, PageHeader } from 'react-bootstrap'
+import { Grid, Row, Col, Button, PageHeader, Glyphicon } from 'react-bootstrap'
 import Team from './team'
-import TeamUsersTable from './team-users-table'
+import TeamUsers from './team-users'
 
 class ViewTeam extends React.Component {
   state = {
-    loading: false,
-    loadingUsers: false,
+    loading: true,
     error: null,
-    errorUsers: null,
-    team: null,
-    users: null,
-    usersCurrentPage: this.props.usersCurrentPage,
-    usersSizePerPage: this.props.sizePerPage
-  }
-
-  static defaultProps = {
-    usersCurrentPage: 1,
-    sizePerPage: 5,
-    sizePerPageList: [5, 10, 25, 50]
+    team: null
   }
 
   setStateAsync(state) {
@@ -72,77 +61,18 @@ class ViewTeam extends React.Component {
     return json
   }
 
-  async fetchTeamUsers(id, page, limit) {
-    const cancelablePromise = makeCancellable(
-      this._fetchTeamUsers(id, page, limit)
-    )
-    this._runningPromises.push(cancelablePromise)
-
-    try {
-      await this.setStateAsync({ loadingUsers: true })
-      const response = await cancelablePromise.promise
-
-      await this.setStateAsync({
-        users: response,
-        usersCurrentPage: page,
-        usersSizePerPage: limit
-      })
-    } catch (reason) {
-      console.log('reason', reason)
-
-      if (!reason.isCanceled) {
-        await this.setStateAsync({
-          errorUsers: reason
-        })
-      }
+  componentWillReceiveProps(nextProps) {
+    if (this.props.id !== nextProps.id) {
+      this.fetchTeam(nextProps.id)
     }
-    await this.setStateAsync({
-      errorUsers: null,
-      loadingUsers: false
-    })
   }
 
-  async _fetchTeamUsers(id, page, limit) {
-    const response = await fetch(
-      `${
-        this.props.udaruUrl
-      }/authorization/teams/${id}/users?page=${page}&limit=${limit}`,
-      {
-        headers: {
-          authorization: this.props.authorization,
-          org: this.props.org
-        }
-      }
-    )
-
-    if (!response.ok) throw new Error(response.statusText)
-
-    const json = await response.json()
-
-    return json
-  }
-
-  async componentWillUnmount() {
-    this._runningPromises.forEach(promise => promise.cancel())
-  }
-
-  async componentDidMount() {
+  componentDidMount() {
     this.fetchTeam(this.props.id)
-    this.fetchTeamUsers(
-      this.props.id,
-      this.state.usersCurrentPage,
-      this.state.usersSizePerPage
-    )
   }
 
-  onPageChange = this.onPageChange.bind(this)
-  onPageChange(page, sizePerPage) {
-    this.fetchTeamUsers(this.props.id, page, sizePerPage)
-  }
-
-  onSizePerPageList = this.onSizePerPageList.bind(this)
-  onSizePerPageList(sizePerPage) {
-    this.fetchTeamUsers(this.props.id, this.state.usersCurrentPage, sizePerPage)
+  componentWillUnmount() {
+    this._runningPromises.forEach(promise => promise.cancel())
   }
 
   render() {
@@ -161,25 +91,29 @@ class ViewTeam extends React.Component {
               </PageHeader>
             </Col>
 
+            {this.props.onViewParent &&
+              Boolean(this.props.parentTeamId) && (
+                <Col xs={12}>
+                  <Button
+                    style={{ margin: '20px 0' }}
+                    onClick={this.props.onViewParent.bind(
+                      this,
+                      this.props.parentTeamId
+                    )}
+                  >
+                    <Glyphicon glyph="arrow-up" /> View Parent
+                  </Button>
+                </Col>
+              )}
+
             <Team {...this.state.team} />
 
-            {this.state.loadingUsers ? (
-              <h3>Loading</h3>
-            ) : this.state.errorUsers ? (
-              <h3>error</h3>
-            ) : (
-              this.state.users && (
-                <TeamUsersTable
-                  data={this.state.users.data}
-                  dataTotalSize={this.state.users.total}
-                  currentPage={this.state.usersCurrentPage}
-                  sizePerPage={this.state.usersSizePerPage}
-                  sizePerPageList={this.props.sizePerPageList}
-                  onPageChange={this.onPageChange}
-                  onSizePerPageList={this.onSizePerPageList}
-                />
-              )
-            )}
+            <TeamUsers
+              id={this.props.id}
+              udaruUrl={this.props.udaruUrl}
+              authorization={this.props.authorization}
+              org={this.props.org}
+            />
 
             <Col xs={12}>
               <Button bsStyle="link" onClick={this.props.onCancel}>

@@ -11,23 +11,76 @@ class RemotePaging extends React.Component {
         name: PropTypes.string,
         description: PropTypes.string,
         usersCount: PropTypes.number
-      }).isRequired
-    ).isRequired,
-    onPageChange: PropTypes.func.isRequired,
-    onSizePerPageList: PropTypes.func.isRequired,
-    sizePerPage: PropTypes.number.isRequired,
-    currentPage: PropTypes.number.isRequired,
-    dataTotalSize: PropTypes.number.isRequired,
-    sizePerPageList: PropTypes.arrayOf(PropTypes.number).isRequired,
+      })
+    ),
+    onPageChange: PropTypes.func,
+    onSizePerPageList: PropTypes.func,
+    sizePerPage: PropTypes.number,
+    currentPage: PropTypes.number,
+    dataTotalSize: PropTypes.number,
+    sizePerPageList: PropTypes.arrayOf(PropTypes.number),
     expandRows: PropTypes.bool
+  }
+
+  static defaultProps = {
+    data: [],
+    sizePerPage: 5,
+    currentPage: 1,
+    dataTotalSize: 0,
+    sizePerPageList: [5, 10, 25, 50]
+  }
+
+  /* runs to determine if expand component should be displayed */
+  /* always true */
+  expandableRow = this.expandableRow.bind(this)
+  expandableRow(row) {
+    return true
+  }
+
+  expandComponent = this.expandComponent.bind(this)
+  expandComponent(row) {
+    const {
+      ExpandComponent,
+      expandComponentOnClick,
+      udaruUrl,
+      authorization,
+      org
+    } = this.props
+    return (
+      <ExpandComponent
+        udaruUrl={udaruUrl}
+        authorization={authorization}
+        org={org}
+        parentTeamId={row.id}
+        parentName={row.name}
+        expandComponentOnClick={expandComponentOnClick}
+      />
+    )
+  }
+
+  expandColumnComponent = this.expandColumnComponent.bind(this)
+  expandColumnComponent({ isExpandableRow, isExpanded }) {
+    return isExpandableRow ? (
+      isExpanded ? (
+        <div>
+          <Glyphicon glyph="remove" />
+        </div>
+      ) : (
+        <div>
+          <Glyphicon
+            glyph="signal"
+            style={{ transform: 'scale(1, -1) rotate(90deg)' }}
+          />
+        </div>
+      )
+    ) : (
+      <div>' '</div>
+    )
   }
 
   render() {
     const {
       data,
-      udaruUrl,
-      authorization,
-      org,
       dataTotalSize,
       sizePerPage,
       onPageChange,
@@ -37,9 +90,7 @@ class RemotePaging extends React.Component {
       onSelect,
       searchDelayTime,
       onSearchChange,
-      expandRows,
-      ExpandComponent,
-      expandComponentOnClick
+      expandRows
     } = this.props
 
     return (
@@ -61,36 +112,10 @@ class RemotePaging extends React.Component {
               }}
               expandColumnOptions={{
                 expandColumnVisible: expandRows,
-                expandColumnComponent({ isExpandableRow, isExpanded }) {
-                  return isExpandableRow ? (
-                    isExpanded ? (
-                      <div>
-                        <Glyphicon glyph="remove" />
-                      </div>
-                    ) : (
-                      <div>
-                        <Glyphicon
-                          glyph="signal"
-                          style={{ transform: 'scale(1, -1) rotate(90deg)' }}
-                        />
-                      </div>
-                    )
-                  ) : (
-                    <div>' '</div>
-                  )
-                }
+                expandColumnComponent: this.expandColumnComponent
               }}
-              expandableRow={row => expandRows}
-              expandComponent={row => (
-                <ExpandComponent
-                  udaruUrl={udaruUrl}
-                  authorization={authorization}
-                  org={org}
-                  parentTeamId={row.id}
-                  parentName={row.name}
-                  expandComponentOnClick={expandComponentOnClick}
-                />
-              )}
+              expandableRow={this.expandableRow}
+              expandComponent={this.expandComponent}
               options={{
                 sizePerPage,
                 onPageChange,

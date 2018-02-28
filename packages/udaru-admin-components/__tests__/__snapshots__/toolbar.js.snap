@@ -1,0 +1,193 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render with default props 1`] = `
+<div
+  className="container"
+>
+  <div
+    className="row"
+  >
+    <div
+      className="col-xs-12"
+    >
+      <div
+        className="btn-toolbar"
+        role="toolbar"
+      >
+        <button
+          className="btn btn-success"
+          disabled={false}
+          onClick={undefined}
+          type="button"
+        >
+          New Team
+        </button>
+        <div
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          style={
+            Object {
+              "display": "inline-block",
+              "padding": "0 10px",
+            }
+          }
+        >
+          <button
+            className="btn btn-primary"
+            disabled={true}
+            onClick={undefined}
+            style={
+              Object {
+                "pointerEvents": "none",
+              }
+            }
+            type="button"
+          >
+            View Team
+          </button>
+        </div>
+        <div
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          style={
+            Object {
+              "display": "inline-block",
+              "padding": "0 10px 0 0",
+            }
+          }
+        >
+          <button
+            className="btn btn-info"
+            disabled={true}
+            onClick={undefined}
+            style={
+              Object {
+                "pointerEvents": "none",
+              }
+            }
+            type="button"
+          >
+            Update Team
+          </button>
+        </div>
+        <div
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          style={
+            Object {
+              "display": "inline-block",
+            }
+          }
+        >
+          <button
+            className="btn btn-danger"
+            disabled={true}
+            onClick={undefined}
+            style={
+              Object {
+                "pointerEvents": "none",
+              }
+            }
+            type="button"
+          >
+            Delete Team
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`should render with disable props 1`] = `
+<div
+  className="container"
+>
+  <div
+    className="row"
+  >
+    <div
+      className="col-xs-12"
+    >
+      <div
+        className="btn-toolbar"
+        role="toolbar"
+      >
+        <button
+          className="btn btn-success"
+          disabled={false}
+          onClick={undefined}
+          type="button"
+        >
+          New Team
+        </button>
+        <div
+          onClick={null}
+          style={
+            Object {
+              "display": "inline-block",
+              "padding": "0 10px",
+            }
+          }
+        >
+          <button
+            className="btn btn-primary"
+            disabled={false}
+            onClick={undefined}
+            style={Object {}}
+            type="button"
+          >
+            View Team
+          </button>
+        </div>
+        <div
+          onClick={null}
+          style={
+            Object {
+              "display": "inline-block",
+              "padding": "0 10px 0 0",
+            }
+          }
+        >
+          <button
+            className="btn btn-info"
+            disabled={false}
+            onClick={undefined}
+            style={Object {}}
+            type="button"
+          >
+            Update Team
+          </button>
+        </div>
+        <div
+          onClick={null}
+          style={
+            Object {
+              "display": "inline-block",
+            }
+          }
+        >
+          <button
+            className="btn btn-danger"
+            disabled={false}
+            onClick={undefined}
+            style={Object {}}
+            type="button"
+          >
+            Delete Team
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

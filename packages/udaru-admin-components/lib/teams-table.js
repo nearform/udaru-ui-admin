@@ -16,7 +16,7 @@ const ErrorCmp = () => <h1>There was an error fetching teams.</h1>
 
 class TeamsTable extends React.Component {
   state = {
-    loading: false,
+    loading: true,
     data: [],
     originalData: [],
     error: null,
@@ -27,7 +27,8 @@ class TeamsTable extends React.Component {
     selectedRow: null,
     view: this.props.view,
     parentTeamId: null,
-    nestedTeamId: null
+    nestedTeamId: null,
+    viewId: null
   }
 
   static propTypes = {
@@ -120,11 +121,11 @@ class TeamsTable extends React.Component {
     return json
   }
 
-  async componentWillUnmount() {
+  componentWillUnmount() {
     this._runningPromises.forEach(promise => promise.cancel())
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     this.fetchTeams(this.state.currentPage, this.state.sizePerPage)
   }
 
@@ -154,27 +155,30 @@ class TeamsTable extends React.Component {
 
   onView = this.onView.bind(this)
   onView() {
-    this.setState({
-      view: 'READ'
+    this.setState(state => {
+      return {
+        view: 'READ',
+        viewId: state.selectedRow.id
+      }
     })
   }
 
   onNestedView = this.onNestedView.bind(this)
   onNestedView(parentId, nestedId) {
     this.setState({
-      view: 'READ_NESTED',
-      parentTeamId: parentId,
-      nestedTeamId: nestedId
+      view: 'READ',
+      viewId: nestedId,
+      parentTeamId: parentId
     })
   }
 
   onViewParent = this.onViewParent.bind(this)
   onViewParent(parentTeamId) {
+    console.log('parentTeamId', parentTeamId)
     this.setState({
       view: 'READ',
-      selectedRow: {
-        id: parentTeamId
-      }
+      viewId: parentTeamId,
+      parentTeamId: null
     })
   }
 
@@ -247,8 +251,10 @@ class TeamsTable extends React.Component {
         udaruUrl={this.props.udaruUrl}
         authorization={this.props.authorization}
         org={this.props.org}
-        id={this.state.selectedRow.id}
+        id={this.state.viewId}
         onCancel={this.onCancel}
+        parentTeamId={this.state.parentTeamId}
+        onViewParent={this.onViewParent}
       />
     ) : this.state.view === 'READ_NESTED' ? (
       <ViewNestedTeamDetails

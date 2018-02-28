@@ -11,7 +11,7 @@ class ViewNestedTeam extends React.Component {
     data: [],
     total: 0,
     error: null,
-    loading: false,
+    loading: true,
     sizePerPage: this.props.sizePerPage,
     currentPage: this.props.currentPage
   }

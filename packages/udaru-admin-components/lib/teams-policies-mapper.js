@@ -16,7 +16,7 @@ import {
 
 class TeamsPoliciesMapper extends React.Component {
   state = {
-    loading: false,
+    loading: true,
     error: null,
     success: false,
     policies: [],
@@ -66,7 +66,7 @@ class TeamsPoliciesMapper extends React.Component {
     })
   }
 
-  async componentWillUnmount() {
+  componentWillUnmount() {
     this._runningPromises.forEach(promise => promise.cancel())
     this._timers.forEach(t => clearTimeout(t))
   }

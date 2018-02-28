@@ -8,20 +8,24 @@ class DeleteTeam extends React.Component {
     hasError: !Boolean(this.props.id),
     errorMessage: !Boolean(this.props.id)
       ? 'No Team ID passed into component.'
-      : ''
+      : !Boolean(this.props.name) ? 'No Team name passed into component.' : ''
   }
 
   static propTypes = {
-    udaruUrl: PropTypes.string.isRequired,
-    authorization: PropTypes.string.isRequired,
+    udaruUrl: PropTypes.string,
+    authorization: PropTypes.string,
     org: PropTypes.string,
     headerText: PropTypes.string,
     logError: PropTypes.func,
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired
+    id: PropTypes.string,
+    name: PropTypes.string
   }
 
   static defaultProps = {
+    udaruUrl: '',
+    authorization: '',
+    id: '',
+    name: '',
     headerText: 'Delete Team',
     onCancel: () => {
       console.log(
@@ -35,7 +39,7 @@ class DeleteTeam extends React.Component {
       hasError: true,
       errorMessage: 'An error has occured.'
     })
-    this.props.logError && this.props.logError()
+    this.props.logError && this.props.logError(error, info)
   }
 
   async delete(url, headers, body) {

@@ -3,6 +3,27 @@ import { Button } from 'react-bootstrap'
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
 
 class NestedTeamTable extends React.Component {
+  onClick = this.onClick.bind(this)
+  onClick({ id }) {
+    this.props.expandComponentOnClick(this.props.parentTeamId, id)
+  }
+
+  dataFormat = this.dataFormat.bind(this)
+  dataFormat(cell, row) {
+    return (
+      <Button
+        style={{
+          paddingTop: 0,
+          paddingBottom: 0
+        }}
+        bsStyle="link"
+        onClick={() => this.onClick(row)}
+      >
+        View
+      </Button>
+    )
+  }
+
   render() {
     const {
       data,
@@ -42,22 +63,7 @@ class NestedTeamTable extends React.Component {
             dataField="view"
             dataAlign="center"
             width="70"
-            dataFormat={(cell, row) => {
-              return (
-                <Button
-                  style={{
-                    paddingTop: 0,
-                    paddingBottom: 0
-                  }}
-                  bsStyle="link"
-                  onClick={() => {
-                    expandComponentOnClick(parentTeamId, row.id)
-                  }}
-                >
-                  View
-                </Button>
-              )
-            }}
+            dataFormat={this.dataFormat}
           />
           <TableHeaderColumn dataField="id" isKey dataAlign="center" width="70">
             ID

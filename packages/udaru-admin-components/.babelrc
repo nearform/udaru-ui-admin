@@ -1,5 +1,20 @@
 {
   "env": {
+    "test": {
+      "presets": ["env", "stage-2", "react"],
+      "plugins": [
+        "transform-export-extensions",
+        [
+          "transform-runtime",
+          {
+            "helpers": false,
+            "polyfill": false,
+            "regenerator": true,
+            "moduleName": "babel-runtime"
+          }
+        ]
+      ]
+    },
     "cjs": {
       "presets": ["env", "stage-2", "react"],
       "plugins": [
