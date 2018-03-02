@@ -71,7 +71,7 @@ it('should load data successfully', done => {
       authorization="my-authorization"
       org="my-org"
       parentTeamId="1"
-      currentPage="1"
+      currentPage={1}
       limit="5"
     />
   )
@@ -118,7 +118,7 @@ it('should handle error when loading data', done => {
       authorization="my-authorization"
       org="my-org"
       parentTeamId="1"
-      currentPage="1"
+      currentPage={1}
       limit="5"
     />
   )
@@ -158,7 +158,7 @@ it('should cancel all promises running when component is unmounted', done => {
       authorization="my-authorization"
       org="my-org"
       parentTeamId="1"
-      currentPage="1"
+      currentPage={1}
       limit="5"
     />
   )

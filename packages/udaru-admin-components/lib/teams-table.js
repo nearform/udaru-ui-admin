@@ -84,8 +84,6 @@ class TeamsTable extends React.Component {
         selectedRow: null
       })
     } catch (reason) {
-      console.log('reason', reason)
-
       if (!reason.isCanceled) {
         await this.setStateAsync({
           loading: false,

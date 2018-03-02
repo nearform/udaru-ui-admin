@@ -6,7 +6,9 @@
   "license": "MIT",
   "private": true,
   "scripts": {
+    "precommit": "lint-staged && npm run ci",
     "start": "npm run storybook & npm run watch",
+    "ci": "npm t -- --ci --coverage --silent",
     "test": "jest",
     "build": "npm run build-library && npm run build-storybook",
     "watch": "babel lib -d dist/es -w",
@@ -47,6 +49,10 @@
     "eslint-plugin-jsx-a11y": "5.1.1",
     "eslint-plugin-react": "^7.6.1",
     "jest": "^22.4.2",
+    "jest-runner-eslint": "^0.4.0",
+    "jest-runner-prettier": "^0.2.1",
+    "lint-staged": "^7.0.0",
+    "prettier": "^1.11.1",
     "react-test-renderer": "^16.2.0",
     "rollup": "^0.55.3",
     "rollup-plugin-babel": "^3.0.3",
@@ -56,7 +62,51 @@
     "rollup-plugin-replace": "^2.0.0",
     "rollup-plugin-uglify": "^3.0.0"
   },
+  "lint-staged": {
+    "linters": {
+      "*.js": ["eslint --fix", "git add", "jest --bail --findRelatedTests"],
+      "*.{js,json,md}": ["prettier --write", "git add"]
+    }
+  },
   "jest": {
-    "modulePaths": ["<rootDir>/lib", "<rootDir>/node_modules"]
+    "projects": [
+      {
+        "displayName": "eslint-check",
+        "runner": "jest-runner-eslint",
+        "testMatch": ["<rootDir>/lib/**/*.js"]
+      },
+      {
+        "displayName": "test",
+        "runner": "jest-runner",
+        "modulePaths": ["<rootDir>/lib"],
+        "collectCoverageFrom": ["<rootDir>/lib/**/*.js"],
+        "coverageReporters": ["lcov", "text-summary"],
+        "coverageThreshold": {
+          "global": {
+            "branches": 95,
+            "functions": 95,
+            "lines": 95,
+            "statements": -10
+          }
+        }
+      },
+      {
+        "displayName": "prettier-check",
+        "runner": "jest-runner-prettier",
+        "moduleFileExtensions": ["js", "json", "md"],
+        "testMatch": [
+          "<rootDir>/__tests__/**/*.js",
+          "<rootDir>/lib/**/*.js",
+          "<rootDir>/stories/**/*.js",
+          "<rootDir>/lib/**/*.json",
+          "<rootDir>/**/*.md"
+        ]
+      }
+    ]
+  },
+  "prettier": {
+    "semi": false,
+    "bracketSpacing": true,
+    "singleQuote": true
   }
 }

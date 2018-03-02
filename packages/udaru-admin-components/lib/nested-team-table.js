@@ -33,9 +33,7 @@ class NestedTeamTable extends React.Component {
       sizePerPageList,
       currentPage,
       onSizePerPageList,
-      parentName,
-      parentTeamId,
-      expandComponentOnClick
+      parentName
     } = this.props
 
     return (

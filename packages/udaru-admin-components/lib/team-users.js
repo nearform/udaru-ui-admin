@@ -41,8 +41,6 @@ class TeamUsers extends React.Component {
         loading: false
       })
     } catch (reason) {
-      console.log('reason', reason)
-
       if (!reason.isCanceled) {
         await this.setStateAsync({
           error: reason,

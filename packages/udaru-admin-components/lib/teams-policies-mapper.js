@@ -101,8 +101,6 @@ class TeamsPoliciesMapper extends React.Component {
         policies: response.data
       })
     } catch (reason) {
-      console.log('reason', reason)
-
       !reason.isCanceled &&
         (await this.setStateAsync({
           loading: false,
@@ -143,8 +141,6 @@ class TeamsPoliciesMapper extends React.Component {
         teamPolicies: response.policies
       })
     } catch (reason) {
-      console.log('reason', reason)
-
       !reason.isCanceled &&
         (await this.setStateAsync({
           loading: false,
@@ -191,8 +187,6 @@ class TeamsPoliciesMapper extends React.Component {
         setTimeout(() => this.setState({ success: false }), 3000)
       )
     } catch (reason) {
-      console.log('reason', reason)
-
       if (!reason.isCanceled) {
         await this.setStateAsync({
           loading: false,

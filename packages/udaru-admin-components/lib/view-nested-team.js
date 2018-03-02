@@ -54,8 +54,6 @@ class ViewNestedTeam extends React.Component {
         data: response.data
       })
     } catch (reason) {
-      console.log('reason', reason)
-
       if (!reason.isCanceled) {
         await this.setStateAsync({
           loading: false,

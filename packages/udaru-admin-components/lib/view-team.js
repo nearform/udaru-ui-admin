@@ -31,8 +31,6 @@ class ViewTeam extends React.Component {
         team: response
       })
     } catch (reason) {
-      console.log('reason', reason)
-
       if (!reason.isCanceled) {
         await this.setStateAsync({
           loading: false,
