@@ -26,6 +26,8 @@ class ViewTeam extends React.Component {
       const response = await cancelablePromise.promise
 
       await this.setStateAsync({
+        loading: false,
+        error: null,
         team: response
       })
     } catch (reason) {
@@ -33,14 +35,11 @@ class ViewTeam extends React.Component {
 
       if (!reason.isCanceled) {
         await this.setStateAsync({
+          loading: false,
           error: reason
         })
       }
     }
-    await this.setStateAsync({
-      error: null,
-      loading: false
-    })
   }
 
   async _fetchTeam(id) {
@@ -54,7 +53,8 @@ class ViewTeam extends React.Component {
       }
     )
 
-    if (!response.ok) throw new Error(response.statusText)
+    if (!response.ok)
+      throw new Error('there was an error loading team details.')
 
     const json = await response.json()
 
@@ -96,10 +96,9 @@ class ViewTeam extends React.Component {
                 <Col xs={12}>
                   <Button
                     style={{ margin: '20px 0' }}
-                    onClick={this.props.onViewParent.bind(
-                      this,
-                      this.props.parentTeamId
-                    )}
+                    onClick={() =>
+                      this.props.onViewParent(this.props.parentTeamId)
+                    }
                   >
                     <Glyphicon glyph="arrow-up" /> View Parent
                   </Button>

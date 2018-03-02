@@ -27,11 +27,12 @@ class UpdateTeamForm extends React.Component {
   }
 
   static propTypes = {
-    headerText: PropTypes.string.isRequired,
+    headerText: PropTypes.string,
     onFormSubmit: PropTypes.func
   }
 
   static defaultProps = {
+    headerText: 'Update Team',
     onFormSubmit: () => {
       console.log(
         'WARNING: No onFormSubmit function passed into the <UpdateTeamForm /> component.'
@@ -86,6 +87,7 @@ class UpdateTeamForm extends React.Component {
   handleBlur(e) {
     const inputName = e.target.id
     const value = e.target.value
+
     this.setState({
       validationState: {
         ...this.state.validationState,

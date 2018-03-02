@@ -9,14 +9,14 @@ class TeamUsersTable extends React.Component {
       PropTypes.shape({
         id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         name: PropTypes.string
-      }).isRequired
-    ).isRequired,
-    onPageChange: PropTypes.func.isRequired,
-    onSizePerPageList: PropTypes.func.isRequired,
-    sizePerPage: PropTypes.number.isRequired,
-    currentPage: PropTypes.number.isRequired,
-    dataTotalSize: PropTypes.number.isRequired,
-    sizePerPageList: PropTypes.arrayOf(PropTypes.number).isRequired
+      })
+    ),
+    onPageChange: PropTypes.func,
+    onSizePerPageList: PropTypes.func,
+    sizePerPage: PropTypes.number,
+    currentPage: PropTypes.number,
+    dataTotalSize: PropTypes.number,
+    sizePerPageList: PropTypes.arrayOf(PropTypes.number)
   }
 
   render() {

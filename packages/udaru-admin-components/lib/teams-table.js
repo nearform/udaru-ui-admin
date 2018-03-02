@@ -7,7 +7,6 @@ import UpdateTeam from './update-team'
 import DeleteTeam from './delete-team'
 import ViewTeam from './view-team'
 import ViewNestedTeam from './view-nested-team'
-import ViewNestedTeamDetails from './view-nested-team-details'
 
 import { makeCancellable } from './makeCancellable'
 
@@ -40,14 +39,7 @@ class TeamsTable extends React.Component {
     org: PropTypes.string,
     Loading: PropTypes.func,
     Error: PropTypes.func,
-    view: PropTypes.oneOf([
-      'CREATE',
-      'READ',
-      'READ_NESTED',
-      'UPDATE',
-      'DELETE',
-      'LIST'
-    ]),
+    view: PropTypes.oneOf(['CREATE', 'READ', 'UPDATE', 'DELETE', 'LIST']),
     searchDelayTime: PropTypes.number,
     expandRows: PropTypes.bool,
     expandComponent: PropTypes.func
@@ -114,7 +106,7 @@ class TeamsTable extends React.Component {
       }
     )
 
-    if (!response.ok) throw new Error(response.statusText)
+    if (!response.ok) throw new Error('there was an error fetching teams.')
 
     const json = await response.json()
 
@@ -174,7 +166,6 @@ class TeamsTable extends React.Component {
 
   onViewParent = this.onViewParent.bind(this)
   onViewParent(parentTeamId) {
-    console.log('parentTeamId', parentTeamId)
     this.setState({
       view: 'READ',
       viewId: parentTeamId,
@@ -254,16 +245,6 @@ class TeamsTable extends React.Component {
         id={this.state.viewId}
         onCancel={this.onCancel}
         parentTeamId={this.state.parentTeamId}
-        onViewParent={this.onViewParent}
-      />
-    ) : this.state.view === 'READ_NESTED' ? (
-      <ViewNestedTeamDetails
-        udaruUrl={this.props.udaruUrl}
-        authorization={this.props.authorization}
-        org={this.props.org}
-        id={this.state.nestedTeamId}
-        parentTeamId={this.state.parentTeamId}
-        onCancel={this.onCancel}
         onViewParent={this.onViewParent}
       />
     ) : this.state.view === 'UPDATE' ? (

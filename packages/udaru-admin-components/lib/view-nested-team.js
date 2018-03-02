@@ -3,9 +3,6 @@ import PropTypes from 'prop-types'
 import NestedTeamTable from './nested-team-table'
 import { makeCancellable } from './makeCancellable'
 
-const LoadingCmp = () => <h1>Loading...</h1>
-const ErrorCmp = () => <h1>There was an error fetching teams.</h1>
-
 class ViewNestedTeam extends React.Component {
   state = {
     data: [],
@@ -23,18 +20,16 @@ class ViewNestedTeam extends React.Component {
     udaruUrl: '',
     authorization: '',
     org: '',
-    Loading: LoadingCmp,
-    Error: ErrorCmp,
     view: 'LIST',
     searchDelayTime: 300,
     expandRows: true
   }
 
   static propTypes = {
-    parentTeamId: PropTypes.string.isRequired,
-    parentName: PropTypes.string.isRequired,
-    udaruUrl: PropTypes.string.isRequired,
-    authorization: PropTypes.string.isRequired,
+    parentTeamId: PropTypes.string,
+    parentName: PropTypes.string,
+    udaruUrl: PropTypes.string,
+    authorization: PropTypes.string,
     org: PropTypes.string.isRequired,
     sizePerPage: PropTypes.number,
     currentPage: PropTypes.number
@@ -83,7 +78,7 @@ class ViewNestedTeam extends React.Component {
       }
     )
 
-    if (!response.ok) throw new Error(response.statusText)
+    if (!response.ok) throw new Error('there was an error loading team.')
 
     const json = await response.json()
 
@@ -102,7 +97,11 @@ class ViewNestedTeam extends React.Component {
   }
 
   render() {
-    return (
+    return this.state.loading ? (
+      <h3>Loading</h3>
+    ) : this.state.error ? (
+      <h3>There was an error</h3>
+    ) : (
       <NestedTeamTable
         data={this.state.data}
         dataTotalSize={this.state.total}

@@ -1,0 +1,123 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render with default props 1`] = `
+<div
+  className="container"
+>
+  <div
+    className="row"
+  >
+    <div
+      className="col-xs-12"
+    >
+      <div
+        className="page-header"
+      >
+        <h1>
+          Update Team
+        </h1>
+      </div>
+    </div>
+    <div
+      className="col-xs-12"
+    >
+      <div
+        className="alert alert-danger"
+        role="alert"
+      >
+        All fields in 
+        <strong>
+          RED
+        </strong>
+         are required.
+      </div>
+    </div>
+    <div
+      className="col-xs-12"
+    >
+      <form
+        className=""
+        onSubmit={[Function]}
+      >
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label"
+            htmlFor={undefined}
+          >
+            ID
+          </label>
+          <input
+            className="form-control"
+            disabled={true}
+            id={undefined}
+            placeholder="ID"
+            type="text"
+            value={undefined}
+          />
+        </div>
+        <div
+          className="form-group has-feedback has-error"
+        >
+          <label
+            className="control-label"
+            htmlFor="name"
+          >
+            Name
+          </label>
+          <input
+            className="form-control"
+            id="name"
+            onBlur={[Function]}
+            onChange={[Function]}
+            placeholder="Name"
+            type="text"
+            value=""
+          />
+          <span
+            className="form-control-feedback glyphicon glyphicon-remove"
+          />
+        </div>
+        <div
+          className="form-group has-feedback has-error"
+        >
+          <label
+            className="control-label"
+            htmlFor="description"
+          >
+            Description
+          </label>
+          <input
+            className="form-control"
+            id="description"
+            onBlur={[Function]}
+            onChange={[Function]}
+            placeholder="Description"
+            type="text"
+            value=""
+          />
+          <span
+            className="form-control-feedback glyphicon glyphicon-remove"
+          />
+        </div>
+        <button
+          className="btn btn-primary"
+          disabled={false}
+          type="submit"
+        >
+          Submit
+        </button>
+        <button
+          className="btn btn-link"
+          disabled={false}
+          onClick={undefined}
+          type="button"
+        >
+          Cancel
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+`;

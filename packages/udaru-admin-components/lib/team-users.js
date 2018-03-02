@@ -36,21 +36,20 @@ class TeamUsers extends React.Component {
       await this.setStateAsync({
         users: response,
         currentPage: page,
-        sizePerPage: limit
+        sizePerPage: limit,
+        error: null,
+        loading: false
       })
     } catch (reason) {
       console.log('reason', reason)
 
       if (!reason.isCanceled) {
         await this.setStateAsync({
-          error: reason
+          error: reason,
+          loading: false
         })
       }
     }
-    await this.setStateAsync({
-      error: null,
-      loading: false
-    })
   }
 
   async _fetchTeamUsers(id, page, limit) {
@@ -66,7 +65,7 @@ class TeamUsers extends React.Component {
       }
     )
 
-    if (!response.ok) throw new Error(response.statusText)
+    if (!response.ok) throw new Error('error loading the team users.')
 
     const json = await response.json()
 

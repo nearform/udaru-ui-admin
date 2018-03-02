@@ -14,6 +14,23 @@ import {
   Glyphicon
 } from 'react-bootstrap'
 
+export const sort = (a, b) => {
+  if (a.name.toUpperCase() < b.name.toUpperCase()) {
+    return -1
+  }
+  if (a.name.toUpperCase() > b.name.toUpperCase()) {
+    return 1
+  }
+
+  return 0
+}
+
+export const mapPolicies = policy => (
+  <option key={policy.id} value={policy.id}>
+    {policy.name}
+  </option>
+)
+
 class TeamsPoliciesMapper extends React.Component {
   state = {
     loading: true,
@@ -27,13 +44,13 @@ class TeamsPoliciesMapper extends React.Component {
   }
 
   static propTypes = {
-    udaruUrl: PropTypes.string.isRequired,
-    authorization: PropTypes.string.isRequired,
+    udaruUrl: PropTypes.string,
+    authorization: PropTypes.string,
     org: PropTypes.string,
     onCancel: PropTypes.func,
     headerText: PropTypes.string,
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired
+    id: PropTypes.string,
+    name: PropTypes.string
   }
 
   static defaultProps = {
@@ -86,12 +103,11 @@ class TeamsPoliciesMapper extends React.Component {
     } catch (reason) {
       console.log('reason', reason)
 
-      if (!reason.isCanceled) {
-        await this.setStateAsync({
+      !reason.isCanceled &&
+        (await this.setStateAsync({
           loading: false,
           error: reason
-        })
-      }
+        }))
     }
   }
 
@@ -106,7 +122,8 @@ class TeamsPoliciesMapper extends React.Component {
       }
     )
 
-    if (!response.ok) throw new Error(response.statusText)
+    if (!response.ok)
+      throw new Error('there was an error fetching all policies.')
 
     const json = await response.json()
 
@@ -128,12 +145,11 @@ class TeamsPoliciesMapper extends React.Component {
     } catch (reason) {
       console.log('reason', reason)
 
-      if (!reason.isCanceled) {
-        await this.setStateAsync({
+      !reason.isCanceled &&
+        (await this.setStateAsync({
           loading: false,
           error: reason
-        })
-      }
+        }))
     }
   }
 
@@ -148,7 +164,8 @@ class TeamsPoliciesMapper extends React.Component {
       }
     )
 
-    if (!response.ok) throw new Error(response.statusText)
+    if (!response.ok)
+      throw new Error('there was an error fetching team policies.')
 
     const json = await response.json()
 
@@ -169,6 +186,7 @@ class TeamsPoliciesMapper extends React.Component {
         loading: false,
         success: true
       })
+
       this._timers.push(
         setTimeout(() => this.setState({ success: false }), 3000)
       )
@@ -199,7 +217,7 @@ class TeamsPoliciesMapper extends React.Component {
       }
     )
 
-    if (!response.ok) throw new Error(response.statusText)
+    if (!response.ok) throw new Error('there was an error saving team.')
 
     const json = await response.json()
 
@@ -321,22 +339,8 @@ class TeamsPoliciesMapper extends React.Component {
                       onChange={this.setSelectedAllPolicies}
                       style={{ height: '60vh' }}
                     >
-                      {this.state.allPolicies
-                        .sort((a, b) => {
-                          if (a.name.toUpperCase() < b.name.toUpperCase()) {
-                            return -1
-                          }
-                          if (a.name.toUpperCase() > b.name.toUpperCase()) {
-                            return 1
-                          }
-
-                          return 0
-                        })
-                        .map(policy => (
-                          <option key={policy.id} value={policy.id}>
-                            {policy.name}
-                          </option>
-                        ))}
+                      {this.state.allPolicies &&
+                        this.state.allPolicies.sort(sort).map(mapPolicies)}
                     </FormControl>
                   </FormGroup>
                 </Panel.Body>
@@ -372,22 +376,8 @@ class TeamsPoliciesMapper extends React.Component {
                       onChange={this.setSelectedTeamPolicies}
                       style={{ height: '60vh' }}
                     >
-                      {this.state.teamPolicies
-                        .sort((a, b) => {
-                          if (a.name.toUpperCase() < b.name.toUpperCase()) {
-                            return -1
-                          }
-                          if (a.name.toUpperCase() > b.name.toUpperCase()) {
-                            return 1
-                          }
-
-                          return 0
-                        })
-                        .map(policy => (
-                          <option key={policy.id} value={policy.id}>
-                            {policy.name}
-                          </option>
-                        ))}
+                      {this.state.teamPolicies &&
+                        this.state.teamPolicies.sort(sort).map(mapPolicies)}
                     </FormControl>
                   </FormGroup>
                 </Panel.Body>

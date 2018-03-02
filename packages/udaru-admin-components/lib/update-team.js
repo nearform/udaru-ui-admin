@@ -16,16 +16,16 @@ class UpdateTeam extends React.Component {
   }
 
   static propTypes = {
-    udaruUrl: PropTypes.string.isRequired,
-    authorization: PropTypes.string.isRequired,
+    udaruUrl: PropTypes.string,
+    authorization: PropTypes.string,
     org: PropTypes.string,
     headerText: PropTypes.string,
     logError: PropTypes.func,
     team: PropTypes.shape({
-      id: PropTypes.string.isRequired,
+      id: PropTypes.string,
       name: PropTypes.string,
       description: PropTypes.string
-    }).isRequired
+    })
   }
 
   static defaultProps = {
@@ -42,7 +42,7 @@ class UpdateTeam extends React.Component {
       hasError: true,
       errorMessage: 'An error has occured.'
     })
-    this.props.logError && this.props.logError()
+    this.props.logError && this.props.logError(error, info)
   }
 
   async update(url, headers, body) {
