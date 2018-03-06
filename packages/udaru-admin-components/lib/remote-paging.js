@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Grid, Row, Col } from 'react-bootstrap'
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
 
 class RemotePaging extends React.Component {
@@ -28,41 +29,53 @@ class RemotePaging extends React.Component {
       onPageChange,
       sizePerPageList,
       currentPage,
-      onSizePerPageList
+      onSizePerPageList,
+      onSelect,
+      searchDelayTime,
+      onSearchChange
     } = this.props
 
     return (
-      <BootstrapTable
-        data={data}
-        remote
-        striped
-        pagination
-        fetchInfo={{ dataTotalSize }}
-        selectRow={{
-          mode: 'radio',
-          clickToSelect: true,
-          onSelect: this.props.onSelect
-        }}
-        options={{
-          sizePerPage,
-          onPageChange,
-          sizePerPageList,
-          page: currentPage,
-          onSizePerPageList,
-          noDataText: 'No Teams Found.'
-        }}
-      >
-        <TableHeaderColumn dataField="id" isKey dataAlign="center">
-          ID
-        </TableHeaderColumn>
-        <TableHeaderColumn dataField="name">Name</TableHeaderColumn>
-        <TableHeaderColumn dataField="description">
-          Description
-        </TableHeaderColumn>
-        <TableHeaderColumn dataField="usersCount">
-          Users Count
-        </TableHeaderColumn>
-      </BootstrapTable>
+      <Grid>
+        <Row>
+          <Col xs={12}>
+            <BootstrapTable
+              data={data}
+              remote
+              striped
+              search
+              pagination
+              fetchInfo={{ dataTotalSize }}
+              selectRow={{
+                mode: 'radio',
+                clickToSelect: true,
+                onSelect
+              }}
+              options={{
+                sizePerPage,
+                onPageChange,
+                sizePerPageList,
+                page: currentPage,
+                onSizePerPageList,
+                noDataText: 'No Teams Found.',
+                searchDelayTime,
+                onSearchChange
+              }}
+            >
+              <TableHeaderColumn dataField="id" isKey dataAlign="center">
+                ID
+              </TableHeaderColumn>
+              <TableHeaderColumn dataField="name">Name</TableHeaderColumn>
+              <TableHeaderColumn dataField="description">
+                Description
+              </TableHeaderColumn>
+              <TableHeaderColumn dataField="usersCount">
+                Users Count
+              </TableHeaderColumn>
+            </BootstrapTable>
+          </Col>
+        </Row>
+      </Grid>
     )
   }
 }

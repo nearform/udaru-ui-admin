@@ -15,8 +15,10 @@ class TeamsTable extends React.Component {
   state = {
     loading: false,
     data: [],
+    originalData: [],
     error: null,
     dataTotalSize: 0,
+    originalDataTotalSize: 0,
     sizePerPage: this.props.sizePerPage,
     currentPage: this.props.currentPage,
     selectedRow: null,
@@ -32,7 +34,8 @@ class TeamsTable extends React.Component {
     org: PropTypes.string,
     Loading: PropTypes.func,
     Error: PropTypes.func,
-    view: PropTypes.oneOf(['CREATE', 'READ', 'UPDATE', 'DELETE', 'LIST'])
+    view: PropTypes.oneOf(['CREATE', 'READ', 'UPDATE', 'DELETE', 'LIST']),
+    searchDelayTime: PropTypes.number
   }
 
   static defaultProps = {
@@ -44,7 +47,8 @@ class TeamsTable extends React.Component {
     org: '',
     Loading: LoadingCmp,
     Error: ErrorCmp,
-    view: 'LIST'
+    view: 'LIST',
+    searchDelayTime: 300
   }
 
   setStateAsync(state) {
@@ -63,7 +67,9 @@ class TeamsTable extends React.Component {
       await this.setStateAsync({
         loading: false,
         data: response.data,
+        originalData: response.data,
         dataTotalSize: response.total,
+        originalDataTotalSize: response.total,
         currentPage: page,
         sizePerPage: limit,
         selectedRow: null
@@ -160,6 +166,33 @@ class TeamsTable extends React.Component {
     this.fetchTeams(this.state.currentPage, this.state.sizePerPage)
   }
 
+  onSearchChange = this.onSearchChange.bind(this)
+  onSearchChange(searchText) {
+    if (searchText === '') {
+      this.setState({
+        data: this.state.originalData,
+        dataTotalSize: this.state.originalDataTotalSize
+      })
+    } else {
+      fetch(
+        `${this.props.udaruUrl}/authorization/teams/search?query=${searchText}`,
+        {
+          headers: {
+            authorization: this.props.authorization,
+            org: this.props.org
+          }
+        }
+      )
+        .then(response => response.json())
+        .then(response =>
+          this.setState({
+            data: response.data,
+            dataTotalSize: response.total
+          })
+        )
+    }
+  }
+
   render() {
     const { Loading, Error } = this.props
 
@@ -210,6 +243,7 @@ class TeamsTable extends React.Component {
           onDelete={this.onDelete}
           disableDelete={!Boolean(this.state.selectedRow)}
         />
+        <div style={{ margin: '30px 0' }} />
         <RemotePaging
           data={this.state.data}
           onPageChange={this.onPageChange}
@@ -219,6 +253,8 @@ class TeamsTable extends React.Component {
           currentPage={this.state.currentPage}
           dataTotalSize={this.state.dataTotalSize}
           sizePerPageList={this.props.sizePerPageList}
+          searchDelayTime={this.props.searchDelayTime}
+          onSearchChange={this.onSearchChange}
         />
       </React.Fragment>
     ) : (

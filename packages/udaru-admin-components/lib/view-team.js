@@ -159,15 +159,17 @@ class ViewTeam extends React.Component {
         ) : this.state.errorUsers ? (
           <h3>error</h3>
         ) : (
-          <TeamUsersTable
-            data={this.state.users && this.state.users.data}
-            dataTotalSize={this.state.users && this.state.users.total}
-            currentPage={this.state.usersCurrentPage}
-            sizePerPage={this.state.usersSizePerPage}
-            sizePerPageList={this.props.sizePerPageList}
-            onPageChange={this.onPageChange}
-            onSizePerPageList={this.onSizePerPageList}
-          />
+          this.state.users && (
+            <TeamUsersTable
+              data={this.state.users.data}
+              dataTotalSize={this.state.users.total}
+              currentPage={this.state.usersCurrentPage}
+              sizePerPage={this.state.usersSizePerPage}
+              sizePerPageList={this.props.sizePerPageList}
+              onPageChange={this.onPageChange}
+              onSizePerPageList={this.onSizePerPageList}
+            />
+          )
         )}
         <Grid>
           <Row>
