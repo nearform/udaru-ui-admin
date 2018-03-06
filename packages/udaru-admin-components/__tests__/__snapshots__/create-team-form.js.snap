@@ -1,159 +1,270 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should render with default props 1`] = `
+.emotion-0 {
+  font-size: 48px;
+  margin-top: .5em;
+  margin-bottom: .5em;
+}
+
+.emotion-4 {
+  font-size: 24px;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.emotion-10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin: 0 0 16px;
+}
+
+.emotion-6 {
+  display: block;
+  width: 100%;
+  font-size: 16px;
+  color: #333;
+  font-weight: 700;
+}
+
+.emotion-8 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 34px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+  -webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+.emotion-8:focus {
+  border-color: #66afe9;
+  outline: 0;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+}
+
+.emotion-8::placeholder {
+  color: #aaa;
+}
+
+.emotion-8::-ms-clear {
+  display: none;
+}
+
+.emotion-38 {
+  background: #eee;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  color: #333;
+  display: inline-block;
+  line-height: 1.5;
+  padding: 6px 12px;
+  text-align: center;
+  -webkit-transition: all .2s cubic-bezier(0,.6,.3,1);
+  transition: all .2s cubic-bezier(0,.6,.3,1);
+  vertical-align: middle;
+  white-space: nowrap;
+  background-color: #337ab7;
+  border-color: #337ab7;
+  color: #fff;
+}
+
+.emotion-38:hover {
+  background-color: #285f8f;
+  border-color: #22527b;
+  color: #fff;
+}
+
+.emotion-40 {
+  background: #eee;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  color: #333;
+  display: inline-block;
+  line-height: 1.5;
+  padding: 6px 12px;
+  text-align: center;
+  -webkit-transition: all .2s cubic-bezier(0,.6,.3,1);
+  transition: all .2s cubic-bezier(0,.6,.3,1);
+  vertical-align: middle;
+  white-space: nowrap;
+  background-color: transparent;
+  border-color: none;
+}
+
+.emotion-40:hover {
+  color: #D8D8D8;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
 <div
-  className="container"
+  className="sc-bdVaJa hnxqsY"
 >
   <div
-    className="row"
+    className="emotion-2 emotion-3"
   >
-    <div
-      className="col-xs-12"
+    <h1
+      className="emotion-0 emotion-1"
+      fontSize={6}
     >
-      <div
-        className="page-header"
-      >
-        <h1>
-          Create Team
-        </h1>
-      </div>
-    </div>
-    <div
-      className="col-xs-12"
-    />
-    <div
-      className="col-xs-12"
-    >
-      <form
-        className=""
-        onSubmit={[Function]}
-      >
-        <div
-          className="form-group"
-        >
-          <h3>
-            Team Details
-          </h3>
-        </div>
-        <div
-          className="form-group has-feedback"
-        >
-          <label
-            className="control-label"
-            htmlFor="id"
-          >
-            ID
-          </label>
-          <input
-            className="form-control"
-            id="id"
-            onBlur={[Function]}
-            onChange={[Function]}
-            placeholder="ID"
-            type="text"
-            value=""
-          />
-        </div>
-        <div
-          className="form-group has-feedback"
-        >
-          <label
-            className="control-label"
-            htmlFor="name"
-          >
-            Name
-          </label>
-          <input
-            className="form-control"
-            id="name"
-            onBlur={[Function]}
-            onChange={[Function]}
-            placeholder="Name"
-            type="text"
-            value=""
-          />
-        </div>
-        <div
-          className="form-group has-feedback"
-        >
-          <label
-            className="control-label"
-            htmlFor="description"
-          >
-            Description
-          </label>
-          <input
-            className="form-control"
-            id="description"
-            onBlur={[Function]}
-            onChange={[Function]}
-            placeholder="Description"
-            type="text"
-            value=""
-          />
-        </div>
-        <div
-          className="form-group"
-        >
-          <h3>
-            Default Admin User
-          </h3>
-        </div>
-        <div
-          className="form-group has-feedback"
-        >
-          <label
-            className="control-label"
-            htmlFor="userId"
-          >
-            User ID
-          </label>
-          <input
-            className="form-control"
-            id="userId"
-            onBlur={[Function]}
-            onChange={[Function]}
-            placeholder="User ID"
-            type="text"
-            value=""
-          />
-        </div>
-        <div
-          className="form-group has-feedback"
-        >
-          <label
-            className="control-label"
-            htmlFor="userName"
-          >
-            User Name
-          </label>
-          <input
-            className="form-control"
-            id="userName"
-            onBlur={[Function]}
-            onChange={[Function]}
-            placeholder="User Name"
-            type="text"
-            value=""
-          />
-        </div>
-        <button
-          className="btn btn-primary"
-          disabled={false}
-          type="submit"
-        >
-          Submit
-        </button>
-        <button
-          className="btn btn-link"
-          disabled={false}
-          onClick={undefined}
-          type="button"
-        >
-          Cancel
-        </button>
-      </form>
-    </div>
+      Create Team
+    </h1>
+    <hr />
   </div>
+  <form
+    onSubmit={[Function]}
+  >
+    <h3
+      className="emotion-4 emotion-5"
+      fontSize={4}
+    >
+      Team Details
+    </h3>
+    <div
+      className="emotion-10 emotion-11 "
+    >
+      <label
+        className="emotion-6 emotion-7"
+        color="black"
+        fontSize="16px"
+        fontWeight="bold"
+      >
+        ID
+      </label>
+      <input
+        className="emotion-8 emotion-9"
+        id="id"
+        onBlur={[Function]}
+        onChange={[Function]}
+        placeholder="ID"
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      className="emotion-10 emotion-11 "
+    >
+      <label
+        className="emotion-6 emotion-7"
+        color="black"
+        fontSize="16px"
+        fontWeight="bold"
+      >
+        Name
+      </label>
+      <input
+        className="emotion-8 emotion-9"
+        id="name"
+        onBlur={[Function]}
+        onChange={[Function]}
+        placeholder="Name"
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      className="emotion-10 emotion-11 "
+    >
+      <label
+        className="emotion-6 emotion-7"
+        color="black"
+        fontSize="16px"
+        fontWeight="bold"
+      >
+        Description
+      </label>
+      <input
+        className="emotion-8 emotion-9"
+        id="description"
+        onBlur={[Function]}
+        onChange={[Function]}
+        placeholder="Description"
+        type="text"
+        value=""
+      />
+    </div>
+    <h3
+      className="emotion-4 emotion-5"
+      fontSize={4}
+    >
+      Default Admin User
+    </h3>
+    <div
+      className="emotion-10 emotion-11 "
+    >
+      <label
+        className="emotion-6 emotion-7"
+        color="black"
+        fontSize="16px"
+        fontWeight="bold"
+      >
+        User ID
+      </label>
+      <input
+        className="emotion-8 emotion-9"
+        id="userId"
+        onBlur={[Function]}
+        onChange={[Function]}
+        placeholder="User ID"
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      className="emotion-10 emotion-11 "
+    >
+      <label
+        className="emotion-6 emotion-7"
+        color="black"
+        fontSize="16px"
+        fontWeight="bold"
+      >
+        User Name
+      </label>
+      <input
+        className="emotion-8 emotion-9"
+        id="userName"
+        onBlur={[Function]}
+        onChange={[Function]}
+        placeholder="User Name"
+        type="text"
+        value=""
+      />
+    </div>
+    <button
+      className="emotion-38 emotion-39"
+      type="submit"
+      variant="primary"
+    >
+      Submit
+    </button>
+    <button
+      className="emotion-40 emotion-39"
+      onClick={undefined}
+      variant="link"
+    >
+      Cancel
+    </button>
+  </form>
 </div>
 `;

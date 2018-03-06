@@ -1,17 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {
-  Grid,
-  Row,
-  Col,
-  PageHeader,
+  Alert,
+  Box,
   Button,
-  Form,
-  FormGroup,
-  FormControl,
-  ControlLabel,
-  Alert
-} from 'react-bootstrap'
+  Input,
+  InputGroup,
+  Label,
+  Text,
+  PageHeader
+} from './components'
 
 class UpdateTeamForm extends React.Component {
   state = {
@@ -99,68 +97,55 @@ class UpdateTeamForm extends React.Component {
 
   render() {
     return (
-      <Grid>
-        <Row>
-          <Col xs={12}>
-            <PageHeader>{this.props.headerText}</PageHeader>
-          </Col>
-          <Col xs={12}>
-            {this.state.formIncomplete && (
-              <Alert bsStyle="danger" onDismiss={this.onDismiss}>
-                All fields in <strong>RED</strong> are required.
-              </Alert>
-            )}
-          </Col>
-          <Col xs={12}>
-            <Form onSubmit={this.onSubmit}>
-              <FormGroup>
-                <ControlLabel>ID</ControlLabel>
-                <FormControl
-                  type="text"
-                  placeholder="ID"
-                  disabled
-                  value={this.props.id}
-                />
-              </FormGroup>
-              <FormGroup
-                controlId="name"
-                validationState={this.state.validationState.name}
-              >
-                <ControlLabel>Name</ControlLabel>
-                <FormControl
-                  type="text"
-                  placeholder="Name"
-                  value={this.state.formValues.name}
-                  onChange={this.handleChange}
-                  onBlur={this.handleBlur}
-                />
-                <FormControl.Feedback />
-              </FormGroup>
-              <FormGroup
-                controlId="description"
-                validationState={this.state.validationState.description}
-              >
-                <ControlLabel>Description</ControlLabel>
-                <FormControl
-                  type="text"
-                  placeholder="Description"
-                  value={this.state.formValues.description}
-                  onChange={this.handleChange}
-                  onBlur={this.handleBlur}
-                />
-                <FormControl.Feedback />
-              </FormGroup>
+      <Box m={4}>
+        <PageHeader>{this.props.headerText}</PageHeader>
+        {this.state.formIncomplete && (
+          <Alert variant="danger" onDismiss={this.onDismiss}>
+            All fields in <Text.span bold>RED</Text.span> are required.
+          </Alert>
+        )}
+        <form onSubmit={this.onSubmit}>
+          <InputGroup>
+            <Label>ID</Label>
+            <Input
+              type="text"
+              placeholder="ID"
+              disabled
+              value={this.props.id}
+            />
+          </InputGroup>
+          <InputGroup
+            controlId="name"
+            validationState={this.state.validationState.name}
+          >
+            <Label>Name</Label>
+            <Input
+              type="text"
+              placeholder="Name"
+              value={this.state.formValues.name}
+              onChange={this.handleChange}
+              onBlur={this.handleBlur}
+            />
+          </InputGroup>
+          <InputGroup validationState={this.state.validationState.description}>
+            <Label>Description</Label>
+            <Input
+              type="text"
+              placeholder="Description"
+              value={this.state.formValues.description}
+              onChange={this.handleChange}
+              onBlur={this.handleBlur}
+            />
+          </InputGroup>
 
-              <Button bsStyle="primary" type="submit">
-                Submit
-              </Button>
-              <Button bsStyle="link" onClick={this.props.onCancel}>
-                Cancel
-              </Button>
-            </Form>
-          </Col>
-        </Row>
-      </Grid>
+          <Button variant="primary" type="submit">
+            Submit
+          </Button>
+          <Button variant="link" onClick={this.props.onCancel}>
+            Cancel
+          </Button>
+        </form>
+      </Box>
     )
   }
 }

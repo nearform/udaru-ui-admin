@@ -1,36 +1,36 @@
 import React from 'react'
-import { Col, Panel } from 'react-bootstrap'
+import { Box, PageHeader, Panel, Text } from './components'
 
 class Team extends React.Component {
   render() {
     const { name, description, organizationId, usersCount } = this.props
 
     return (
-      <Col xs={12}>
-        <Panel>
-          <Panel.Heading>
-            <Panel.Title componentClass="h3">Details</Panel.Title>
-          </Panel.Heading>
-          <Panel.Body>
-            <p>
-              <strong>Name: </strong>
-              <span>{name}</span>
-            </p>
-            <p>
-              <strong>Organization ID: </strong>
-              <span>{organizationId}</span>
-            </p>
-            <p>
-              <strong>Number of Users: </strong>
-              <span>{usersCount}</span>
-            </p>
-            <p>
-              <strong>Description: </strong>
-              <span>{description}</span>
-            </p>
-          </Panel.Body>
+      <Box m={4}>
+        <PageHeader>
+          View Team <small>{name}</small>
+        </PageHeader>
+        <Panel title="Details">
+          <div>
+            <Text.p>
+              <Text.span bold>Name: </Text.span>
+              <Text.span>{name}</Text.span>
+            </Text.p>
+            <Text.p>
+              <Text.span bold>Organization ID: </Text.span>
+              <Text.span>{organizationId}</Text.span>
+            </Text.p>
+            <Text.p>
+              <Text.span bold>Number of Users: </Text.span>
+              <Text.span>{usersCount}</Text.span>
+            </Text.p>
+            <Text.p>
+              <Text.span bold>Description: </Text.span>
+              <Text.span>{description}</Text.span>
+            </Text.p>
+          </div>
         </Panel>
-      </Col>
+      </Box>
     )
   }
 }

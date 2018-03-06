@@ -1,6 +1,5 @@
 import React from 'react'
-import { Button } from 'react-bootstrap'
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
+import { Button, Table } from './components'
 
 class NestedTeamTable extends React.Component {
   onClick = this.onClick.bind(this)
@@ -16,7 +15,7 @@ class NestedTeamTable extends React.Component {
           paddingTop: 0,
           paddingBottom: 0
         }}
-        bsStyle="link"
+        variant="link"
         onClick={() => this.onClick(row)}
       >
         View
@@ -36,44 +35,40 @@ class NestedTeamTable extends React.Component {
       parentName
     } = this.props
 
+    const columns = [
+      {
+        Header: 'ID',
+        accessor: 'id'
+      },
+      {
+        Header: 'Name',
+        accessor: 'name'
+      },
+      {
+        Header: 'Description',
+        accessor: 'description'
+      },
+      {
+        Header: 'Users Count',
+        accessor: 'usersCount'
+      }
+    ]
+
     return (
       <div style={{ background: '#fff', padding: '60px 20px' }}>
         <div>
           <h2 style={{ margin: 0 }}>Nested Teams for {parentName}</h2>
         </div>
-        <BootstrapTable
+        <Table
+          columns={columns}
           data={data}
-          remote
-          striped
-          condensed
-          bordered={false}
-          fetchInfo={{ dataTotalSize }}
-          options={{
-            sizePerPage,
-            onPageChange,
-            sizePerPageList,
-            page: currentPage,
-            onSizePerPageList,
-            noDataText: 'No Nested Teams Found.'
-          }}
-        >
-          <TableHeaderColumn
-            dataField="view"
-            dataAlign="center"
-            width="70"
-            dataFormat={this.dataFormat}
-          />
-          <TableHeaderColumn dataField="id" isKey dataAlign="center" width="70">
-            ID
-          </TableHeaderColumn>
-          <TableHeaderColumn dataField="name">Name</TableHeaderColumn>
-          <TableHeaderColumn dataField="description">
-            Description
-          </TableHeaderColumn>
-          <TableHeaderColumn dataField="usersCount" dataAlign="center">
-            Users Count
-          </TableHeaderColumn>
-        </BootstrapTable>
+          defaultPageSize={sizePerPage}
+          minRows={1}
+          noDataText="No Nested Teams Found."
+          onPageChange={onPageChange}
+          onPageSizeChange={onSizePerPageList}
+          page={0}
+        />
       </div>
     )
   }

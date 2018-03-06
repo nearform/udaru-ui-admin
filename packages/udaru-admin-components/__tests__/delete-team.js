@@ -1,10 +1,16 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import DeleteTeam from 'delete-team'
+import { createSerializer } from 'jest-emotion'
+import * as emotion from 'emotion'
+import theme from '../lib/components/theme'
+
+expect.addSnapshotSerializer(createSerializer(emotion))
 
 it('should render with minimum props', () => {
   const component = renderer.create(
     <DeleteTeam
+      theme={theme}
       udaruUrl="udaru-url"
       authorization="auth"
       id="1"
@@ -19,6 +25,7 @@ it('should render with minimum props', () => {
 it('should warn user if no onCancel prop passed into component', () => {
   const component = renderer.create(
     <DeleteTeam
+      theme={theme}
       udaruUrl="udaru-url"
       authorization="auth"
       id="1"
@@ -47,6 +54,7 @@ it('should catch error in render', () => {
   const info = 'some info about error'
   const component = renderer.create(
     <DeleteTeam
+      theme={theme}
       udaruUrl="udaru-url"
       authorization="auth"
       id="1"
@@ -67,6 +75,7 @@ it('should catch error in render', () => {
 it('should handle dismissing alert message', async () => {
   const component = renderer.create(
     <DeleteTeam
+      theme={theme}
       udaruUrl="udaru-url"
       authorization="auth"
       id="1"
@@ -87,7 +96,12 @@ it('should handle dismissing alert message', async () => {
 
 it('should set error message when no id passed in as a prop', () => {
   const component = renderer.create(
-    <DeleteTeam udaruUrl="udaru-url" authorization="auth" name="team name" />
+    <DeleteTeam
+      theme={theme}
+      udaruUrl="udaru-url"
+      authorization="auth"
+      name="team name"
+    />
   )
   const instance = component.root.instance
 
@@ -96,7 +110,12 @@ it('should set error message when no id passed in as a prop', () => {
 
 it('should set error message when no name passed in as a prop', () => {
   const component = renderer.create(
-    <DeleteTeam udaruUrl="udaru-url" authorization="auth" id="team id" />
+    <DeleteTeam
+      theme={theme}
+      udaruUrl="udaru-url"
+      authorization="auth"
+      id="team id"
+    />
   )
   const instance = component.root.instance
 
@@ -111,7 +130,11 @@ it('should error with no url is set', () => {
     description: 'value'
   }
   const component = renderer.create(
-    <DeleteTeam authorization="my-authorization-id" org="my-org" />
+    <DeleteTeam
+      theme={theme}
+      authorization="my-authorization-id"
+      org="my-org"
+    />
   )
   const instance = component.root.instance
 
@@ -124,7 +147,7 @@ it('should error with no authorization is set', () => {
     description: 'value'
   }
   const component = renderer.create(
-    <DeleteTeam udaruUrl="my-url" org="my-org" />
+    <DeleteTeam theme={theme} udaruUrl="my-url" org="my-org" />
   )
   const instance = component.root.instance
 
@@ -147,6 +170,7 @@ it('should delete a team successfully', async () => {
   }
   const component = renderer.create(
     <DeleteTeam
+      theme={theme}
       udaruUrl="http://my-udaru-url"
       authorization="my-authorization-id"
       org="my-special-org"
@@ -191,6 +215,7 @@ it('should handle a failed delete', async () => {
   }
   const component = renderer.create(
     <DeleteTeam
+      theme={theme}
       udaruUrl="http://my-udaru-url"
       authorization="my-authorization-id"
       org="my-special-org"

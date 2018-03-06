@@ -1,6 +1,11 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import ViewNestedTeam from 'view-nested-team'
+import { createSerializer } from 'jest-emotion'
+import * as emotion from 'emotion'
+import theme from '../lib/components/theme'
+
+expect.addSnapshotSerializer(createSerializer(emotion))
 
 jest.mock('react-bootstrap-table', () => {
   return {
@@ -37,7 +42,7 @@ it('should render with default props', async () => {
         })
       })
   )
-  const component = renderer.create(<ViewNestedTeam />)
+  const component = renderer.create(<ViewNestedTeam theme={theme} />)
   const instance = component.root.instance
   await instance.componentDidMount()
 
@@ -66,6 +71,7 @@ it('should load data successfully', async () => {
   )
   const component = renderer.create(
     <ViewNestedTeam
+      theme={theme}
       udaruUrl="my-udaru-url"
       authorization="my-authorization"
       org="my-org"
@@ -110,6 +116,7 @@ it('should handle error when loading data', async () => {
   )
   const component = renderer.create(
     <ViewNestedTeam
+      theme={theme}
       udaruUrl="my-udaru-url"
       authorization="my-authorization"
       org="my-org"
@@ -146,6 +153,7 @@ it('should cancel all promises running when component is unmounted', async () =>
   )
   const component = renderer.create(
     <ViewNestedTeam
+      theme={theme}
       udaruUrl="my-udaru-url"
       authorization="my-authorization"
       org="my-org"

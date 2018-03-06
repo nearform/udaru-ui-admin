@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Grid, Row, Col, PageHeader, Alert, Button } from 'react-bootstrap'
+import { Alert, Box, Button, Heading, Text, PageHeader } from './components'
 
 class DeleteTeam extends React.Component {
   state = {
@@ -100,59 +100,41 @@ class DeleteTeam extends React.Component {
 
   render() {
     return this.state.hasError ? (
-      <Grid>
-        <Row>
-          <Col xs={12}>
-            <Alert
-              bsStyle="danger"
-              {...!this.state.nonDismissableError && {
-                onDismiss: this.onDismiss
-              }}
-            >
-              <strong>Oops! There was an error</strong>
-              {this.state.errorMessage && <p>{this.state.errorMessage}</p>}
-            </Alert>
-          </Col>
-        </Row>
-      </Grid>
+      <Box m={4}>
+        <Alert
+          variant="danger"
+          {...!this.state.nonDismissableError && {
+            onDismiss: this.onDismiss
+          }}
+        >
+          <Text.span bold>Oops! There was an error</Text.span>
+          {this.state.errorMessage && (
+            <Text.p>{this.state.errorMessage}</Text.p>
+          )}
+        </Alert>
+      </Box>
     ) : this.state.success ? (
-      <Grid>
-        <Row>
-          <Col xs={12}>
-            <Alert bsStyle="success" onDismiss={this.props.onCancel}>
-              <strong>Team Successfully Removed!</strong>
-            </Alert>
-          </Col>
-        </Row>
-      </Grid>
+      <Box m={4}>
+        <Alert variant="success" onDismiss={this.props.onCancel}>
+          <Text.span bold>Team Successfully Removed!</Text.span>
+        </Alert>
+      </Box>
     ) : (
-      <Grid>
-        <Row>
-          <Col xs={12}>
-            <PageHeader>{this.props.headerText}</PageHeader>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={12}>
-            <h3>Are you sure you want to delete {this.props.name}?</h3>
-          </Col>
-          <Col xs={12}>
-            <p>
-              This action <strong>CANNOT</strong> be undone.
-            </p>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={12}>
-            <Button bsStyle="danger" onClick={this.onTeamDelete}>
-              DELETE
-            </Button>
-            <Button bsStyle="link" onClick={this.props.onCancel}>
-              CANCEL
-            </Button>
-          </Col>
-        </Row>
-      </Grid>
+      <Box m={4}>
+        <PageHeader>{this.props.headerText}</PageHeader>
+        <Heading.h3>
+          Are you sure you want to delete {this.props.name}?
+        </Heading.h3>
+        <Text.p>
+          This action <Text.span bold>CANNOT</Text.span> be undone.
+        </Text.p>
+        <Button variant="danger" onClick={this.onTeamDelete}>
+          DELETE
+        </Button>
+        <Button variant="link" onClick={this.props.onCancel}>
+          CANCEL
+        </Button>
+      </Box>
     )
   }
 }

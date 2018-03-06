@@ -21,10 +21,24 @@
     "react-dom": ">=15"
   },
   "dependencies": {
+    "@storybook/addon-info": "^3.3.15",
+    "emotion": "^9.0.2",
+    "emotion-theming": "^9.0.0",
+    "grid-styled": "^3.2.1",
+    "install": "^0.10.4",
+    "jest-emotion": "^9.0.0",
+    "npm": "^5.7.1",
+    "polished": "^1.9.2",
+    "rc-tooltip": "^3.7.0",
     "react": "^16.2.0",
     "react-bootstrap": "^0.32.1",
     "react-bootstrap-table": "^4.3.1",
-    "react-dom": "^16.2.0"
+    "react-dom": "^16.2.0",
+    "react-emotion": "^9.0.2",
+    "react-table": "^6.8.0",
+    "react-tabs": "^2.2.1",
+    "recompose": "^0.26.0",
+    "styled-system": "^2.1.2"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^3.3.13",
@@ -34,6 +48,7 @@
     "babel-cli": "^6.26.0",
     "babel-eslint": "7.2.3",
     "babel-jest": "^22.4.1",
+    "babel-plugin-emotion": "^9.0.1",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-transform-export-extensions": "^6.22.0",
     "babel-plugin-transform-runtime": "^6.23.0",
@@ -64,8 +79,15 @@
   },
   "lint-staged": {
     "linters": {
-      "*.js": ["eslint --fix", "git add", "jest --bail --findRelatedTests"],
-      "*.{js,json,md}": ["prettier --write", "git add"]
+      "*.js": [
+        "eslint --fix",
+        "git add",
+        "jest --bail --findRelatedTests"
+      ],
+      "*.{js,json,md}": [
+        "prettier --write",
+        "git add"
+      ]
     }
   },
   "jest": {
@@ -73,14 +95,23 @@
       {
         "displayName": "eslint-check",
         "runner": "jest-runner-eslint",
-        "testMatch": ["<rootDir>/lib/**/*.js"]
+        "testMatch": [
+          "<rootDir>/lib/**/*.js"
+        ]
       },
       {
         "displayName": "test",
         "runner": "jest-runner",
-        "modulePaths": ["<rootDir>/lib"],
-        "collectCoverageFrom": ["<rootDir>/lib/**/*.js"],
-        "coverageReporters": ["lcov", "text-summary"],
+        "modulePaths": [
+          "<rootDir>/lib"
+        ],
+        "collectCoverageFrom": [
+          "<rootDir>/lib/**/*.js"
+        ],
+        "coverageReporters": [
+          "lcov",
+          "text-summary"
+        ],
         "coverageThreshold": {
           "global": {
             "branches": 95,
@@ -93,7 +124,11 @@
       {
         "displayName": "prettier-check",
         "runner": "jest-runner-prettier",
-        "moduleFileExtensions": ["js", "json", "md"],
+        "moduleFileExtensions": [
+          "js",
+          "json",
+          "md"
+        ],
         "testMatch": [
           "<rootDir>/__tests__/**/*.js",
           "<rootDir>/lib/**/*.js",

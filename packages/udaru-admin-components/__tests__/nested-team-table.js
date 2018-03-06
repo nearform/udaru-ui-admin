@@ -1,6 +1,11 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import NestedTeamTable from 'nested-team-table'
+import { createSerializer } from 'jest-emotion'
+import * as emotion from 'emotion'
+import theme from '../lib/components/theme'
+
+expect.addSnapshotSerializer(createSerializer(emotion))
 
 jest.mock('react-bootstrap-table', () => {
   return {
@@ -38,34 +43,13 @@ it('should render with props', () => {
     onSizePerPageList: () => {},
     parentName: 'ABC Team',
     parentTeamId: 1,
-    expandComponentOnClick: () => {}
+    SubComponent: () => {}
   }
 
-  const component = renderer.create(<NestedTeamTable {...props} />)
+  const component = renderer.create(
+    <NestedTeamTable theme={theme} {...props} />
+  )
   const tree = component.toJSON()
 
   expect(tree).toMatchSnapshot()
-})
-
-it('should handle onClick', () => {
-  const expandComponentOnClick = jest.fn()
-  const props = {
-    data: [],
-    dataTotalSize: 100,
-    currentPage: 1,
-    sizePerPage: 5,
-    sizePerPageList: [5, 10, 25, 50, 100],
-    onPageChange: () => {},
-    onSizePerPageList: () => {},
-    parentName: 'ABC Team',
-    parentTeamId: 1,
-    expandComponentOnClick: expandComponentOnClick
-  }
-
-  const component = renderer.create(<NestedTeamTable {...props} />)
-  const testInstance = component.root
-
-  testInstance.findByType('button').props.onClick()
-  expect(expandComponentOnClick).toHaveBeenCalled()
-  expect(expandComponentOnClick.mock.calls[0]).toEqual([1, 2])
 })

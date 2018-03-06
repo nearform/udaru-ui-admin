@@ -1,6 +1,11 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import ViewTeam from 'view-team'
+import { createSerializer } from 'jest-emotion'
+import * as emotion from 'emotion'
+import theme from '../lib/components/theme'
+
+expect.addSnapshotSerializer(createSerializer(emotion))
 
 jest.mock('react-bootstrap-table', () => {
   return {
@@ -40,7 +45,7 @@ it('should render with default props', async () => {
       })
   )
 
-  const component = renderer.create(<ViewTeam />)
+  const component = renderer.create(<ViewTeam theme={theme} />)
   const instance = component.root.instance
 
   await instance.componentDidMount()
@@ -69,7 +74,7 @@ it('should render with parent id set', async () => {
       })
   )
   const component = renderer.create(
-    <ViewTeam onViewParent={jest.fn()} parentTeamId="1" />
+    <ViewTeam theme={theme} onViewParent={jest.fn()} parentTeamId="1" />
   )
   const instance = component.root.instance
   await instance.componentDidMount()
@@ -95,7 +100,7 @@ it('should call onViewParent when button is pressed', async () => {
   )
   const onViewParent = jest.fn()
   const component = renderer.create(
-    <ViewTeam onViewParent={onViewParent} parentTeamId="1" />
+    <ViewTeam theme={theme} onViewParent={onViewParent} parentTeamId="1" />
   )
   const instance = component.root.instance
   await instance.componentDidMount()
@@ -146,6 +151,7 @@ it('should load data successfully', async () => {
 
   const component = renderer.create(
     <ViewTeam
+      theme={theme}
       udaruUrl="my-udaru-url"
       authorization="my-authorization"
       org="my-org"
@@ -192,6 +198,7 @@ it('should handle error when loading data', async () => {
 
   const component = renderer.create(
     <ViewTeam
+      theme={theme}
       udaruUrl="my-udaru-url"
       authorization="my-authorization"
       org="my-org"
@@ -230,6 +237,7 @@ it('component should reject all running promises when unmounting component', asy
 
   const component = renderer.create(
     <ViewTeam
+      theme={theme}
       udaruUrl="my-udaru-url"
       authorization="my-authorization"
       org="my-org"
@@ -262,6 +270,7 @@ it('should NOT refetch teams if ids are same on re-render', async () => {
 
   const component = renderer.create(
     <ViewTeam
+      theme={theme}
       udaruUrl="my-udaru-url"
       authorization="my-authorization"
       org="my-org"
@@ -276,6 +285,7 @@ it('should NOT refetch teams if ids are same on re-render', async () => {
 
   await component.update(
     <ViewTeam
+      theme={theme}
       udaruUrl="my-udaru-url"
       authorization="my-authorization"
       org="my-org"
@@ -306,6 +316,7 @@ it('SHOULD refetch teams if ids are same on re-render', async () => {
 
   const component = renderer.create(
     <ViewTeam
+      theme={theme}
       udaruUrl="my-udaru-url"
       authorization="my-authorization"
       org="my-org"
@@ -320,6 +331,7 @@ it('SHOULD refetch teams if ids are same on re-render', async () => {
 
   await component.update(
     <ViewTeam
+      theme={theme}
       udaruUrl="my-udaru-url"
       authorization="my-authorization"
       org="my-org"

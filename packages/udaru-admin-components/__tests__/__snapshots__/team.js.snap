@@ -1,56 +1,119 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should render with default props 1`] = `
+.emotion-0 {
+  font-size: 48px;
+  margin-top: .5em;
+  margin-bottom: .5em;
+}
+
+.emotion-28 {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px rgba(0,0,0,.05);
+}
+
+.emotion-28 .panel-header {
+  border-bottom: 1px solid #ddd;
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
+  color: #333;
+  background-color: #f5f5f5;
+  padding: 1rem 2rem;
+}
+
+.emotion-28 .panel-body {
+  padding: 1rem 2rem;
+}
+
 <div
-  className="col-xs-12"
+  className="sc-bdVaJa hnxqsY"
 >
   <div
-    className="panel panel-default"
+    className="emotion-2 emotion-3"
+  >
+    <h1
+      className="emotion-0 emotion-1"
+      fontSize={6}
+    >
+      View Team 
+      <small>
+        Team Name
+      </small>
+    </h1>
+    <hr />
+  </div>
+  <div
+    className="emotion-28 emotion-29"
   >
     <div
-      className="panel-heading"
+      className="panel-header"
     >
-      <h3
-        className="panel-title"
-      >
+      <strong>
         Details
-      </h3>
+      </strong>
     </div>
     <div
       className="panel-body"
     >
-      <p>
-        <strong>
-          Name: 
-        </strong>
-        <span>
-          Team Name
-        </span>
-      </p>
-      <p>
-        <strong>
-          Organization ID: 
-        </strong>
-        <span>
-          my-org-id
-        </span>
-      </p>
-      <p>
-        <strong>
-          Number of Users: 
-        </strong>
-        <span>
-          100
-        </span>
-      </p>
-      <p>
-        <strong>
-          Description: 
-        </strong>
-        <span>
-          My Team Description
-        </span>
-      </p>
+      <div>
+        <p
+          className="emotion-6 emotion-9"
+        >
+          <span
+            className="emotion-4 emotion-5"
+          >
+            Name: 
+          </span>
+          <span
+            className="emotion-6 emotion-5"
+          >
+            Team Name
+          </span>
+        </p>
+        <p
+          className="emotion-6 emotion-9"
+        >
+          <span
+            className="emotion-4 emotion-5"
+          >
+            Organization ID: 
+          </span>
+          <span
+            className="emotion-6 emotion-5"
+          >
+            my-org-id
+          </span>
+        </p>
+        <p
+          className="emotion-6 emotion-9"
+        >
+          <span
+            className="emotion-4 emotion-5"
+          >
+            Number of Users: 
+          </span>
+          <span
+            className="emotion-6 emotion-5"
+          >
+            100
+          </span>
+        </p>
+        <p
+          className="emotion-6 emotion-9"
+        >
+          <span
+            className="emotion-4 emotion-5"
+          >
+            Description: 
+          </span>
+          <span
+            className="emotion-6 emotion-5"
+          >
+            My Team Description
+          </span>
+        </p>
+      </div>
     </div>
   </div>
 </div>

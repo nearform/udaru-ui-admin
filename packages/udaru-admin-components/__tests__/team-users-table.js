@@ -1,6 +1,11 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import TeamUsersTable from 'team-users-table'
+import { createSerializer } from 'jest-emotion'
+import * as emotion from 'emotion'
+import theme from '../lib/components/theme'
+
+expect.addSnapshotSerializer(createSerializer(emotion))
 
 jest.mock('react-bootstrap-table', () => {
   return {
@@ -33,7 +38,7 @@ it('should render with props', () => {
     onSizePerPageList: () => {}
   }
 
-  const component = renderer.create(<TeamUsersTable {...props} />)
+  const component = renderer.create(<TeamUsersTable theme={theme} {...props} />)
   const tree = component.toJSON()
 
   expect(tree).toMatchSnapshot()

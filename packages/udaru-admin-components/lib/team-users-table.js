@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Grid, Row, Col } from 'react-bootstrap'
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
+import { Box, Heading, Table } from './components'
 
 class TeamUsersTable extends React.Component {
   static propTypes = {
@@ -32,41 +31,32 @@ class TeamUsersTable extends React.Component {
       onSearchChange
     } = this.props
 
+    const columns = [
+      {
+        Header: 'ID',
+        accessor: 'id'
+      },
+      {
+        Header: 'Name',
+        accessor: 'name'
+      }
+    ]
+    if (!data) return null
+    // Currently not using sizePerPageList
     return (
-      <Grid>
-        <Row>
-          <Col xs={12}>
-            <h3>Users</h3>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={12}>
-            <BootstrapTable
-              data={data}
-              remote
-              striped
-              pagination
-              search
-              fetchInfo={{ dataTotalSize }}
-              options={{
-                sizePerPage,
-                onPageChange,
-                sizePerPageList,
-                page: currentPage,
-                onSizePerPageList,
-                noDataText: 'No Users in Team.',
-                searchDelayTime,
-                onSearchChange
-              }}
-            >
-              <TableHeaderColumn dataField="id" isKey dataAlign="center">
-                ID
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField="name">Name</TableHeaderColumn>
-            </BootstrapTable>
-          </Col>
-        </Row>
-      </Grid>
+      <Box m={4}>
+        <Heading.h3>Users</Heading.h3>
+        <Table
+          columns={columns}
+          data={data}
+          defaultPageSize={sizePerPage}
+          minRows={1}
+          noDataText="No Users in Team."
+          onPageChange={onPageChange}
+          onPageSizeChange={onSizePerPageList}
+          page={currentPage - 1}
+        />
+      </Box>
     )
   }
 }

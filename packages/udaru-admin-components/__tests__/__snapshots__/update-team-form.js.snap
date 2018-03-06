@@ -1,123 +1,259 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should render with default props 1`] = `
+.emotion-0 {
+  font-size: 48px;
+  margin-top: .5em;
+  margin-bottom: .5em;
+}
+
+.emotion-12 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin: 0 0 16px;
+}
+
+.emotion-8 {
+  display: block;
+  width: 100%;
+  font-size: 16px;
+  color: #333;
+  font-weight: 700;
+}
+
+.error .emotion-8 {
+  color: #a94442;
+}
+
+.emotion-10 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 34px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+  -webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+.emotion-10:focus {
+  border-color: #66afe9;
+  outline: 0;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+}
+
+.error .emotion-10 {
+  border-color: #a94442;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+}
+
+.error .emotion-10:focus {
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(169,68,66,.6);
+}
+
+.emotion-10::placeholder {
+  color: #aaa;
+}
+
+.error .emotion-10::placeholder {
+  color: rgba(169,68,66,.4);
+}
+
+.emotion-10::-ms-clear {
+  display: none;
+}
+
+.emotion-26 {
+  background: #eee;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  color: #333;
+  display: inline-block;
+  line-height: 1.5;
+  padding: 6px 12px;
+  text-align: center;
+  -webkit-transition: all .2s cubic-bezier(0,.6,.3,1);
+  transition: all .2s cubic-bezier(0,.6,.3,1);
+  vertical-align: middle;
+  white-space: nowrap;
+  background-color: #337ab7;
+  border-color: #337ab7;
+  color: #fff;
+}
+
+.emotion-26:hover {
+  background-color: #285f8f;
+  border-color: #22527b;
+  color: #fff;
+}
+
+.emotion-28 {
+  background: #eee;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  color: #333;
+  display: inline-block;
+  line-height: 1.5;
+  padding: 6px 12px;
+  text-align: center;
+  -webkit-transition: all .2s cubic-bezier(0,.6,.3,1);
+  transition: all .2s cubic-bezier(0,.6,.3,1);
+  vertical-align: middle;
+  white-space: nowrap;
+  background-color: transparent;
+  border-color: none;
+}
+
+.emotion-28:hover {
+  color: #D8D8D8;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.emotion-6 {
+  border-radius: 4px;
+  border: 1px solid transparent;
+  padding: 15px;
+  margin-bottom: 15px;
+  position: relative;
+  background-color: #f4cecd;
+  border-color: #eba5a3;
+  color: #a02622;
+}
+
+.emotion-6 .dismiss-alert {
+  cursor: pointer;
+  position: absolute;
+  top: .1em;
+  right: .5em;
+  opacity: .25;
+}
+
+.emotion-6 .dismiss-alert:hover {
+  opacity: 1;
+}
+
 <div
-  className="container"
+  className="sc-bdVaJa hnxqsY"
 >
   <div
-    className="row"
+    className="emotion-2 emotion-3"
+  >
+    <h1
+      className="emotion-0 emotion-1"
+      fontSize={6}
+    >
+      Update Team
+    </h1>
+    <hr />
+  </div>
+  <div
+    className="emotion-6 emotion-7"
+    role="alert"
+    variant="danger"
+  >
+    All fields in 
+    <span
+      className="emotion-4 emotion-5"
+    >
+      RED
+    </span>
+     are required.
+  </div>
+  <form
+    onSubmit={[Function]}
   >
     <div
-      className="col-xs-12"
+      className="emotion-12 emotion-13 "
     >
-      <div
-        className="page-header"
+      <label
+        className="emotion-8 emotion-9"
+        color="black"
+        fontSize="16px"
+        fontWeight="bold"
       >
-        <h1>
-          Update Team
-        </h1>
-      </div>
+        ID
+      </label>
+      <input
+        className="emotion-10 emotion-11"
+        disabled={true}
+        placeholder="ID"
+        type="text"
+        value={undefined}
+      />
     </div>
     <div
-      className="col-xs-12"
+      className="emotion-12 emotion-13 error"
     >
-      <div
-        className="alert alert-danger"
-        role="alert"
+      <label
+        className="emotion-8 emotion-9"
+        color="black"
+        fontSize="16px"
+        fontWeight="bold"
       >
-        All fields in 
-        <strong>
-          RED
-        </strong>
-         are required.
-      </div>
+        Name
+      </label>
+      <input
+        className="emotion-10 emotion-11"
+        onBlur={[Function]}
+        onChange={[Function]}
+        placeholder="Name"
+        type="text"
+        value=""
+      />
     </div>
     <div
-      className="col-xs-12"
+      className="emotion-12 emotion-13 error"
     >
-      <form
-        className=""
-        onSubmit={[Function]}
+      <label
+        className="emotion-8 emotion-9"
+        color="black"
+        fontSize="16px"
+        fontWeight="bold"
       >
-        <div
-          className="form-group"
-        >
-          <label
-            className="control-label"
-            htmlFor={undefined}
-          >
-            ID
-          </label>
-          <input
-            className="form-control"
-            disabled={true}
-            id={undefined}
-            placeholder="ID"
-            type="text"
-            value={undefined}
-          />
-        </div>
-        <div
-          className="form-group has-feedback has-error"
-        >
-          <label
-            className="control-label"
-            htmlFor="name"
-          >
-            Name
-          </label>
-          <input
-            className="form-control"
-            id="name"
-            onBlur={[Function]}
-            onChange={[Function]}
-            placeholder="Name"
-            type="text"
-            value=""
-          />
-          <span
-            className="form-control-feedback glyphicon glyphicon-remove"
-          />
-        </div>
-        <div
-          className="form-group has-feedback has-error"
-        >
-          <label
-            className="control-label"
-            htmlFor="description"
-          >
-            Description
-          </label>
-          <input
-            className="form-control"
-            id="description"
-            onBlur={[Function]}
-            onChange={[Function]}
-            placeholder="Description"
-            type="text"
-            value=""
-          />
-          <span
-            className="form-control-feedback glyphicon glyphicon-remove"
-          />
-        </div>
-        <button
-          className="btn btn-primary"
-          disabled={false}
-          type="submit"
-        >
-          Submit
-        </button>
-        <button
-          className="btn btn-link"
-          disabled={false}
-          onClick={undefined}
-          type="button"
-        >
-          Cancel
-        </button>
-      </form>
+        Description
+      </label>
+      <input
+        className="emotion-10 emotion-11"
+        onBlur={[Function]}
+        onChange={[Function]}
+        placeholder="Description"
+        type="text"
+        value=""
+      />
     </div>
-  </div>
+    <button
+      className="emotion-26 emotion-27"
+      type="submit"
+      variant="primary"
+    >
+      Submit
+    </button>
+    <button
+      className="emotion-28 emotion-27"
+      onClick={undefined}
+      variant="link"
+    >
+      Cancel
+    </button>
+  </form>
 </div>
 `;

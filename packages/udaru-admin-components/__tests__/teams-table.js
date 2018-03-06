@@ -1,6 +1,11 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import TeamsTable from 'teams-table'
+import { createSerializer } from 'jest-emotion'
+import * as emotion from 'emotion'
+import theme from '../lib/components/theme'
+
+expect.addSnapshotSerializer(createSerializer(emotion))
 
 jest.mock('react-bootstrap-table', () => {
   return {
@@ -38,7 +43,7 @@ it('should render with props', async () => {
       })
   )
 
-  const component = renderer.create(<TeamsTable />)
+  const component = renderer.create(<TeamsTable theme={theme} />)
   const instance = component.root.instance
   await instance.componentDidMount()
   const tree = component.toJSON()
@@ -59,7 +64,7 @@ it('should render with error state', async () => {
       })
   )
 
-  const component = renderer.create(<TeamsTable />)
+  const component = renderer.create(<TeamsTable theme={theme} />)
   const instance = component.root.instance
 
   await instance.componentDidMount()
@@ -83,7 +88,7 @@ it('should render create team', async () => {
       })
   )
 
-  const component = renderer.create(<TeamsTable />)
+  const component = renderer.create(<TeamsTable theme={theme} />)
   const instance = component.root.instance
   await instance.componentDidMount()
 
@@ -110,7 +115,7 @@ it('should render view team', async () => {
       })
   )
 
-  const component = renderer.create(<TeamsTable />)
+  const component = renderer.create(<TeamsTable theme={theme} />)
   const instance = component.root.instance
 
   expect(instance.state.view).toBe('LIST')
@@ -138,7 +143,7 @@ it('should render view team', async () => {
       })
   )
 
-  const component = renderer.create(<TeamsTable />)
+  const component = renderer.create(<TeamsTable theme={theme} />)
   const instance = component.root.instance
 
   expect(instance.state.view).toBe('LIST')
@@ -165,7 +170,7 @@ it('should render view parent team', async () => {
       })
   )
 
-  const component = renderer.create(<TeamsTable />)
+  const component = renderer.create(<TeamsTable theme={theme} />)
   const instance = component.root.instance
 
   expect(instance.state.view).toBe('LIST')
@@ -192,7 +197,7 @@ it('should render update team', async () => {
       })
   )
 
-  const component = renderer.create(<TeamsTable />)
+  const component = renderer.create(<TeamsTable theme={theme} />)
   const instance = component.root.instance
   await instance.componentDidMount()
 
@@ -229,7 +234,7 @@ it('should render delete team', async () => {
       })
   )
 
-  const component = renderer.create(<TeamsTable />)
+  const component = renderer.create(<TeamsTable theme={theme} />)
   const instance = component.root.instance
   await instance.componentDidMount()
 
@@ -265,7 +270,7 @@ it('should render error in unknown state', async () => {
       })
   )
 
-  const component = renderer.create(<TeamsTable />)
+  const component = renderer.create(<TeamsTable theme={theme} />)
   const instance = component.root.instance
   await component.getInstance().componentDidMount()
 
@@ -294,7 +299,7 @@ it('should render create and then go back to list and clear selectedRow', async 
       })
   )
 
-  const component = renderer.create(<TeamsTable />)
+  const component = renderer.create(<TeamsTable theme={theme} />)
   const instance = component.root.instance
   expect(instance.state.view).toBe('LIST')
 
@@ -327,7 +332,7 @@ it('should reset search change if text is blank', () => {
       })
   )
 
-  const component = renderer.create(<TeamsTable />)
+  const component = renderer.create(<TeamsTable theme={theme} />)
   const instance = component.root.instance
   instance.setState({
     originalData: [{ id: '1' }],
@@ -358,7 +363,11 @@ it('should search for value', async () => {
   )
 
   const component = renderer.create(
-    <TeamsTable authorization={'my-authorization'} org={'my-org'} />
+    <TeamsTable
+      theme={theme}
+      authorization={'my-authorization'}
+      org={'my-org'}
+    />
   )
   const instance = component.root.instance
 
@@ -384,7 +393,11 @@ it('should search handle malformed response', () => {
   )
 
   const component = renderer.create(
-    <TeamsTable authorization={'my-authorization'} org={'my-org'} />
+    <TeamsTable
+      theme={theme}
+      authorization={'my-authorization'}
+      org={'my-org'}
+    />
   )
   const instance = component.root.instance
 
@@ -410,7 +423,11 @@ it('should handle error response', async () => {
   )
 
   const component = renderer.create(
-    <TeamsTable authorization={'my-authorization'} org={'my-org'} />
+    <TeamsTable
+      theme={theme}
+      authorization={'my-authorization'}
+      org={'my-org'}
+    />
   )
   const instance = component.root.instance
   const data = [{ id: 1 }]
@@ -446,7 +463,11 @@ it('should handle select row', () => {
   )
 
   const component = renderer.create(
-    <TeamsTable authorization={'my-authorization'} org={'my-org'} />
+    <TeamsTable
+      theme={theme}
+      authorization={'my-authorization'}
+      org={'my-org'}
+    />
   )
   const instance = component.root.instance
 
@@ -473,7 +494,11 @@ it('should handle page change', async () => {
   )
 
   const component = renderer.create(
-    <TeamsTable authorization={'my-authorization'} org={'my-org'} />
+    <TeamsTable
+      theme={theme}
+      authorization={'my-authorization'}
+      org={'my-org'}
+    />
   )
   const instance = component.root.instance
 
@@ -503,7 +528,11 @@ it('should handle page list change', async () => {
   )
 
   const component = renderer.create(
-    <TeamsTable authorization={'my-authorization'} org={'my-org'} />
+    <TeamsTable
+      theme={theme}
+      authorization={'my-authorization'}
+      org={'my-org'}
+    />
   )
   const instance = component.root.instance
 
@@ -533,7 +562,11 @@ it('should reject all running promises', async () => {
   )
 
   const component = renderer.create(
-    <TeamsTable authorization={'my-authorization'} org={'my-org'} />
+    <TeamsTable
+      theme={theme}
+      authorization={'my-authorization'}
+      org={'my-org'}
+    />
   )
   const instance = component.root.instance
   await component.unmount()

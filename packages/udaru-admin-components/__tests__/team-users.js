@@ -1,6 +1,11 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import TeamUsers from 'team-users'
+import { createSerializer } from 'jest-emotion'
+import * as emotion from 'emotion'
+import theme from '../lib/components/theme'
+
+expect.addSnapshotSerializer(createSerializer(emotion))
 
 jest.mock('react-bootstrap-table', () => {
   return {
@@ -37,7 +42,7 @@ it('should render correctly', async () => {
         })
       })
   )
-  const component = renderer.create(<TeamUsers />)
+  const component = renderer.create(<TeamUsers theme={theme} />)
   const instance = component.root.instance
   await instance.setStateAsync({
     loading: false,
@@ -70,7 +75,7 @@ it('should load users correctly', async () => {
       })
   )
 
-  const component = renderer.create(<TeamUsers />)
+  const component = renderer.create(<TeamUsers theme={theme} />)
   const instance = component.root.instance
   expect(instance.state.loading).toBeTruthy()
 
@@ -99,7 +104,7 @@ it('should handle loading error', async () => {
         })
       })
   )
-  const component = renderer.create(<TeamUsers />)
+  const component = renderer.create(<TeamUsers theme={theme} />)
   const instance = component.root.instance
 
   expect(instance.state.loading).toBeTruthy()
@@ -129,7 +134,7 @@ it('should handle component unmount with running promises', async () => {
         })
       })
   )
-  const component = renderer.create(<TeamUsers />)
+  const component = renderer.create(<TeamUsers theme={theme} />)
   const instance = component.root.instance
 
   expect(instance.state.loading).toBeTruthy()
@@ -157,7 +162,7 @@ it('should handle page change', () => {
         })
       })
   )
-  const component = renderer.create(<TeamUsers id={1} />)
+  const component = renderer.create(<TeamUsers theme={theme} id={1} />)
   const instance = component.root.instance
 
   instance.fetchTeamUsers = jest.fn()
@@ -183,7 +188,7 @@ it('should handle size per page change', () => {
         })
       })
   )
-  const component = renderer.create(<TeamUsers id={1} />)
+  const component = renderer.create(<TeamUsers theme={theme} id={1} />)
   const instance = component.root.instance
 
   instance.fetchTeamUsers = jest.fn()
@@ -212,7 +217,7 @@ it('should search for a user', async () => {
       })
   )
 
-  const component = renderer.create(<TeamUsers id={1} />)
+  const component = renderer.create(<TeamUsers theme={theme} id={1} />)
   const instance = component.root.instance
   await instance.setStateAsync({
     loading: false,
@@ -252,7 +257,7 @@ it('should reset back to original users on empty search', async () => {
     }
   })
 
-  const component = renderer.create(<TeamUsers id={1} />)
+  const component = renderer.create(<TeamUsers theme={theme} id={1} />)
   const instance = component.root.instance
 
   await instance.setStateAsync({
@@ -292,7 +297,7 @@ it('should reset back to original users on error search', async () => {
     }
   })
 
-  const component = renderer.create(<TeamUsers id={1} />)
+  const component = renderer.create(<TeamUsers theme={theme} id={1} />)
   const instance = component.root.instance
 
   await instance.setStateAsync({
