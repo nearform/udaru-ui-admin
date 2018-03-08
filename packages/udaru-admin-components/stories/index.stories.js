@@ -103,7 +103,7 @@ storiesOf('View Team', module).add('View team', () => {
       udaruUrl="http://localhost:8080"
       authorization="ROOTid"
       org="WONKA"
-      id="1"
+      id="2"
     />
   )
 })

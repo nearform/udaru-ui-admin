@@ -194,30 +194,45 @@ class TeamsTable extends React.Component {
     this.fetchTeams(this.state.currentPage, this.state.sizePerPage)
   }
 
+  resetInitialData = this.resetInitialData.bind(this)
+  resetInitialData() {
+    this.setState({
+      data: this.state.originalData,
+      dataTotalSize: this.state.originalDataTotalSize
+    })
+  }
+
   onSearchChange = this.onSearchChange.bind(this)
-  onSearchChange(searchText) {
+  async onSearchChange(searchText) {
     if (searchText === '') {
-      this.setState({
-        data: this.state.originalData,
-        dataTotalSize: this.state.originalDataTotalSize
-      })
-    } else {
-      fetch(
-        `${this.props.udaruUrl}/authorization/teams/search?query=${searchText}`,
+      return this.resetInitialData()
+    }
+
+    try {
+      const { udaruUrl, authorization, org } = this.props
+      const response = await fetch(
+        `${udaruUrl}/authorization/teams/search?query=${searchText}`,
         {
           headers: {
-            authorization: this.props.authorization,
-            org: this.props.org
+            authorization,
+            org
           }
         }
       )
-        .then(response => response.json())
-        .then(response =>
-          this.setState({
-            data: response.data,
-            dataTotalSize: response.total
-          })
-        )
+
+      if (!response.ok) {
+        throw new Error('There was an error searching for that team.')
+      }
+
+      const json = await response.json()
+      const { data = [], total: dataTotalSize = 0 } = json
+
+      return this.setState({
+        data,
+        dataTotalSize
+      })
+    } catch (error) {
+      return this.resetInitialData()
     }
   }
 

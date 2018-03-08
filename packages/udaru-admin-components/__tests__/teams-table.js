@@ -402,6 +402,69 @@ it('should search for value', done => {
   })
 })
 
+it('should search handle malformed response', () => {
+  global.fetch = jest.fn().mockImplementation(
+    () =>
+      new Promise((resolve, reject) => {
+        resolve({
+          ok: true,
+          json: function() {
+            return {}
+          }
+        })
+      })
+  )
+
+  const component = renderer.create(
+    <TeamsTable authorization={'my-authorization'} org={'my-org'} />
+  )
+  const instance = component.root.instance
+
+  instance.onSearchChange('team')
+
+  expect(instance.state.data).toEqual([])
+  expect(instance.state.dataTotalSize).toEqual(0)
+
+  global.fetch.mockRestore()
+})
+
+it('should handle error response', done => {
+  global.fetch = jest.fn().mockImplementation(
+    () =>
+      new Promise((resolve, reject) => {
+        resolve({
+          ok: false,
+          json: function() {
+            return {}
+          }
+        })
+      })
+  )
+
+  const component = renderer.create(
+    <TeamsTable authorization={'my-authorization'} org={'my-org'} />
+  )
+  const instance = component.root.instance
+  const data = [{ id: 1 }]
+  const totalSize = 1
+
+  instance.setState({
+    originalData: data,
+    originalDataTotalSize: totalSize
+  })
+
+  instance.onSearchChange('team')
+
+  process.nextTick(() => {
+    expect(instance.state.data).toEqual(data)
+    expect(instance.state.dataTotalSize).toEqual(totalSize)
+
+    global.fetch.mockRestore()
+
+    done()
+  })
+})
+
 it('should handle select row', done => {
   global.fetch = jest.fn().mockImplementation(
     () =>

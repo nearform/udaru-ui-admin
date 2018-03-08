@@ -27,7 +27,9 @@ class TeamUsersTable extends React.Component {
       onPageChange,
       sizePerPageList,
       currentPage,
-      onSizePerPageList
+      onSizePerPageList,
+      searchDelayTime,
+      onSearchChange
     } = this.props
 
     return (
@@ -44,6 +46,7 @@ class TeamUsersTable extends React.Component {
               remote
               striped
               pagination
+              search
               fetchInfo={{ dataTotalSize }}
               options={{
                 sizePerPage,
@@ -51,7 +54,9 @@ class TeamUsersTable extends React.Component {
                 sizePerPageList,
                 page: currentPage,
                 onSizePerPageList,
-                noDataText: 'No Users in Team.'
+                noDataText: 'No Users in Team.',
+                searchDelayTime,
+                onSearchChange
               }}
             >
               <TableHeaderColumn dataField="id" isKey dataAlign="center">
