@@ -1,0 +1,516 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render create team 1`] = `
+<div
+  className="container"
+>
+  <div
+    className="row"
+  >
+    <div
+      className="col-xs-12"
+    >
+      <div
+        className="container"
+      >
+        <div
+          className="row"
+        >
+          <div
+            className="col-xs-12"
+          >
+            <div
+              className="page-header"
+            >
+              <h1>
+                Create Team
+              </h1>
+            </div>
+          </div>
+          <div
+            className="col-xs-12"
+          />
+          <div
+            className="col-xs-12"
+          >
+            <form
+              className=""
+              onSubmit={[Function]}
+            >
+              <div
+                className="form-group"
+              >
+                <h3>
+                  Team Details
+                </h3>
+              </div>
+              <div
+                className="form-group has-feedback"
+              >
+                <label
+                  className="control-label"
+                  htmlFor="id"
+                >
+                  ID
+                </label>
+                <input
+                  className="form-control"
+                  id="id"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  placeholder="ID"
+                  type="text"
+                  value=""
+                />
+              </div>
+              <div
+                className="form-group has-feedback"
+              >
+                <label
+                  className="control-label"
+                  htmlFor="name"
+                >
+                  Name
+                </label>
+                <input
+                  className="form-control"
+                  id="name"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  placeholder="Name"
+                  type="text"
+                  value=""
+                />
+              </div>
+              <div
+                className="form-group has-feedback"
+              >
+                <label
+                  className="control-label"
+                  htmlFor="description"
+                >
+                  Description
+                </label>
+                <input
+                  className="form-control"
+                  id="description"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  placeholder="Description"
+                  type="text"
+                  value=""
+                />
+              </div>
+              <div
+                className="form-group"
+              >
+                <h3>
+                  Default Admin User
+                </h3>
+              </div>
+              <div
+                className="form-group has-feedback"
+              >
+                <label
+                  className="control-label"
+                  htmlFor="userId"
+                >
+                  User ID
+                </label>
+                <input
+                  className="form-control"
+                  id="userId"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  placeholder="User ID"
+                  type="text"
+                  value=""
+                />
+              </div>
+              <div
+                className="form-group has-feedback"
+              >
+                <label
+                  className="control-label"
+                  htmlFor="userName"
+                >
+                  User Name
+                </label>
+                <input
+                  className="form-control"
+                  id="userName"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  placeholder="User Name"
+                  type="text"
+                  value=""
+                />
+              </div>
+              <button
+                className="btn btn-primary"
+                disabled={false}
+                type="submit"
+              >
+                Submit
+              </button>
+              <button
+                className="btn btn-link"
+                disabled={false}
+                onClick={[Function]}
+                type="button"
+              >
+                Cancel
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`should render delete team 1`] = `
+<div
+  className="container"
+>
+  <div
+    className="row"
+  >
+    <div
+      className="col-xs-12"
+    >
+      <div
+        className="page-header"
+      >
+        <h1>
+          Delete Team
+        </h1>
+      </div>
+    </div>
+  </div>
+  <div
+    className="row"
+  >
+    <div
+      className="col-xs-12"
+    >
+      <h3>
+        Are you sure you want to delete 
+        Team Name
+        ?
+      </h3>
+    </div>
+    <div
+      className="col-xs-12"
+    >
+      <p>
+        This action 
+        <strong>
+          CANNOT
+        </strong>
+         be undone.
+      </p>
+    </div>
+  </div>
+  <div
+    className="row"
+  >
+    <div
+      className="col-xs-12"
+    >
+      <button
+        className="btn btn-danger"
+        disabled={false}
+        onClick={[Function]}
+        type="button"
+      >
+        DELETE
+      </button>
+      <button
+        className="btn btn-link"
+        disabled={false}
+        onClick={[Function]}
+        type="button"
+      >
+        CANCEL
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`should render error in unknown state 1`] = `
+<h1>
+  There was an error fetching teams.
+</h1>
+`;
+
+exports[`should render update team 1`] = `
+<div
+  className="container"
+>
+  <div
+    className="row"
+  >
+    <div
+      className="col-xs-12"
+    >
+      <div
+        className="page-header"
+      >
+        <h1>
+          Update Team
+        </h1>
+      </div>
+    </div>
+    <div
+      className="col-xs-12"
+    />
+    <div
+      className="col-xs-12"
+    >
+      <form
+        className=""
+        onSubmit={[Function]}
+      >
+        <div
+          className="form-group"
+        >
+          <label
+            className="control-label"
+            htmlFor={undefined}
+          >
+            ID
+          </label>
+          <input
+            className="form-control"
+            disabled={true}
+            id={undefined}
+            placeholder="ID"
+            type="text"
+            value="1"
+          />
+        </div>
+        <div
+          className="form-group has-feedback has-success"
+        >
+          <label
+            className="control-label"
+            htmlFor="name"
+          >
+            Name
+          </label>
+          <input
+            className="form-control"
+            id="name"
+            onBlur={[Function]}
+            onChange={[Function]}
+            placeholder="Name"
+            type="text"
+            value="Team Name"
+          />
+          <span
+            className="form-control-feedback glyphicon glyphicon-ok"
+          />
+        </div>
+        <div
+          className="form-group has-feedback has-success"
+        >
+          <label
+            className="control-label"
+            htmlFor="description"
+          >
+            Description
+          </label>
+          <input
+            className="form-control"
+            id="description"
+            onBlur={[Function]}
+            onChange={[Function]}
+            placeholder="Description"
+            type="text"
+            value="Team Description"
+          />
+          <span
+            className="form-control-feedback glyphicon glyphicon-ok"
+          />
+        </div>
+        <button
+          className="btn btn-primary"
+          disabled={false}
+          type="submit"
+        >
+          Submit
+        </button>
+        <button
+          className="btn btn-link"
+          disabled={false}
+          onClick={[Function]}
+          type="button"
+        >
+          Cancel
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`should render with error state 1`] = `
+<h1>
+  There was an error fetching teams.
+</h1>
+`;
+
+exports[`should render with props 1`] = `
+Array [
+  <div
+    className="container"
+  >
+    <div
+      className="row"
+    >
+      <div
+        className="col-xs-12"
+      >
+        <div
+          className="btn-toolbar"
+          role="toolbar"
+        >
+          <button
+            className="btn btn-success"
+            disabled={false}
+            onClick={[Function]}
+            type="button"
+          >
+            New Team
+          </button>
+          <div
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            style={
+              Object {
+                "display": "inline-block",
+                "padding": "0 10px",
+              }
+            }
+          >
+            <button
+              className="btn btn-primary"
+              disabled={true}
+              onClick={[Function]}
+              style={
+                Object {
+                  "pointerEvents": "none",
+                }
+              }
+              type="button"
+            >
+              View Team
+            </button>
+          </div>
+          <div
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            style={
+              Object {
+                "display": "inline-block",
+                "padding": "0 10px 0 0",
+              }
+            }
+          >
+            <button
+              className="btn btn-info"
+              disabled={true}
+              onClick={[Function]}
+              style={
+                Object {
+                  "pointerEvents": "none",
+                }
+              }
+              type="button"
+            >
+              Update Team
+            </button>
+          </div>
+          <div
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            style={
+              Object {
+                "display": "inline-block",
+              }
+            }
+          >
+            <button
+              className="btn btn-danger"
+              disabled={true}
+              onClick={[Function]}
+              style={
+                Object {
+                  "pointerEvents": "none",
+                }
+              }
+              type="button"
+            >
+              Delete Team
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  <div
+    style={
+      Object {
+        "margin": "30px 0",
+      }
+    }
+  />,
+  <div
+    className="container"
+  >
+    <div
+      className="row"
+    >
+      <div
+        className="col-xs-12"
+      >
+        <table>
+           // mocked table output
+          <tr>
+            <th>
+              id // mocked table header column
+            </th>
+          </tr>
+          <tr>
+            <th>
+              name // mocked table header column
+            </th>
+          </tr>
+          <tr>
+            <th>
+              description // mocked table header column
+            </th>
+          </tr>
+          <tr>
+            <th>
+              usersCount // mocked table header column
+            </th>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>,
+]
+`;

@@ -3,6 +3,7 @@ export const makeCancellable = promise => {
   let hasCanceled_ = false
 
   return {
+    hasCanceled: () => hasCanceled_,
     promise: new Promise((resolve, reject) => {
       promise.then(
         val => (hasCanceled_ ? reject({ isCanceled: true }) : resolve(val)),

@@ -11,14 +11,16 @@ class CreateTeam extends React.Component {
   }
 
   static propTypes = {
-    udaruUrl: PropTypes.string.isRequired,
-    authorization: PropTypes.string.isRequired,
+    udaruUrl: PropTypes.string,
+    authorization: PropTypes.string,
     org: PropTypes.string,
     headerText: PropTypes.string,
     logError: PropTypes.func
   }
 
   static defaultProps = {
+    udaruUrl: '',
+    authorization: '',
     headerText: 'Create Team',
     onCancel: () => {
       console.log(
@@ -32,7 +34,7 @@ class CreateTeam extends React.Component {
       hasError: true,
       errorMessage: 'An error has occured.'
     })
-    this.props.logError && this.props.logError()
+    this.props.logError && this.props.logError(error, info)
   }
 
   async save(url, headers, body) {

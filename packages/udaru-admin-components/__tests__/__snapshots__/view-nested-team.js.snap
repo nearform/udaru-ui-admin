@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render with default props 1`] = `
+<div
+  style={
+    Object {
+      "background": "#fff",
+      "padding": "60px 20px",
+    }
+  }
+>
+  <div>
+    <h2
+      style={
+        Object {
+          "margin": 0,
+        }
+      }
+    >
+      Nested Teams for 
+    </h2>
+  </div>
+  <table>
+     // mocked table output
+    <tr>
+      <th>
+        view // mocked table header column
+      </th>
+    </tr>
+    <tr>
+      <th>
+        id // mocked table header column
+      </th>
+    </tr>
+    <tr>
+      <th>
+        name // mocked table header column
+      </th>
+    </tr>
+    <tr>
+      <th>
+        description // mocked table header column
+      </th>
+    </tr>
+    <tr>
+      <th>
+        usersCount // mocked table header column
+      </th>
+    </tr>
+  </table>
+</div>
+`;

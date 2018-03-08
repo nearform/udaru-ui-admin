@@ -3,12 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "precommit": "lerna run --concurrency 1 --stream precommit",
     "clean": "lerna clean",
     "build": "lerna run build --parallel ",
     "start": "lerna run start --scope udaru-admin-components",
     "admin": "lerna run start --scope udaru-admin-ts"
   },
   "devDependencies": {
+    "husky": "^0.14.3",
     "lerna": "^2.8.0"
   }
 }

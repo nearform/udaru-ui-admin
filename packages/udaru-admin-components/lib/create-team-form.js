@@ -33,12 +33,13 @@ class CreateTeamForm extends React.Component {
   }
 
   static propTypes = {
-    headerText: PropTypes.string.isRequired,
+    headerText: PropTypes.string,
     onFormSubmit: PropTypes.func,
     onCancel: PropTypes.func
   }
 
   static defaultProps = {
+    headerText: 'Create Team',
     onFormSubmit: () => {
       console.log(
         'WARNING: No onFormSubmit function passed into the <CreateTeamForm /> component.'

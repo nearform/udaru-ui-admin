@@ -1,0 +1,265 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render with default props 1`] = `
+<div
+  className="container"
+>
+  <div
+    className="row"
+  >
+    <div
+      className="col-xs-12"
+    >
+      <div
+        className="page-header"
+      >
+        <h1>
+          View Team
+           
+          <small>
+            Team
+          </small>
+        </h1>
+      </div>
+    </div>
+    <div
+      className="col-xs-12"
+    >
+      <div
+        className="panel panel-default"
+      >
+        <div
+          className="panel-heading"
+        >
+          <h3
+            className="panel-title"
+          >
+            Details
+          </h3>
+        </div>
+        <div
+          className="panel-body"
+        >
+          <p>
+            <strong>
+              Name: 
+            </strong>
+            <span>
+              Team
+            </span>
+          </p>
+          <p>
+            <strong>
+              Organization ID: 
+            </strong>
+            <span>
+              WONKA
+            </span>
+          </p>
+          <p>
+            <strong>
+              Number of Users: 
+            </strong>
+            <span>
+              100
+            </span>
+          </p>
+          <p>
+            <strong>
+              Description: 
+            </strong>
+            <span>
+              Team Description
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div
+      className="container"
+    >
+      <div
+        className="row"
+      >
+        <div
+          className="col-xs-12"
+        >
+          <h3>
+            Users
+          </h3>
+        </div>
+      </div>
+      <div
+        className="row"
+      >
+        <div
+          className="col-xs-12"
+        >
+          <table>
+             // mocked table output
+            <tr>
+              <th>
+                id // mocked table header column
+              </th>
+            </tr>
+            <tr>
+              <th>
+                name // mocked table header column
+              </th>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div
+      className="col-xs-12"
+    >
+      <button
+        className="btn btn-link"
+        disabled={false}
+        onClick={undefined}
+        type="button"
+      >
+        Go Back
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`should render with parent id set 1`] = `
+<div
+  className="container"
+>
+  <div
+    className="row"
+  >
+    <div
+      className="col-xs-12"
+    >
+      <div
+        className="page-header"
+      >
+        <h1>
+          View Team
+           
+          <small />
+        </h1>
+      </div>
+    </div>
+    <div
+      className="col-xs-12"
+    >
+      <button
+        className="btn btn-default"
+        disabled={false}
+        onClick={[Function]}
+        style={
+          Object {
+            "margin": "20px 0",
+          }
+        }
+        type="button"
+      >
+        <span
+          className="glyphicon glyphicon-arrow-up"
+        />
+         View Parent
+      </button>
+    </div>
+    <div
+      className="col-xs-12"
+    >
+      <div
+        className="panel panel-default"
+      >
+        <div
+          className="panel-heading"
+        >
+          <h3
+            className="panel-title"
+          >
+            Details
+          </h3>
+        </div>
+        <div
+          className="panel-body"
+        >
+          <p>
+            <strong>
+              Name: 
+            </strong>
+            <span />
+          </p>
+          <p>
+            <strong>
+              Organization ID: 
+            </strong>
+            <span />
+          </p>
+          <p>
+            <strong>
+              Number of Users: 
+            </strong>
+            <span />
+          </p>
+          <p>
+            <strong>
+              Description: 
+            </strong>
+            <span />
+          </p>
+        </div>
+      </div>
+    </div>
+    <div
+      className="container"
+    >
+      <div
+        className="row"
+      >
+        <div
+          className="col-xs-12"
+        >
+          <h3>
+            Users
+          </h3>
+        </div>
+      </div>
+      <div
+        className="row"
+      >
+        <div
+          className="col-xs-12"
+        >
+          <table>
+             // mocked table output
+            <tr>
+              <th>
+                id // mocked table header column
+              </th>
+            </tr>
+            <tr>
+              <th>
+                name // mocked table header column
+              </th>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div
+      className="col-xs-12"
+    >
+      <button
+        className="btn btn-link"
+        disabled={false}
+        onClick={undefined}
+        type="button"
+      >
+        Go Back
+      </button>
+    </div>
+  </div>
+</div>
+`;

@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render with default props 1`] = `
+<div
+  className="col-xs-12"
+>
+  <div
+    className="panel panel-default"
+  >
+    <div
+      className="panel-heading"
+    >
+      <h3
+        className="panel-title"
+      >
+        Details
+      </h3>
+    </div>
+    <div
+      className="panel-body"
+    >
+      <p>
+        <strong>
+          Name: 
+        </strong>
+        <span>
+          Team Name
+        </span>
+      </p>
+      <p>
+        <strong>
+          Organization ID: 
+        </strong>
+        <span>
+          my-org-id
+        </span>
+      </p>
+      <p>
+        <strong>
+          Number of Users: 
+        </strong>
+        <span>
+          100
+        </span>
+      </p>
+      <p>
+        <strong>
+          Description: 
+        </strong>
+        <span>
+          My Team Description
+        </span>
+      </p>
+    </div>
+  </div>
+</div>
+`;

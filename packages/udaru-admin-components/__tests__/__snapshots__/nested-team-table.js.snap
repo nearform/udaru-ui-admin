@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render with props 1`] = `
+<div
+  style={
+    Object {
+      "background": "#fff",
+      "padding": "60px 20px",
+    }
+  }
+>
+  <div>
+    <h2
+      style={
+        Object {
+          "margin": 0,
+        }
+      }
+    >
+      Nested Teams for 
+      ABC Team
+    </h2>
+  </div>
+  <table>
+     // mocked table output
+    <tr>
+      <th>
+         // mocked table header column data format
+        <button
+          className="btn btn-link"
+          disabled={false}
+          onClick={[Function]}
+          style={
+            Object {
+              "paddingBottom": 0,
+              "paddingTop": 0,
+            }
+          }
+          type="button"
+        >
+          View
+        </button>
+      </th>
+    </tr>
+    <tr>
+      <th>
+        id // mocked table header column
+      </th>
+    </tr>
+    <tr>
+      <th>
+        name // mocked table header column
+      </th>
+    </tr>
+    <tr>
+      <th>
+        description // mocked table header column
+      </th>
+    </tr>
+    <tr>
+      <th>
+        usersCount // mocked table header column
+      </th>
+    </tr>
+  </table>
+</div>
+`;

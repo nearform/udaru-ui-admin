@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should open and close row 1`] = `
+<div>
+  <span
+    className="glyphicon glyphicon-remove"
+  />
+</div>
+`;
+
+exports[`should open and close row 2`] = `
+<div>
+  <span
+    className="glyphicon glyphicon-signal"
+    style={
+      Object {
+        "transform": "scale(1, -1) rotate(90deg)",
+      }
+    }
+  />
+</div>
+`;
+
+exports[`should open and close row 3`] = `
+<div>
+  ' '
+</div>
+`;
+
+exports[`should render with props 1`] = `
+<div
+  className="container"
+>
+  <div
+    className="row"
+  >
+    <div
+      className="col-xs-12"
+    >
+      <table>
+         // mocked table output
+        <tr>
+          <th>
+            id // mocked table header column
+          </th>
+        </tr>
+        <tr>
+          <th>
+            name // mocked table header column
+          </th>
+        </tr>
+        <tr>
+          <th>
+            description // mocked table header column
+          </th>
+        </tr>
+        <tr>
+          <th>
+            usersCount // mocked table header column
+          </th>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+`;

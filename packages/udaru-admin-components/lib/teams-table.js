@@ -6,6 +6,8 @@ import CreateTeam from './create-team'
 import UpdateTeam from './update-team'
 import DeleteTeam from './delete-team'
 import ViewTeam from './view-team'
+import ViewNestedTeam from './view-nested-team'
+
 import { makeCancellable } from './makeCancellable'
 
 const LoadingCmp = () => <h1>Loading...</h1>
@@ -13,7 +15,7 @@ const ErrorCmp = () => <h1>There was an error fetching teams.</h1>
 
 class TeamsTable extends React.Component {
   state = {
-    loading: false,
+    loading: true,
     data: [],
     originalData: [],
     error: null,
@@ -22,7 +24,10 @@ class TeamsTable extends React.Component {
     sizePerPage: this.props.sizePerPage,
     currentPage: this.props.currentPage,
     selectedRow: null,
-    view: this.props.view
+    view: this.props.view,
+    parentTeamId: null,
+    nestedTeamId: null,
+    viewId: null
   }
 
   static propTypes = {
@@ -35,7 +40,9 @@ class TeamsTable extends React.Component {
     Loading: PropTypes.func,
     Error: PropTypes.func,
     view: PropTypes.oneOf(['CREATE', 'READ', 'UPDATE', 'DELETE', 'LIST']),
-    searchDelayTime: PropTypes.number
+    searchDelayTime: PropTypes.number,
+    expandRows: PropTypes.bool,
+    expandComponent: PropTypes.func
   }
 
   static defaultProps = {
@@ -48,7 +55,9 @@ class TeamsTable extends React.Component {
     Loading: LoadingCmp,
     Error: ErrorCmp,
     view: 'LIST',
-    searchDelayTime: 300
+    searchDelayTime: 300,
+    expandRows: true,
+    expandComponent: ViewNestedTeam
   }
 
   setStateAsync(state) {
@@ -75,8 +84,6 @@ class TeamsTable extends React.Component {
         selectedRow: null
       })
     } catch (reason) {
-      console.log('reason', reason)
-
       if (!reason.isCanceled) {
         await this.setStateAsync({
           loading: false,
@@ -97,18 +104,18 @@ class TeamsTable extends React.Component {
       }
     )
 
-    if (!response.ok) throw new Error(response.statusText)
+    if (!response.ok) throw new Error('there was an error fetching teams.')
 
     const json = await response.json()
 
     return json
   }
 
-  async componentWillUnmount() {
+  componentWillUnmount() {
     this._runningPromises.forEach(promise => promise.cancel())
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     this.fetchTeams(this.state.currentPage, this.state.sizePerPage)
   }
 
@@ -138,8 +145,29 @@ class TeamsTable extends React.Component {
 
   onView = this.onView.bind(this)
   onView() {
+    this.setState(state => {
+      return {
+        view: 'READ',
+        viewId: state.selectedRow.id
+      }
+    })
+  }
+
+  onNestedView = this.onNestedView.bind(this)
+  onNestedView(parentId, nestedId) {
     this.setState({
-      view: 'READ'
+      view: 'READ',
+      viewId: nestedId,
+      parentTeamId: parentId
+    })
+  }
+
+  onViewParent = this.onViewParent.bind(this)
+  onViewParent(parentTeamId) {
+    this.setState({
+      view: 'READ',
+      viewId: parentTeamId,
+      parentTeamId: null
     })
   }
 
@@ -212,8 +240,10 @@ class TeamsTable extends React.Component {
         udaruUrl={this.props.udaruUrl}
         authorization={this.props.authorization}
         org={this.props.org}
-        id={this.state.selectedRow.id}
+        id={this.state.viewId}
         onCancel={this.onCancel}
+        parentTeamId={this.state.parentTeamId}
+        onViewParent={this.onViewParent}
       />
     ) : this.state.view === 'UPDATE' ? (
       <UpdateTeam
@@ -246,6 +276,9 @@ class TeamsTable extends React.Component {
         <div style={{ margin: '30px 0' }} />
         <RemotePaging
           data={this.state.data}
+          udaruUrl={this.props.udaruUrl}
+          authorization={this.props.authorization}
+          org={this.props.org}
           onPageChange={this.onPageChange}
           onSizePerPageList={this.onSizePerPageList}
           onSelect={this.onSelect}
@@ -255,6 +288,9 @@ class TeamsTable extends React.Component {
           sizePerPageList={this.props.sizePerPageList}
           searchDelayTime={this.props.searchDelayTime}
           onSearchChange={this.onSearchChange}
+          expandRows={this.props.expandRows}
+          ExpandComponent={this.props.expandComponent}
+          expandComponentOnClick={this.onNestedView}
         />
       </React.Fragment>
     ) : (
