@@ -62,10 +62,13 @@ class TeamsPoliciesMapper extends React.Component {
     }
   }
 
+  _unmounted = false
   _timers = []
   _runningPromises = []
 
   setStateAsync(state) {
+    if (this._unmounted) return false
+
     return new Promise(resolve => this.setState(state, resolve))
   }
 
@@ -84,6 +87,7 @@ class TeamsPoliciesMapper extends React.Component {
   }
 
   componentWillUnmount() {
+    this._unmounted = true
     this._runningPromises.forEach(promise => promise.cancel())
     this._timers.forEach(t => clearTimeout(t))
   }

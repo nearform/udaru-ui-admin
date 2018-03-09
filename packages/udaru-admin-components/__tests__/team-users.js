@@ -116,7 +116,7 @@ it('should handle loading error', done => {
   })
 })
 
-it('should handle component unmount with running promises', done => {
+it('should handle component unmount with running promises', async () => {
   global.fetch = jest.fn().mockImplementation(
     () =>
       new Promise((resolve, reject) => {
@@ -135,16 +135,13 @@ it('should handle component unmount with running promises', done => {
   const instance = component.root.instance
 
   expect(instance.state.loading).toBeTruthy()
-  component.unmount()
+  await component.unmount()
 
-  process.nextTick(() => {
-    const { _runningPromises } = instance
+  const { _runningPromises } = instance
 
-    expect(_runningPromises.every(p => p.hasCanceled())).toBeTruthy()
+  expect(_runningPromises.every(p => p.hasCanceled())).toBeTruthy()
 
-    global.fetch.mockRestore()
-    done()
-  })
+  global.fetch.mockRestore()
 })
 
 it('should handle page change', () => {

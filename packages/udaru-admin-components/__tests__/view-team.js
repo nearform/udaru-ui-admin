@@ -218,7 +218,7 @@ it('should handle error when loading data', done => {
   })
 })
 
-it('component should reject all running promises when unmounting component', done => {
+it('component should reject all running promises when unmounting component', async () => {
   global.fetch = jest.fn().mockImplementation(
     () =>
       new Promise((resolve, reject) => {
@@ -242,16 +242,13 @@ it('component should reject all running promises when unmounting component', don
 
   const instance = component.root.instance
 
-  component.unmount()
+  await component.unmount()
 
-  process.nextTick(() => {
-    const { _runningPromises } = instance
+  const { _runningPromises } = instance
 
-    expect(_runningPromises.every(p => p.hasCanceled())).toBeTruthy()
+  expect(_runningPromises.every(p => p.hasCanceled())).toBeTruthy()
 
-    global.fetch.mockRestore()
-    done()
-  })
+  global.fetch.mockRestore()
 })
 
 it('should NOT refetch teams if ids are same on re-render', done => {
@@ -278,13 +275,11 @@ it('should NOT refetch teams if ids are same on re-render', done => {
   )
   const instance = component.root.instance
 
-  process.nextTick(() => {
-    const { loading, team } = instance.state
+  process.nextTick(async () => {
+    expect(instance.state.loading).toBeFalsy()
+    expect(instance.state.team).toBe(teamData)
 
-    expect(loading).toBeFalsy()
-    expect(team).toBe(teamData)
-
-    component.update(
+    await component.update(
       <ViewTeam
         udaruUrl="my-udaru-url"
         authorization="my-authorization"
@@ -293,17 +288,12 @@ it('should NOT refetch teams if ids are same on re-render', done => {
       />
     )
 
-    process.nextTick(() => {
-      const { _runningPromises } = instance
-      const { loading, team } = instance.state
+    expect(instance.state.loading).toBeFalsy()
+    expect(instance.state.team).toBe(teamData)
+    expect(instance._runningPromises.length).toBe(1)
 
-      expect(loading).toBeFalsy()
-      expect(team).toBe(teamData)
-      expect(_runningPromises.length).toBe(1)
-
-      global.fetch.mockRestore()
-      done()
-    })
+    global.fetch.mockRestore()
+    done()
   })
 })
 
@@ -331,13 +321,11 @@ it('SHOULD refetch teams if ids are same on re-render', done => {
   )
   const instance = component.root.instance
 
-  process.nextTick(() => {
-    const { loading, team } = instance.state
+  process.nextTick(async () => {
+    expect(instance.state.loading).toBeFalsy()
+    expect(instance.state.team).toBe(teamData)
 
-    expect(loading).toBeFalsy()
-    expect(team).toBe(teamData)
-
-    component.update(
+    await component.update(
       <ViewTeam
         udaruUrl="my-udaru-url"
         authorization="my-authorization"
@@ -346,15 +334,10 @@ it('SHOULD refetch teams if ids are same on re-render', done => {
       />
     )
 
-    process.nextTick(() => {
-      const { _runningPromises } = instance
-      const { loading } = instance.state
+    expect(instance.state.loading).toBeTruthy()
+    expect(instance._runningPromises.length).toBe(2)
 
-      expect(loading).toBeTruthy()
-      expect(_runningPromises.length).toBe(2)
-
-      global.fetch.mockRestore()
-      done()
-    })
+    global.fetch.mockRestore()
+    done()
   })
 })

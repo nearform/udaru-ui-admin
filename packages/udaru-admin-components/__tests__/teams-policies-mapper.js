@@ -162,17 +162,18 @@ it('should handle component unmount with running promises', done => {
   instance._timers.push(setTimeout(jest.fn(), 3000))
   expect(instance.state.loading).toBeTruthy()
 
-  process.nextTick(() => {
-    component.unmount()
+  process.nextTick(async () => {
+    await component.unmount()
     const { _runningPromises } = instance
     expect(_runningPromises.every(p => p.hasCanceled())).toBeTruthy()
+    expect(instance.setStateAsync()).toBe(false)
 
     global.fetch.mockRestore()
     done()
   })
 })
 
-it('should handle component unmount with running promises', done => {
+it('should handle component unmount with running promises', async () => {
   global.fetch = jest.fn().mockImplementation(
     () =>
       new Promise((resolve, reject) => {
@@ -192,14 +193,11 @@ it('should handle component unmount with running promises', done => {
   instance._timers.push(setTimeout(jest.fn(), 3000))
   expect(instance.state.loading).toBeTruthy()
 
-  process.nextTick(() => {
-    component.unmount()
-    const { _runningPromises } = instance
-    expect(_runningPromises.every(p => p.hasCanceled())).toBeTruthy()
+  await component.unmount()
+  const { _runningPromises } = instance
+  expect(_runningPromises.every(p => p.hasCanceled())).toBeTruthy()
 
-    global.fetch.mockRestore()
-    done()
-  })
+  global.fetch.mockRestore()
 })
 
 it('should set state of success to false on dismiss', done => {
@@ -471,7 +469,7 @@ it('should handle error if all policies fails to load', done => {
   })
 })
 
-it('should save team policies successfully', done => {
+it('should save team policies successfully', async () => {
   jest.useFakeTimers()
 
   global.fetch = jest.fn().mockImplementation((...args) => {
@@ -499,19 +497,15 @@ it('should save team policies successfully', done => {
   const instance = component.root.instance
   const preventDefault = jest.fn()
   const e = { preventDefault }
-  instance.onSubmit(e)
+  await instance.onSubmit(e)
 
-  process.nextTick(() => {
-    expect(preventDefault).toHaveBeenCalled()
-    expect(instance.state.success).toBeTruthy()
-    jest.advanceTimersByTime(3001)
-    expect(instance.state.success).toBeFalsy()
-
-    done()
-  })
+  expect(preventDefault).toHaveBeenCalled()
+  expect(instance.state.success).toBeTruthy()
+  jest.advanceTimersByTime(3001)
+  expect(instance.state.success).toBeFalsy()
 })
 
-it('should handle error saving team policies', done => {
+it('should handle error saving team policies', async () => {
   jest.useFakeTimers()
 
   global.fetch = jest.fn().mockImplementation((...args) => {
@@ -546,15 +540,11 @@ it('should handle error saving team policies', done => {
   const instance = component.root.instance
   const preventDefault = jest.fn()
   const e = { preventDefault }
-  instance.onSubmit(e)
+  await instance.onSubmit(e)
 
-  process.nextTick(() => {
-    expect(preventDefault).toHaveBeenCalled()
-    expect(instance.state.success).toBeFalsy()
-    expect(instance.state.error.message).toBe('there was an error saving team.')
-
-    done()
-  })
+  expect(preventDefault).toHaveBeenCalled()
+  expect(instance.state.success).toBeFalsy()
+  expect(instance.state.error.message).toBe('there was an error saving team.')
 })
 
 it('should cancel promise when unmounting component while saving', done => {

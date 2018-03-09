@@ -140,7 +140,7 @@ it('should handle error when loading data', done => {
   })
 })
 
-it('should cancel all promises running when component is unmounted', done => {
+it('should cancel all promises running when component is unmounted', async () => {
   global.fetch = jest.fn().mockImplementation(
     () =>
       new Promise((resolve, reject) => {
@@ -164,14 +164,11 @@ it('should cancel all promises running when component is unmounted', done => {
   )
   const instance = component.root.instance
 
-  component.unmount()
+  await component.unmount()
 
-  process.nextTick(() => {
-    const { _runningPromises } = instance
+  const { _runningPromises } = instance
 
-    expect(_runningPromises.every(p => p.hasCanceled())).toBeTruthy()
+  expect(_runningPromises.every(p => p.hasCanceled())).toBeTruthy()
 
-    global.fetch.mockRestore()
-    done()
-  })
+  global.fetch.mockRestore()
 })
