@@ -76,7 +76,7 @@ class TeamsPoliciesMapper extends React.Component {
     await this.fetchAllAvailablePolicies()
     await this.fetchTeamPolicies(this.props.id)
 
-    await this.setStateAsync(state => {
+    return this.setStateAsync(state => {
       return {
         allPolicies: state.allPolicies.filter(
           policy =>

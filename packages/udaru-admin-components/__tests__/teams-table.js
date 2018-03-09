@@ -22,7 +22,7 @@ jest.mock('react-bootstrap-table', () => {
   }
 })
 
-it('should render with props', done => {
+it('should render with props', async () => {
   global.fetch = jest.fn().mockImplementation(
     () =>
       new Promise((resolve, reject) => {
@@ -39,15 +39,14 @@ it('should render with props', done => {
   )
 
   const component = renderer.create(<TeamsTable />)
-  process.nextTick(() => {
-    const tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
-    global.fetch.mockRestore()
-    done()
-  })
+  const instance = component.root.instance
+  await instance.componentDidMount()
+  const tree = component.toJSON()
+  expect(tree).toMatchSnapshot()
+  global.fetch.mockRestore()
 })
 
-it('should render with error state', done => {
+it('should render with error state', async () => {
   global.fetch = jest.fn().mockImplementation(
     () =>
       new Promise((resolve, reject) => {
@@ -61,16 +60,17 @@ it('should render with error state', done => {
   )
 
   const component = renderer.create(<TeamsTable />)
-  process.nextTick(() => {
-    const tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
+  const instance = component.root.instance
 
-    global.fetch.mockRestore()
-    done()
-  })
+  await instance.componentDidMount()
+
+  const tree = component.toJSON()
+  expect(tree).toMatchSnapshot()
+
+  global.fetch.mockRestore()
 })
 
-it('should render create team', done => {
+it('should render create team', async () => {
   global.fetch = jest.fn().mockImplementation(
     () =>
       new Promise((resolve, reject) => {
@@ -85,18 +85,16 @@ it('should render create team', done => {
 
   const component = renderer.create(<TeamsTable />)
   const instance = component.root.instance
+  await instance.componentDidMount()
 
-  process.nextTick(() => {
-    expect(instance.state.view).toBe('LIST')
-    instance.onCreate()
-    expect(instance.state.view).toBe('CREATE')
+  expect(instance.state.view).toBe('LIST')
+  instance.onCreate()
+  expect(instance.state.view).toBe('CREATE')
 
-    const tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
+  const tree = component.toJSON()
+  expect(tree).toMatchSnapshot()
 
-    global.fetch.mockRestore()
-    done()
-  })
+  global.fetch.mockRestore()
 })
 
 it('should render view team', async () => {
@@ -181,7 +179,7 @@ it('should render view parent team', async () => {
   global.fetch.mockRestore()
 })
 
-it('should render update team', done => {
+it('should render update team', async () => {
   global.fetch = jest.fn().mockImplementation(
     () =>
       new Promise((resolve, reject) => {
@@ -196,33 +194,29 @@ it('should render update team', done => {
 
   const component = renderer.create(<TeamsTable />)
   const instance = component.root.instance
+  await instance.componentDidMount()
 
-  process.nextTick(() => {
-    expect(instance.state.view).toBe('LIST')
+  expect(instance.state.view).toBe('LIST')
 
-    instance.setState({
-      selectedRow: {
-        id: '1',
-        name: 'Team Name',
-        description: 'Team Description'
-      }
-    })
-    instance.onUpdate()
-
-    expect(instance.state.view).toBe('UPDATE')
-
-    process.nextTick(() => {
-      const json = component.toJSON()
-
-      expect(json).toMatchSnapshot()
-
-      global.fetch.mockRestore()
-      done()
-    })
+  instance.setState({
+    selectedRow: {
+      id: '1',
+      name: 'Team Name',
+      description: 'Team Description'
+    }
   })
+  instance.onUpdate()
+
+  expect(instance.state.view).toBe('UPDATE')
+
+  const json = component.toJSON()
+
+  expect(json).toMatchSnapshot()
+
+  global.fetch.mockRestore()
 })
 
-it('should render delete team', done => {
+it('should render delete team', async () => {
   global.fetch = jest.fn().mockImplementation(
     () =>
       new Promise((resolve, reject) => {
@@ -237,33 +231,28 @@ it('should render delete team', done => {
 
   const component = renderer.create(<TeamsTable />)
   const instance = component.root.instance
+  await instance.componentDidMount()
 
-  process.nextTick(() => {
-    expect(instance.state.view).toBe('LIST')
+  expect(instance.state.view).toBe('LIST')
 
-    instance.setState({
-      selectedRow: {
-        id: '1',
-        name: 'Team Name',
-        description: 'Team Description'
-      }
-    })
-    instance.onDelete()
-
-    expect(instance.state.view).toBe('DELETE')
-
-    process.nextTick(() => {
-      const json = component.toJSON()
-
-      expect(json).toMatchSnapshot()
-
-      global.fetch.mockRestore()
-      done()
-    })
+  instance.setState({
+    selectedRow: {
+      id: '1',
+      name: 'Team Name',
+      description: 'Team Description'
+    }
   })
+
+  await instance.onDelete()
+  expect(instance.state.view).toBe('DELETE')
+
+  const json = component.toJSON()
+  expect(json).toMatchSnapshot()
+
+  global.fetch.mockRestore()
 })
 
-it('should render error in unknown state', async done => {
+it('should render error in unknown state', async () => {
   global.fetch = jest.fn().mockImplementation(
     () =>
       new Promise((resolve, reject) => {
@@ -278,6 +267,7 @@ it('should render error in unknown state', async done => {
 
   const component = renderer.create(<TeamsTable />)
   const instance = component.root.instance
+  await component.getInstance().componentDidMount()
 
   expect(instance.state.view).toBe('LIST')
 
@@ -285,14 +275,10 @@ it('should render error in unknown state', async done => {
     view: 'IDONTKNOWTHISSTATE'
   })
 
-  process.nextTick(() => {
-    const json = component.toJSON()
+  const json = component.toJSON()
+  expect(json).toMatchSnapshot()
 
-    expect(json).toMatchSnapshot()
-
-    global.fetch.mockRestore()
-    done()
-  })
+  global.fetch.mockRestore()
 })
 
 it('should render create and then go back to list and clear selectedRow', async () => {
@@ -328,7 +314,7 @@ it('should render create and then go back to list and clear selectedRow', async 
   global.fetch.mockRestore()
 })
 
-it('should reset search change if text is blank', done => {
+it('should reset search change if text is blank', () => {
   global.fetch = jest.fn().mockImplementation(
     () =>
       new Promise((resolve, reject) => {
@@ -353,7 +339,6 @@ it('should reset search change if text is blank', done => {
   expect(instance.state.dataTotalSize).toEqual(1)
 
   global.fetch.mockRestore()
-  done()
 })
 
 it('should search for value', async () => {
@@ -444,7 +429,7 @@ it('should handle error response', async () => {
   global.fetch.mockRestore()
 })
 
-it('should handle select row', done => {
+it('should handle select row', () => {
   global.fetch = jest.fn().mockImplementation(
     () =>
       new Promise((resolve, reject) => {
@@ -469,7 +454,6 @@ it('should handle select row', done => {
   expect(instance.state.selectedRow).toBe('row-1')
 
   global.fetch.mockRestore()
-  done()
 })
 
 it('should handle page change', async () => {

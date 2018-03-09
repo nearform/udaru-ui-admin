@@ -74,7 +74,7 @@ class TeamUsers extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchTeamUsers(
+    return this.fetchTeamUsers(
       this.props.id,
       this.state.currentPage,
       this.state.sizePerPage

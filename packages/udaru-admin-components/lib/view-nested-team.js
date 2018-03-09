@@ -87,7 +87,7 @@ class ViewNestedTeam extends React.Component {
     const { parentTeamId } = this.props
     const { currentPage, sizePerPage } = this.state
 
-    this.fetchTeam(parentTeamId, currentPage, sizePerPage)
+    return this.fetchTeam(parentTeamId, currentPage, sizePerPage)
   }
 
   componentWillUnmount() {

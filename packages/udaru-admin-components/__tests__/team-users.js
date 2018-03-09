@@ -53,7 +53,7 @@ it('should render correctly', async () => {
   global.fetch.mockRestore()
 })
 
-it('should load users correctly', done => {
+it('should load users correctly', async () => {
   const userData = {
     data: [{ id: 2, name: 'two' }],
     total: 1
@@ -69,23 +69,22 @@ it('should load users correctly', done => {
         })
       })
   )
+
   const component = renderer.create(<TeamUsers />)
   const instance = component.root.instance
-
   expect(instance.state.loading).toBeTruthy()
 
-  process.nextTick(() => {
-    const { loading, users } = instance.state
+  await instance.componentDidMount()
 
-    expect(loading).toBeFalsy()
-    expect(users).toEqual(userData)
+  const { loading, users } = instance.state
 
-    global.fetch.mockRestore()
-    done()
-  })
+  expect(loading).toBeFalsy()
+  expect(users).toEqual(userData)
+
+  global.fetch.mockRestore()
 })
 
-it('should handle loading error', done => {
+it('should handle loading error', async () => {
   global.fetch = jest.fn().mockImplementation(
     () =>
       new Promise((resolve, reject) => {
@@ -105,15 +104,14 @@ it('should handle loading error', done => {
 
   expect(instance.state.loading).toBeTruthy()
 
-  process.nextTick(() => {
-    const { loading, error } = instance.state
+  await instance.componentDidMount()
 
-    expect(loading).toBeFalsy()
-    expect(error).toEqual(new Error('error loading the team users.'))
+  const { loading, error } = instance.state
 
-    global.fetch.mockRestore()
-    done()
-  })
+  expect(loading).toBeFalsy()
+  expect(error).toEqual(new Error('error loading the team users.'))
+
+  global.fetch.mockRestore()
 })
 
 it('should handle component unmount with running promises', async () => {

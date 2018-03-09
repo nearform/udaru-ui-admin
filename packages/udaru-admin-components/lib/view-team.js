@@ -61,12 +61,12 @@ class ViewTeam extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.id !== nextProps.id) {
-      this.fetchTeam(nextProps.id)
+      return this.fetchTeam(nextProps.id)
     }
   }
 
   componentDidMount() {
-    this.fetchTeam(this.props.id)
+    return this.fetchTeam(this.props.id)
   }
 
   componentWillUnmount() {

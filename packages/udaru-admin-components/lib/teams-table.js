@@ -116,7 +116,7 @@ class TeamsTable extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchTeams(this.state.currentPage, this.state.sizePerPage)
+    return this.fetchTeams(this.state.currentPage, this.state.sizePerPage)
   }
 
   onPageChange = this.onPageChange.bind(this)

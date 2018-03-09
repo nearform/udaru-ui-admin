@@ -22,7 +22,7 @@ jest.mock('react-bootstrap-table', () => {
   }
 })
 
-it('should render with default props', done => {
+it('should render with default props', async () => {
   global.fetch = jest.fn().mockImplementation(
     () =>
       new Promise((resolve, reject) => {
@@ -38,18 +38,17 @@ it('should render with default props', done => {
       })
   )
   const component = renderer.create(<ViewNestedTeam />)
+  const instance = component.root.instance
+  await instance.componentDidMount()
 
-  process.nextTick(() => {
-    const tree = component.toJSON()
+  const tree = component.toJSON()
 
-    expect(tree).toMatchSnapshot()
+  expect(tree).toMatchSnapshot()
 
-    global.fetch.mockRestore()
-    done()
-  })
+  global.fetch.mockRestore()
 })
 
-it('should load data successfully', done => {
+it('should load data successfully', async () => {
   const data = [{ id: 1 }]
   global.fetch = jest.fn().mockImplementation(
     () =>
@@ -78,29 +77,26 @@ it('should load data successfully', done => {
   const instance = component.root.instance
 
   expect(instance.state.loading).toBeTruthy()
+  await instance.componentDidMount()
 
-  process.nextTick(() => {
-    const { loading, data, total, error } = instance.state
-    expect(global.fetch.mock.calls[0][0]).toEqual(
-      'my-udaru-url/authorization/teams/1/nested?page=1&limit=5'
-    )
-    expect(global.fetch.mock.calls[0][1]).toEqual({
-      headers: {
-        authorization: 'my-authorization',
-        org: 'my-org'
-      }
-    })
-    expect(loading).toBeFalsy()
-    expect(data).toBe(data)
-    expect(total).toBe(1)
-    expect(error).toBeNull()
-
-    global.fetch.mockRestore()
-    done()
+  expect(global.fetch.mock.calls[0][0]).toEqual(
+    'my-udaru-url/authorization/teams/1/nested?page=1&limit=5'
+  )
+  expect(global.fetch.mock.calls[0][1]).toEqual({
+    headers: {
+      authorization: 'my-authorization',
+      org: 'my-org'
+    }
   })
+  expect(instance.state.loading).toBeFalsy()
+  expect(instance.state.data).toBe(data)
+  expect(instance.state.total).toBe(1)
+  expect(instance.state.error).toBeNull()
+
+  global.fetch.mockRestore()
 })
 
-it('should handle error when loading data', done => {
+it('should handle error when loading data', async () => {
   global.fetch = jest.fn().mockImplementation(
     () =>
       new Promise((resolve, reject) => {
@@ -125,19 +121,15 @@ it('should handle error when loading data', done => {
   const instance = component.root.instance
 
   expect(instance.state.loading).toBeTruthy()
+  await instance.componentDidMount()
 
-  process.nextTick(() => {
-    const { loading, data, total, error } = instance.state
+  expect(instance.state.loading).toBeFalsy()
+  expect(instance.state.data).toEqual([])
+  expect(instance.state.total).toBe(0)
+  expect(instance.state.error).toBeDefined()
+  expect(instance.state.error.message).toBe('there was an error loading team.')
 
-    expect(loading).toBeFalsy()
-    expect(data).toEqual([])
-    expect(total).toBe(0)
-    expect(error).toBeDefined()
-    expect(error.message).toBe('there was an error loading team.')
-
-    global.fetch.mockRestore()
-    done()
-  })
+  global.fetch.mockRestore()
 })
 
 it('should cancel all promises running when component is unmounted', async () => {
