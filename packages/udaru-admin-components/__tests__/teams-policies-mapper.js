@@ -142,7 +142,7 @@ it('should warn user if no onCancel function is passed into component', () => {
   spy.mockRestore()
 })
 
-it('should handle component unmount with running promises', done => {
+it('should handle component unmount with running promises', async () => {
   global.fetch = jest.fn().mockImplementation(
     () =>
       new Promise((resolve, reject) => {
@@ -162,17 +162,15 @@ it('should handle component unmount with running promises', done => {
   instance._timers.push(setTimeout(jest.fn(), 3000))
   expect(instance.state.loading).toBeTruthy()
 
-  process.nextTick(() => {
-    component.unmount()
-    const { _runningPromises } = instance
-    expect(_runningPromises.every(p => p.hasCanceled())).toBeTruthy()
+  await component.unmount()
 
-    global.fetch.mockRestore()
-    done()
-  })
+  expect(instance._runningPromises.every(p => p.hasCanceled())).toBeTruthy()
+  expect(instance.setStateAsync()).toBe(false)
+
+  global.fetch.mockRestore()
 })
 
-it('should handle component unmount with running promises', done => {
+it('should handle component unmount with running promises', async () => {
   global.fetch = jest.fn().mockImplementation(
     () =>
       new Promise((resolve, reject) => {
@@ -192,17 +190,14 @@ it('should handle component unmount with running promises', done => {
   instance._timers.push(setTimeout(jest.fn(), 3000))
   expect(instance.state.loading).toBeTruthy()
 
-  process.nextTick(() => {
-    component.unmount()
-    const { _runningPromises } = instance
-    expect(_runningPromises.every(p => p.hasCanceled())).toBeTruthy()
+  await component.unmount()
+  const { _runningPromises } = instance
+  expect(_runningPromises.every(p => p.hasCanceled())).toBeTruthy()
 
-    global.fetch.mockRestore()
-    done()
-  })
+  global.fetch.mockRestore()
 })
 
-it('should set state of success to false on dismiss', done => {
+it('should set state of success to false on dismiss', () => {
   global.fetch = jest.fn().mockImplementation(
     () =>
       new Promise((resolve, reject) => {
@@ -229,7 +224,6 @@ it('should set state of success to false on dismiss', done => {
   expect(instance.state.success).toBeFalsy()
 
   global.fetch.mockRestore()
-  done()
 })
 
 it('should sort names', () => {
@@ -251,7 +245,7 @@ it('should map policies', () => {
   expect(json).toMatchSnapshot()
 })
 
-it('should load policies', done => {
+it('should load policies', async () => {
   global.fetch = jest.fn().mockImplementation((...args) => {
     return new Promise((resolve, reject) => {
       resolve({
@@ -275,38 +269,36 @@ it('should load policies', done => {
     />
   )
   const instance = component.root.instance
+  await new Promise(resolve => process.nextTick(resolve))
 
-  process.nextTick(() => {
-    expect(global.fetch).toHaveBeenCalledTimes(2)
-    expect(global.fetch.mock.calls[0][0]).toEqual(
-      'my-udaru-url/authorization/policies'
-    )
-    expect(global.fetch.mock.calls[0][1]).toEqual({
-      headers: {
-        authorization: 'my-authorization',
-        org: 'my-org'
-      }
-    })
-    expect(global.fetch.mock.calls[1][0]).toEqual(
-      'my-udaru-url/authorization/teams/123'
-    )
-    expect(global.fetch.mock.calls[1][1]).toEqual({
-      headers: {
-        authorization: 'my-authorization',
-        org: 'my-org'
-      }
-    })
-
-    expect(instance.state.teamPolicies).toEqual(teamPolicies.policies)
-    expect(instance.state.allPolicies.map(p => p.id)).toEqual([
-      'policyId2',
-      'policyId13'
-    ])
-    done()
+  expect(global.fetch).toHaveBeenCalledTimes(2)
+  expect(global.fetch.mock.calls[0][0]).toEqual(
+    'my-udaru-url/authorization/policies'
+  )
+  expect(global.fetch.mock.calls[0][1]).toEqual({
+    headers: {
+      authorization: 'my-authorization',
+      org: 'my-org'
+    }
   })
+  expect(global.fetch.mock.calls[1][0]).toEqual(
+    'my-udaru-url/authorization/teams/123'
+  )
+  expect(global.fetch.mock.calls[1][1]).toEqual({
+    headers: {
+      authorization: 'my-authorization',
+      org: 'my-org'
+    }
+  })
+
+  expect(instance.state.teamPolicies).toEqual(teamPolicies.policies)
+  expect(instance.state.allPolicies.map(p => p.id)).toEqual([
+    'policyId2',
+    'policyId13'
+  ])
 })
 
-it('should move policies right and left', done => {
+it('should move policies right and left', async () => {
   global.fetch = jest.fn().mockImplementation((...args) => {
     return new Promise((resolve, reject) => {
       resolve({
@@ -330,59 +322,56 @@ it('should move policies right and left', done => {
     />
   )
   const instance = component.root.instance
+  await new Promise(resolve => process.nextTick(resolve))
 
-  process.nextTick(() => {
-    expect(instance.state.teamPolicies).toEqual(teamPolicies.policies)
-    expect(instance.state.allPolicies.map(p => p.id)).toEqual([
-      'policyId2',
-      'policyId13'
-    ])
+  expect(instance.state.teamPolicies).toEqual(teamPolicies.policies)
+  expect(instance.state.allPolicies.map(p => p.id)).toEqual([
+    'policyId2',
+    'policyId13'
+  ])
 
-    instance.setSelectedAllPolicies({
-      target: {
-        selectedOptions: [
-          {
-            value: 'policyId2'
-          }
-        ]
-      }
-    })
-
-    instance.onMoveRight()
-
-    expect(
-      instance.state.teamPolicies.find(p => p.id === 'policyId2')
-    ).toBeDefined()
-
-    expect(
-      instance.state.allPolicies.find(p => p.id === 'policyId2')
-    ).not.toBeDefined()
-
-    instance.setSelectedTeamPolicies({
-      target: {
-        selectedOptions: [
-          {
-            value: 'policyId2'
-          }
-        ]
-      }
-    })
-
-    instance.onMoveLeft()
-
-    expect(
-      instance.state.teamPolicies.find(p => p.id === 'policyId2')
-    ).not.toBeDefined()
-
-    expect(
-      instance.state.allPolicies.find(p => p.id === 'policyId2')
-    ).toBeDefined()
-
-    done()
+  instance.setSelectedAllPolicies({
+    target: {
+      selectedOptions: [
+        {
+          value: 'policyId2'
+        }
+      ]
+    }
   })
+
+  instance.onMoveRight()
+
+  expect(
+    instance.state.teamPolicies.find(p => p.id === 'policyId2')
+  ).toBeDefined()
+
+  expect(
+    instance.state.allPolicies.find(p => p.id === 'policyId2')
+  ).not.toBeDefined()
+
+  instance.setSelectedTeamPolicies({
+    target: {
+      selectedOptions: [
+        {
+          value: 'policyId2'
+        }
+      ]
+    }
+  })
+
+  instance.onMoveLeft()
+
+  expect(
+    instance.state.teamPolicies.find(p => p.id === 'policyId2')
+  ).not.toBeDefined()
+
+  expect(
+    instance.state.allPolicies.find(p => p.id === 'policyId2')
+  ).toBeDefined()
 })
 
-it('should handle error if teams fails to load', done => {
+it('should handle error if teams fails to load', async () => {
   global.fetch = jest.fn().mockImplementation((...args) => {
     if (args[0].includes('teams')) {
       return new Promise((resolve, reject) => {
@@ -414,19 +403,16 @@ it('should handle error if teams fails to load', done => {
     />
   )
   const instance = component.root.instance
+  await new Promise(resolve => process.nextTick(resolve))
 
-  process.nextTick(() => {
-    expect(instance.state.success).toBe(false)
-    expect(instance.state.error).toBeDefined()
-    expect(instance.state.error.message).toBe(
-      'there was an error fetching team policies.'
-    )
-
-    done()
-  })
+  expect(instance.state.success).toBe(false)
+  expect(instance.state.error).toBeDefined()
+  expect(instance.state.error.message).toBe(
+    'there was an error fetching team policies.'
+  )
 })
 
-it('should handle error if all policies fails to load', done => {
+it('should handle error if all policies fails to load', async () => {
   global.fetch = jest.fn().mockImplementation((...args) => {
     if (args[0].includes('teams')) {
       return new Promise((resolve, reject) => {
@@ -458,20 +444,17 @@ it('should handle error if all policies fails to load', done => {
     />
   )
   const instance = component.root.instance
+  await new Promise(resolve => process.nextTick(resolve))
 
-  process.nextTick(() => {
-    const { success, loading, error } = instance.state
+  const { success, loading, error } = instance.state
 
-    expect(success).toBeFalsy()
-    expect(loading).toBeFalsy()
-    expect(error).toBeDefined()
-    expect(error.message).toBe('there was an error fetching all policies.')
-
-    done()
-  })
+  expect(success).toBeFalsy()
+  expect(loading).toBeFalsy()
+  expect(error).toBeDefined()
+  expect(error.message).toBe('there was an error fetching all policies.')
 })
 
-it('should save team policies successfully', done => {
+it('should save team policies successfully', async () => {
   jest.useFakeTimers()
 
   global.fetch = jest.fn().mockImplementation((...args) => {
@@ -499,19 +482,15 @@ it('should save team policies successfully', done => {
   const instance = component.root.instance
   const preventDefault = jest.fn()
   const e = { preventDefault }
-  instance.onSubmit(e)
+  await instance.onSubmit(e)
 
-  process.nextTick(() => {
-    expect(preventDefault).toHaveBeenCalled()
-    expect(instance.state.success).toBeTruthy()
-    jest.advanceTimersByTime(3001)
-    expect(instance.state.success).toBeFalsy()
-
-    done()
-  })
+  expect(preventDefault).toHaveBeenCalled()
+  expect(instance.state.success).toBeTruthy()
+  jest.advanceTimersByTime(3001)
+  expect(instance.state.success).toBeFalsy()
 })
 
-it('should handle error saving team policies', done => {
+it('should handle error saving team policies', async () => {
   jest.useFakeTimers()
 
   global.fetch = jest.fn().mockImplementation((...args) => {
@@ -546,18 +525,14 @@ it('should handle error saving team policies', done => {
   const instance = component.root.instance
   const preventDefault = jest.fn()
   const e = { preventDefault }
-  instance.onSubmit(e)
+  await instance.onSubmit(e)
 
-  process.nextTick(() => {
-    expect(preventDefault).toHaveBeenCalled()
-    expect(instance.state.success).toBeFalsy()
-    expect(instance.state.error.message).toBe('there was an error saving team.')
-
-    done()
-  })
+  expect(preventDefault).toHaveBeenCalled()
+  expect(instance.state.success).toBeFalsy()
+  expect(instance.state.error.message).toBe('there was an error saving team.')
 })
 
-it('should cancel promise when unmounting component while saving', done => {
+it('should cancel promise when unmounting component while saving', async () => {
   jest.useFakeTimers()
 
   global.fetch = jest.fn().mockImplementation((...args) => {
@@ -585,14 +560,11 @@ it('should cancel promise when unmounting component while saving', done => {
   const instance = component.root.instance
   const preventDefault = jest.fn()
   const e = { preventDefault }
+  await new Promise(resolve => process.nextTick(resolve))
 
-  process.nextTick(() => {
-    instance.onSubmit(e)
-    const { _runningPromises } = instance
-    _runningPromises[2].cancel()
+  instance.onSubmit(e)
+  const { _runningPromises } = instance
+  _runningPromises[2].cancel()
 
-    expect(_runningPromises[2].hasCanceled()).toBeTruthy()
-
-    done()
-  })
+  expect(_runningPromises[2].hasCanceled()).toBeTruthy()
 })

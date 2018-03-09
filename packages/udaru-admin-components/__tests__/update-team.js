@@ -65,7 +65,7 @@ it('should throw error in render and catch in error boundary', () => {
   expect(logError).toHaveBeenCalledWith(error, info)
 })
 
-it('should successfully submit form', done => {
+it('should successfully submit form', async () => {
   const teamData = {
     id: '1',
     name: 'Team 1',
@@ -99,26 +99,23 @@ it('should successfully submit form', done => {
   const instance = component.root.instance
   expect(instance.state.success).toBeFalsy()
 
-  instance.onFormSubmit(teamToUpdate)
+  await instance.onFormSubmit(teamToUpdate)
 
-  process.nextTick(() => {
-    const {
-      success,
-      nonDismissableError,
-      hasError,
-      errorMessage
-    } = instance.state
-    expect(success).toBeTruthy()
-    expect(hasError).toBeFalsy()
-    expect(nonDismissableError).toBeFalsy()
-    expect(errorMessage).toBe('')
+  const {
+    success,
+    nonDismissableError,
+    hasError,
+    errorMessage
+  } = instance.state
+  expect(success).toBeTruthy()
+  expect(hasError).toBeFalsy()
+  expect(nonDismissableError).toBeFalsy()
+  expect(errorMessage).toBe('')
 
-    done()
-    global.fetch.mockRestore()
-  })
+  global.fetch.mockRestore()
 })
 
-it('should error if no url set', done => {
+it('should error if no url set', async () => {
   const component = renderer.create(
     <UpdateTeam
       authorization="my-authorization"
@@ -130,26 +127,22 @@ it('should error if no url set', done => {
 
   expect(instance.state.success).toBeFalsy()
 
-  instance.onFormSubmit({ name: '', description: '' })
+  await instance.onFormSubmit({ name: '', description: '' })
 
-  process.nextTick(() => {
-    const {
-      success,
-      nonDismissableError,
-      hasError,
-      errorMessage
-    } = instance.state
+  const {
+    success,
+    nonDismissableError,
+    hasError,
+    errorMessage
+  } = instance.state
 
-    expect(success).toBeFalsy()
-    expect(hasError).toBeTruthy()
-    expect(nonDismissableError).toBeFalsy()
-    expect(errorMessage).toBe('Udaru URL prop not passed into component.')
-
-    done()
-  })
+  expect(success).toBeFalsy()
+  expect(hasError).toBeTruthy()
+  expect(nonDismissableError).toBeFalsy()
+  expect(errorMessage).toBe('Udaru URL prop not passed into component.')
 })
 
-it('should error if no authorization set', done => {
+it('should error if no authorization set', async () => {
   const component = renderer.create(
     <UpdateTeam udaruUrl="my-udaru-url" org="my-org" team={{ id: '1' }} />
   )
@@ -157,26 +150,22 @@ it('should error if no authorization set', done => {
 
   expect(instance.state.success).toBeFalsy()
 
-  instance.onFormSubmit({ name: '', description: '' })
+  await instance.onFormSubmit({ name: '', description: '' })
 
-  process.nextTick(() => {
-    const {
-      success,
-      nonDismissableError,
-      hasError,
-      errorMessage
-    } = instance.state
+  const {
+    success,
+    nonDismissableError,
+    hasError,
+    errorMessage
+  } = instance.state
 
-    expect(success).toBeFalsy()
-    expect(hasError).toBeTruthy()
-    expect(nonDismissableError).toBeFalsy()
-    expect(errorMessage).toBe('Authorization prop not passed into component.')
-
-    done()
-  })
+  expect(success).toBeFalsy()
+  expect(hasError).toBeTruthy()
+  expect(nonDismissableError).toBeFalsy()
+  expect(errorMessage).toBe('Authorization prop not passed into component.')
 })
 
-it('should handle error when updating team', done => {
+it('should handle error when updating team', async () => {
   const teamData = {
     id: '1',
     name: 'Team 1',
@@ -210,22 +199,19 @@ it('should handle error when updating team', done => {
   const instance = component.root.instance
   expect(instance.state.success).toBeFalsy()
 
-  instance.onFormSubmit(teamToUpdate)
+  await instance.onFormSubmit(teamToUpdate)
 
-  process.nextTick(() => {
-    const {
-      success,
-      nonDismissableError,
-      hasError,
-      errorMessage
-    } = instance.state
+  const {
+    success,
+    nonDismissableError,
+    hasError,
+    errorMessage
+  } = instance.state
 
-    expect(success).toBeFalsy()
-    expect(hasError).toBeTruthy()
-    expect(nonDismissableError).toBeFalsy()
-    expect(errorMessage).toBe('error saving that team.')
+  expect(success).toBeFalsy()
+  expect(hasError).toBeTruthy()
+  expect(nonDismissableError).toBeFalsy()
+  expect(errorMessage).toBe('error saving that team.')
 
-    done()
-    global.fetch.mockRestore()
-  })
+  global.fetch.mockRestore()
 })

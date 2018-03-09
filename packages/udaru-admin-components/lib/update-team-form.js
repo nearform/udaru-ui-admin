@@ -41,7 +41,7 @@ class UpdateTeamForm extends React.Component {
   }
 
   componentDidMount() {
-    this.validateForm()
+    return this.validateForm()
   }
 
   isValidForm = this.isValidForm.bind(this)

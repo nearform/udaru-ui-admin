@@ -22,7 +22,7 @@ jest.mock('react-bootstrap-table', () => {
   }
 })
 
-it('should render with default props', done => {
+it('should render with default props', async () => {
   global.fetch = jest.fn().mockImplementation(
     () =>
       new Promise((resolve, reject) => {
@@ -41,18 +41,19 @@ it('should render with default props', done => {
   )
 
   const component = renderer.create(<ViewTeam />)
+  const instance = component.root.instance
 
-  process.nextTick(() => {
-    const tree = component.toJSON()
+  await instance.componentDidMount()
+  await new Promise(resolve => process.nextTick(resolve))
 
-    expect(tree).toMatchSnapshot()
+  const tree = component.toJSON()
 
-    global.fetch.mockRestore()
-    done()
-  })
+  expect(tree).toMatchSnapshot()
+
+  global.fetch.mockRestore()
 })
 
-it('should render with parent id set', done => {
+it('should render with parent id set', async () => {
   global.fetch = jest.fn().mockImplementation(
     () =>
       new Promise((resolve, reject) => {
@@ -70,17 +71,17 @@ it('should render with parent id set', done => {
   const component = renderer.create(
     <ViewTeam onViewParent={jest.fn()} parentTeamId="1" />
   )
+  const instance = component.root.instance
+  await instance.componentDidMount()
+  await new Promise(resolve => process.nextTick(resolve))
 
-  process.nextTick(() => {
-    const tree = component.toJSON()
+  const tree = component.toJSON()
 
-    expect(tree).toMatchSnapshot()
-    global.fetch.mockRestore()
-    done()
-  })
+  expect(tree).toMatchSnapshot()
+  global.fetch.mockRestore()
 })
 
-it('should call onViewParent when button is pressed', done => {
+it('should call onViewParent when button is pressed', async () => {
   global.fetch = jest.fn().mockImplementation(
     () =>
       new Promise((resolve, reject) => {
@@ -96,20 +97,19 @@ it('should call onViewParent when button is pressed', done => {
   const component = renderer.create(
     <ViewTeam onViewParent={onViewParent} parentTeamId="1" />
   )
+  const instance = component.root.instance
+  await instance.componentDidMount()
 
-  process.nextTick(() => {
-    const btn = component.root.findAllByType('button')
-    btn[0].props.onClick()
+  const btn = component.root.findAllByType('button')
+  btn[0].props.onClick()
 
-    expect(onViewParent).toHaveBeenCalled()
-    expect(onViewParent).toHaveBeenCalledWith('1')
+  expect(onViewParent).toHaveBeenCalled()
+  expect(onViewParent).toHaveBeenCalledWith('1')
 
-    global.fetch.mockRestore()
-    done()
-  })
+  global.fetch.mockRestore()
 })
 
-it('should load data successfully', done => {
+it('should load data successfully', async () => {
   const teamData = {
     id: '1',
     name: 'Admins',
@@ -166,20 +166,18 @@ it('should load data successfully', done => {
       org: 'my-org'
     }
   })
+  await new Promise(resolve => process.nextTick(resolve))
 
-  process.nextTick(() => {
-    const { loading, error, team } = instance.state
+  const { loading, error, team } = instance.state
 
-    expect(loading).toBeFalsy()
-    expect(error).toBeNull()
-    expect(team).toBe(teamData)
+  expect(loading).toBeFalsy()
+  expect(error).toBeNull()
+  expect(team).toBe(teamData)
 
-    global.fetch.mockRestore()
-    done()
-  })
+  global.fetch.mockRestore()
 })
 
-it('should handle error when loading data', done => {
+it('should handle error when loading data', async () => {
   global.fetch = jest.fn().mockImplementation(
     () =>
       new Promise((resolve, reject) => {
@@ -205,20 +203,19 @@ it('should handle error when loading data', done => {
 
   expect(instance.state.loading).toBeTruthy()
 
-  process.nextTick(() => {
-    const { loading, error, team } = instance.state
+  await instance.componentDidMount()
 
-    expect(loading).toBeFalsy()
-    expect(error).toBeDefined()
-    expect(error.message).toBe('there was an error loading team details.')
-    expect(team).toBeNull()
+  const { loading, error, team } = instance.state
 
-    global.fetch.mockRestore()
-    done()
-  })
+  expect(loading).toBeFalsy()
+  expect(error).toBeDefined()
+  expect(error.message).toBe('there was an error loading team details.')
+  expect(team).toBeNull()
+
+  global.fetch.mockRestore()
 })
 
-it('component should reject all running promises when unmounting component', done => {
+it('component should reject all running promises when unmounting component', async () => {
   global.fetch = jest.fn().mockImplementation(
     () =>
       new Promise((resolve, reject) => {
@@ -242,19 +239,14 @@ it('component should reject all running promises when unmounting component', don
 
   const instance = component.root.instance
 
-  component.unmount()
+  await component.unmount()
 
-  process.nextTick(() => {
-    const { _runningPromises } = instance
+  expect(instance._runningPromises.every(p => p.hasCanceled())).toBeTruthy()
 
-    expect(_runningPromises.every(p => p.hasCanceled())).toBeTruthy()
-
-    global.fetch.mockRestore()
-    done()
-  })
+  global.fetch.mockRestore()
 })
 
-it('should NOT refetch teams if ids are same on re-render', done => {
+it('should NOT refetch teams if ids are same on re-render', async () => {
   const teamData = { id: '1' }
   global.fetch = jest.fn().mockImplementation(
     () =>
@@ -277,37 +269,28 @@ it('should NOT refetch teams if ids are same on re-render', done => {
     />
   )
   const instance = component.root.instance
+  await new Promise(resolve => process.nextTick(resolve))
 
-  process.nextTick(() => {
-    const { loading, team } = instance.state
+  expect(instance.state.loading).toBeFalsy()
+  expect(instance.state.team).toBe(teamData)
 
-    expect(loading).toBeFalsy()
-    expect(team).toBe(teamData)
+  await component.update(
+    <ViewTeam
+      udaruUrl="my-udaru-url"
+      authorization="my-authorization"
+      org="my-org"
+      id="1"
+    />
+  )
 
-    component.update(
-      <ViewTeam
-        udaruUrl="my-udaru-url"
-        authorization="my-authorization"
-        org="my-org"
-        id="1"
-      />
-    )
+  expect(instance.state.loading).toBeFalsy()
+  expect(instance.state.team).toBe(teamData)
+  expect(instance._runningPromises.length).toBe(1)
 
-    process.nextTick(() => {
-      const { _runningPromises } = instance
-      const { loading, team } = instance.state
-
-      expect(loading).toBeFalsy()
-      expect(team).toBe(teamData)
-      expect(_runningPromises.length).toBe(1)
-
-      global.fetch.mockRestore()
-      done()
-    })
-  })
+  global.fetch.mockRestore()
 })
 
-it('SHOULD refetch teams if ids are same on re-render', done => {
+it('SHOULD refetch teams if ids are same on re-render', async () => {
   const teamData = { id: '1' }
   global.fetch = jest.fn().mockImplementation(
     () =>
@@ -330,31 +313,22 @@ it('SHOULD refetch teams if ids are same on re-render', done => {
     />
   )
   const instance = component.root.instance
+  await new Promise(resolve => process.nextTick(resolve))
 
-  process.nextTick(() => {
-    const { loading, team } = instance.state
+  expect(instance.state.loading).toBeFalsy()
+  expect(instance.state.team).toBe(teamData)
 
-    expect(loading).toBeFalsy()
-    expect(team).toBe(teamData)
+  await component.update(
+    <ViewTeam
+      udaruUrl="my-udaru-url"
+      authorization="my-authorization"
+      org="my-org"
+      id="2"
+    />
+  )
 
-    component.update(
-      <ViewTeam
-        udaruUrl="my-udaru-url"
-        authorization="my-authorization"
-        org="my-org"
-        id="2"
-      />
-    )
+  expect(instance.state.loading).toBeTruthy()
+  expect(instance._runningPromises.length).toBe(2)
 
-    process.nextTick(() => {
-      const { _runningPromises } = instance
-      const { loading } = instance.state
-
-      expect(loading).toBeTruthy()
-      expect(_runningPromises.length).toBe(2)
-
-      global.fetch.mockRestore()
-      done()
-    })
-  })
+  global.fetch.mockRestore()
 })
