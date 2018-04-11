@@ -1,6 +1,11 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import RemotePaging from 'remote-paging'
+import { createSerializer } from 'jest-emotion'
+import * as emotion from 'emotion'
+import theme from '../lib/components/theme'
+
+expect.addSnapshotSerializer(createSerializer(emotion))
 
 jest.mock('react-bootstrap-table', () => {
   return {
@@ -42,14 +47,14 @@ it('should render with props', () => {
     expandComponentOnClick: () => {}
   }
 
-  const component = renderer.create(<RemotePaging {...props} />)
+  const component = renderer.create(<RemotePaging theme={theme} {...props} />)
   const tree = component.toJSON()
 
   expect(tree).toMatchSnapshot()
 })
 
 it('should always set true to expandable row', () => {
-  const component = renderer.create(<RemotePaging />)
+  const component = renderer.create(<RemotePaging theme={theme} />)
   const instance = component.root.instance
 
   expect(instance.expandableRow()).toBeTruthy()
@@ -66,12 +71,15 @@ it('should always return ExpandComponent', () => {
   }
 
   const row = {
-    id: 1,
-    name: 'Team 1'
+    row: {
+      id: 1,
+      name: 'Team 1'
+    }
   }
 
   const component = renderer.create(
     <RemotePaging
+      theme={theme}
       ExpandComponent={() => <div />}
       udaruUrl={result.udaruUrl}
       authorization={result.authorization}
@@ -97,13 +105,13 @@ it('should always return ExpandComponent', () => {
   expect(udaruUrl).toBe(result.udaruUrl)
   expect(authorization).toBe(result.authorization)
   expect(org).toBe(result.org)
-  expect(parentTeamId).toBe(row.id)
-  expect(parentName).toBe(row.name)
+  expect(parentTeamId).toBe(row.row.id)
+  expect(parentName).toBe(row.row.name)
   expect(expandComponentOnClick).toBe(result.expandComponentOnClick)
 })
 
 it('should open and close row', () => {
-  const component = renderer.create(<RemotePaging />)
+  const component = renderer.create(<RemotePaging theme={theme} />)
   const instance = component.root.instance
 
   const expand = instance.expandColumnComponent({

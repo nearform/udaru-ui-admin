@@ -1,17 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {
-  Grid,
-  Row,
-  Col,
-  PageHeader,
+  Alert,
   Button,
-  Form,
-  FormGroup,
-  FormControl,
-  ControlLabel,
-  Alert
-} from 'react-bootstrap'
+  Box,
+  Heading,
+  Input,
+  InputGroup,
+  Label,
+  Text,
+  PageHeader
+} from './components'
 
 class CreateTeamForm extends React.Component {
   state = {
@@ -100,107 +99,80 @@ class CreateTeamForm extends React.Component {
 
   render() {
     return (
-      <Grid>
-        <Row>
-          <Col xs={12}>
-            <PageHeader>{this.props.headerText}</PageHeader>
-          </Col>
-          <Col xs={12}>
-            {this.state.formIncomplete && (
-              <Alert bsStyle="danger" onDismiss={this.onDismiss}>
-                All fields in <strong>RED</strong> are required.
-              </Alert>
-            )}
-          </Col>
-          <Col xs={12}>
-            <Form onSubmit={this.onSubmit}>
-              <FormGroup>
-                <h3>Team Details</h3>
-              </FormGroup>
-              <FormGroup
-                controlId="id"
-                validationState={this.state.validationState.id}
-              >
-                <ControlLabel>ID</ControlLabel>
-                <FormControl
-                  type="text"
-                  placeholder="ID"
-                  value={this.state.formValues.id}
-                  onChange={this.handleChange}
-                  onBlur={this.handleBlur}
-                />
-                <FormControl.Feedback />
-              </FormGroup>
-              <FormGroup
-                controlId="name"
-                validationState={this.state.validationState.name}
-              >
-                <ControlLabel>Name</ControlLabel>
-                <FormControl
-                  type="text"
-                  placeholder="Name"
-                  value={this.state.formValues.name}
-                  onChange={this.handleChange}
-                  onBlur={this.handleBlur}
-                />
-                <FormControl.Feedback />
-              </FormGroup>
-              <FormGroup
-                controlId="description"
-                validationState={this.state.validationState.description}
-              >
-                <ControlLabel>Description</ControlLabel>
-                <FormControl
-                  type="text"
-                  placeholder="Description"
-                  value={this.state.formValues.description}
-                  onChange={this.handleChange}
-                  onBlur={this.handleBlur}
-                />
-                <FormControl.Feedback />
-              </FormGroup>
-              <FormGroup>
-                <h3>Default Admin User</h3>
-              </FormGroup>
-              <FormGroup
-                controlId="userId"
-                validationState={this.state.validationState.userId}
-              >
-                <ControlLabel>User ID</ControlLabel>
-                <FormControl
-                  type="text"
-                  placeholder="User ID"
-                  value={this.state.formValues.userId}
-                  onChange={this.handleChange}
-                  onBlur={this.handleBlur}
-                />
-                <FormControl.Feedback />
-              </FormGroup>
-              <FormGroup
-                controlId="userName"
-                validationState={this.state.validationState.userName}
-              >
-                <ControlLabel>User Name</ControlLabel>
-                <FormControl
-                  type="text"
-                  placeholder="User Name"
-                  value={this.state.formValues.userName}
-                  onChange={this.handleChange}
-                  onBlur={this.handleBlur}
-                />
-                <FormControl.Feedback />
-              </FormGroup>
+      <Box m={4}>
+        <PageHeader>{this.props.headerText}</PageHeader>
+        {this.state.formIncomplete && (
+          <Alert variant="danger" onDismiss={this.onDismiss}>
+            All fields in <Text.span bold>RED</Text.span> are required.
+          </Alert>
+        )}
+        <form onSubmit={this.onSubmit}>
+          <Heading.h3>Team Details</Heading.h3>
+          <InputGroup validationState={this.state.validationState.id}>
+            <Label>ID</Label>
+            <Input
+              id="id"
+              type="text"
+              placeholder="ID"
+              value={this.state.formValues.id}
+              onChange={this.handleChange}
+              onBlur={this.handleBlur}
+            />
+          </InputGroup>
+          <InputGroup validationState={this.state.validationState.name}>
+            <Label>Name</Label>
+            <Input
+              id="name"
+              type="text"
+              placeholder="Name"
+              value={this.state.formValues.name}
+              onChange={this.handleChange}
+              onBlur={this.handleBlur}
+            />
+          </InputGroup>
+          <InputGroup validationState={this.state.validationState.description}>
+            <Label>Description</Label>
+            <Input
+              id="description"
+              type="text"
+              placeholder="Description"
+              value={this.state.formValues.description}
+              onChange={this.handleChange}
+              onBlur={this.handleBlur}
+            />
+          </InputGroup>
+          <Heading.h3>Default Admin User</Heading.h3>
+          <InputGroup validationState={this.state.validationState.userId}>
+            <Label>User ID</Label>
+            <Input
+              id="userId"
+              type="text"
+              placeholder="User ID"
+              value={this.state.formValues.userId}
+              onChange={this.handleChange}
+              onBlur={this.handleBlur}
+            />
+          </InputGroup>
+          <InputGroup validationState={this.state.validationState.userName}>
+            <Label>User Name</Label>
+            <Input
+              id="userName"
+              type="text"
+              placeholder="User Name"
+              value={this.state.formValues.userName}
+              onChange={this.handleChange}
+              onBlur={this.handleBlur}
+            />
+          </InputGroup>
 
-              <Button bsStyle="primary" type="submit">
-                Submit
-              </Button>
-              <Button bsStyle="link" onClick={this.props.onCancel}>
-                Cancel
-              </Button>
-            </Form>
-          </Col>
-        </Row>
-      </Grid>
+          <Button variant="primary" type="submit">
+            Submit
+          </Button>
+          <Button variant="link" onClick={this.props.onCancel}>
+            Cancel
+          </Button>
+        </form>
+      </Box>
     )
   }
 }

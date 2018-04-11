@@ -1,71 +1,111 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should render with minimum props 1`] = `
+.emotion-0 {
+  font-size: 48px;
+  margin-top: .5em;
+  margin-bottom: .5em;
+}
+
+.emotion-4 {
+  font-size: 24px;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.emotion-10 {
+  background: #eee;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  color: #333;
+  display: inline-block;
+  line-height: 1.5;
+  padding: 6px 12px;
+  text-align: center;
+  -webkit-transition: all .2s cubic-bezier(0,.6,.3,1);
+  transition: all .2s cubic-bezier(0,.6,.3,1);
+  vertical-align: middle;
+  white-space: nowrap;
+  background-color: #d9534f;
+  border-color: darken(.05,#d9534f);
+  color: #fff;
+}
+
+.emotion-10:hover {
+  background-color: #c9302c;
+  border-color: #b52b27;
+  color: #fff;
+}
+
+.emotion-12 {
+  background: #eee;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  color: #333;
+  display: inline-block;
+  line-height: 1.5;
+  padding: 6px 12px;
+  text-align: center;
+  -webkit-transition: all .2s cubic-bezier(0,.6,.3,1);
+  transition: all .2s cubic-bezier(0,.6,.3,1);
+  vertical-align: middle;
+  white-space: nowrap;
+  background-color: transparent;
+  border-color: none;
+}
+
+.emotion-12:hover {
+  color: #D8D8D8;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
 <div
-  className="container"
+  className="sc-bdVaJa hnxqsY"
 >
   <div
-    className="row"
+    className="emotion-2 emotion-3"
   >
-    <div
-      className="col-xs-12"
+    <h1
+      className="emotion-0 emotion-1"
+      fontSize={6}
     >
-      <div
-        className="page-header"
-      >
-        <h1>
-          Delete Team
-        </h1>
-      </div>
-    </div>
+      Delete Team
+    </h1>
+    <hr />
   </div>
-  <div
-    className="row"
+  <h3
+    className="emotion-4 emotion-5"
+    fontSize={4}
   >
-    <div
-      className="col-xs-12"
-    >
-      <h3>
-        Are you sure you want to delete 
-        team name
-        ?
-      </h3>
-    </div>
-    <div
-      className="col-xs-12"
-    >
-      <p>
-        This action 
-        <strong>
-          CANNOT
-        </strong>
-         be undone.
-      </p>
-    </div>
-  </div>
-  <div
-    className="row"
+    Are you sure you want to delete 
+    team name
+    ?
+  </h3>
+  <p
+    className="emotion-8 emotion-9"
   >
-    <div
-      className="col-xs-12"
+    This action 
+    <span
+      className="emotion-6 emotion-7"
     >
-      <button
-        className="btn btn-danger"
-        disabled={false}
-        onClick={[Function]}
-        type="button"
-      >
-        DELETE
-      </button>
-      <button
-        className="btn btn-link"
-        disabled={false}
-        onClick={[Function]}
-        type="button"
-      >
-        CANCEL
-      </button>
-    </div>
-  </div>
+      CANNOT
+    </span>
+     be undone.
+  </p>
+  <button
+    className="emotion-10 emotion-11"
+    onClick={[Function]}
+    variant="danger"
+  >
+    DELETE
+  </button>
+  <button
+    className="emotion-12 emotion-11"
+    onClick={[Function]}
+    variant="link"
+  >
+    CANCEL
+  </button>
 </div>
 `;

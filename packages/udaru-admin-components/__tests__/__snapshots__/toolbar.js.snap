@@ -1,192 +1,368 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should render with default props 1`] = `
+.emotion-8 {
+  margin: 0 15px;
+}
+
+.emotion-8 > button,
+.emotion-8 > a {
+  margin-left: .25rem;
+  margin-right: .25rem;
+}
+
+.emotion-0 {
+  background: #eee;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  color: #333;
+  display: inline-block;
+  line-height: 1.5;
+  padding: 6px 12px;
+  text-align: center;
+  -webkit-transition: all .2s cubic-bezier(0,.6,.3,1);
+  transition: all .2s cubic-bezier(0,.6,.3,1);
+  vertical-align: middle;
+  white-space: nowrap;
+  background-color: #5cb85c;
+  border-color: darken(.05,#5cb85c);
+  color: #fff;
+}
+
+.emotion-0:hover {
+  background-color: #449d44;
+  border-color: #3d8b3d;
+  color: #fff;
+}
+
+.emotion-2 {
+  background: #eee;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  color: #333;
+  display: inline-block;
+  line-height: 1.5;
+  padding: 6px 12px;
+  text-align: center;
+  -webkit-transition: all .2s cubic-bezier(0,.6,.3,1);
+  transition: all .2s cubic-bezier(0,.6,.3,1);
+  vertical-align: middle;
+  white-space: nowrap;
+  background-color: #5bc0de;
+  border-color: darken(.05,#5bc0de);
+  color: #fff;
+}
+
+.emotion-2:hover {
+  background-color: #31b0d5;
+  border-color: #28a1c5;
+  color: #fff;
+}
+
+.emotion-6 {
+  background: #eee;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  color: #333;
+  display: inline-block;
+  line-height: 1.5;
+  padding: 6px 12px;
+  text-align: center;
+  -webkit-transition: all .2s cubic-bezier(0,.6,.3,1);
+  transition: all .2s cubic-bezier(0,.6,.3,1);
+  vertical-align: middle;
+  white-space: nowrap;
+  background-color: #d9534f;
+  border-color: darken(.05,#d9534f);
+  color: #fff;
+}
+
+.emotion-6:hover {
+  background-color: #c9302c;
+  border-color: #b52b27;
+  color: #fff;
+}
+
 <div
-  className="container"
+  className="sc-bdVaJa dXiGPu"
 >
   <div
-    className="row"
+    className="emotion-8 emotion-9"
+    role="toolbar"
   >
-    <div
-      className="col-xs-12"
+    <button
+      className="emotion-0 emotion-1"
+      onClick={undefined}
+      variant="success"
     >
-      <div
-        className="btn-toolbar"
-        role="toolbar"
+      New Team
+    </button>
+    <div
+      onBlur={[Function]}
+      onClick={[Function]}
+      onContextMenu={undefined}
+      onFocus={[Function]}
+      onMouseDown={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      onTouchStart={[Function]}
+      style={
+        Object {
+          "display": "inline-block",
+          "padding": "0 10px",
+        }
+      }
+    >
+      <button
+        className="emotion-2 emotion-1"
+        disabled={true}
+        onClick={undefined}
+        style={
+          Object {
+            "pointerEvents": "none",
+          }
+        }
+        variant="info"
       >
-        <button
-          className="btn btn-success"
-          disabled={false}
-          onClick={undefined}
-          type="button"
-        >
-          New Team
-        </button>
-        <div
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          style={
-            Object {
-              "display": "inline-block",
-              "padding": "0 10px",
-            }
+        View Team
+      </button>
+    </div>
+    <div
+      onBlur={[Function]}
+      onClick={[Function]}
+      onContextMenu={undefined}
+      onFocus={[Function]}
+      onMouseDown={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      onTouchStart={[Function]}
+      style={
+        Object {
+          "display": "inline-block",
+          "padding": "0 10px 0 0",
+        }
+      }
+    >
+      <button
+        className="emotion-2 emotion-1"
+        disabled={true}
+        onClick={undefined}
+        style={
+          Object {
+            "pointerEvents": "none",
           }
-        >
-          <button
-            className="btn btn-primary"
-            disabled={true}
-            onClick={undefined}
-            style={
-              Object {
-                "pointerEvents": "none",
-              }
-            }
-            type="button"
-          >
-            View Team
-          </button>
-        </div>
-        <div
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          style={
-            Object {
-              "display": "inline-block",
-              "padding": "0 10px 0 0",
-            }
+        }
+        variant="info"
+      >
+        Update Team
+      </button>
+    </div>
+    <div
+      onBlur={[Function]}
+      onClick={[Function]}
+      onContextMenu={undefined}
+      onFocus={[Function]}
+      onMouseDown={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      onTouchStart={[Function]}
+      style={
+        Object {
+          "display": "inline-block",
+        }
+      }
+    >
+      <button
+        className="emotion-6 emotion-1"
+        disabled={true}
+        onClick={undefined}
+        style={
+          Object {
+            "pointerEvents": "none",
           }
-        >
-          <button
-            className="btn btn-info"
-            disabled={true}
-            onClick={undefined}
-            style={
-              Object {
-                "pointerEvents": "none",
-              }
-            }
-            type="button"
-          >
-            Update Team
-          </button>
-        </div>
-        <div
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          style={
-            Object {
-              "display": "inline-block",
-            }
-          }
-        >
-          <button
-            className="btn btn-danger"
-            disabled={true}
-            onClick={undefined}
-            style={
-              Object {
-                "pointerEvents": "none",
-              }
-            }
-            type="button"
-          >
-            Delete Team
-          </button>
-        </div>
-      </div>
+        }
+        variant="danger"
+      >
+        Delete Team
+      </button>
     </div>
   </div>
 </div>
 `;
 
 exports[`should render with disable props 1`] = `
+.emotion-8 {
+  margin: 0 15px;
+}
+
+.emotion-8 > button,
+.emotion-8 > a {
+  margin-left: .25rem;
+  margin-right: .25rem;
+}
+
+.emotion-0 {
+  background: #eee;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  color: #333;
+  display: inline-block;
+  line-height: 1.5;
+  padding: 6px 12px;
+  text-align: center;
+  -webkit-transition: all .2s cubic-bezier(0,.6,.3,1);
+  transition: all .2s cubic-bezier(0,.6,.3,1);
+  vertical-align: middle;
+  white-space: nowrap;
+  background-color: #5cb85c;
+  border-color: darken(.05,#5cb85c);
+  color: #fff;
+}
+
+.emotion-0:hover {
+  background-color: #449d44;
+  border-color: #3d8b3d;
+  color: #fff;
+}
+
+.emotion-2 {
+  background: #eee;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  color: #333;
+  display: inline-block;
+  line-height: 1.5;
+  padding: 6px 12px;
+  text-align: center;
+  -webkit-transition: all .2s cubic-bezier(0,.6,.3,1);
+  transition: all .2s cubic-bezier(0,.6,.3,1);
+  vertical-align: middle;
+  white-space: nowrap;
+  background-color: #5bc0de;
+  border-color: darken(.05,#5bc0de);
+  color: #fff;
+}
+
+.emotion-2:hover {
+  background-color: #31b0d5;
+  border-color: #28a1c5;
+  color: #fff;
+}
+
+.emotion-6 {
+  background: #eee;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  color: #333;
+  display: inline-block;
+  line-height: 1.5;
+  padding: 6px 12px;
+  text-align: center;
+  -webkit-transition: all .2s cubic-bezier(0,.6,.3,1);
+  transition: all .2s cubic-bezier(0,.6,.3,1);
+  vertical-align: middle;
+  white-space: nowrap;
+  background-color: #d9534f;
+  border-color: darken(.05,#d9534f);
+  color: #fff;
+}
+
+.emotion-6:hover {
+  background-color: #c9302c;
+  border-color: #b52b27;
+  color: #fff;
+}
+
 <div
-  className="container"
+  className="sc-bdVaJa dXiGPu"
 >
   <div
-    className="row"
+    className="emotion-8 emotion-9"
+    role="toolbar"
   >
-    <div
-      className="col-xs-12"
+    <button
+      className="emotion-0 emotion-1"
+      onClick={undefined}
+      variant="success"
     >
-      <div
-        className="btn-toolbar"
-        role="toolbar"
+      New Team
+    </button>
+    <div
+      onBlur={undefined}
+      onClick={undefined}
+      onContextMenu={undefined}
+      onFocus={undefined}
+      onMouseDown={undefined}
+      onMouseEnter={undefined}
+      onMouseLeave={undefined}
+      onTouchStart={undefined}
+      style={
+        Object {
+          "display": "inline-block",
+          "padding": "0 10px",
+        }
+      }
+    >
+      <button
+        className="emotion-2 emotion-1"
+        disabled={false}
+        onClick={undefined}
+        style={Object {}}
+        variant="info"
       >
-        <button
-          className="btn btn-success"
-          disabled={false}
-          onClick={undefined}
-          type="button"
-        >
-          New Team
-        </button>
-        <div
-          onClick={null}
-          style={
-            Object {
-              "display": "inline-block",
-              "padding": "0 10px",
-            }
-          }
-        >
-          <button
-            className="btn btn-primary"
-            disabled={false}
-            onClick={undefined}
-            style={Object {}}
-            type="button"
-          >
-            View Team
-          </button>
-        </div>
-        <div
-          onClick={null}
-          style={
-            Object {
-              "display": "inline-block",
-              "padding": "0 10px 0 0",
-            }
-          }
-        >
-          <button
-            className="btn btn-info"
-            disabled={false}
-            onClick={undefined}
-            style={Object {}}
-            type="button"
-          >
-            Update Team
-          </button>
-        </div>
-        <div
-          onClick={null}
-          style={
-            Object {
-              "display": "inline-block",
-            }
-          }
-        >
-          <button
-            className="btn btn-danger"
-            disabled={false}
-            onClick={undefined}
-            style={Object {}}
-            type="button"
-          >
-            Delete Team
-          </button>
-        </div>
-      </div>
+        View Team
+      </button>
+    </div>
+    <div
+      onBlur={undefined}
+      onClick={undefined}
+      onContextMenu={undefined}
+      onFocus={undefined}
+      onMouseDown={undefined}
+      onMouseEnter={undefined}
+      onMouseLeave={undefined}
+      onTouchStart={undefined}
+      style={
+        Object {
+          "display": "inline-block",
+          "padding": "0 10px 0 0",
+        }
+      }
+    >
+      <button
+        className="emotion-2 emotion-1"
+        disabled={false}
+        onClick={undefined}
+        style={Object {}}
+        variant="info"
+      >
+        Update Team
+      </button>
+    </div>
+    <div
+      onBlur={undefined}
+      onClick={undefined}
+      onContextMenu={undefined}
+      onFocus={undefined}
+      onMouseDown={undefined}
+      onMouseEnter={undefined}
+      onMouseLeave={undefined}
+      onTouchStart={undefined}
+      style={
+        Object {
+          "display": "inline-block",
+        }
+      }
+    >
+      <button
+        className="emotion-6 emotion-1"
+        disabled={false}
+        onClick={undefined}
+        style={Object {}}
+        variant="danger"
+      >
+        Delete Team
+      </button>
     </div>
   </div>
 </div>

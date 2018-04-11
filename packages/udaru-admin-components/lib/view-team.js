@@ -1,6 +1,6 @@
 import React from 'react'
 import { makeCancellable } from './makeCancellable'
-import { Grid, Row, Col, Button, PageHeader, Glyphicon } from 'react-bootstrap'
+import { Button, Box, Icon, Heading } from './components'
 import Team from './team'
 import TeamUsers from './team-users'
 
@@ -75,50 +75,32 @@ class ViewTeam extends React.Component {
 
   render() {
     return this.state.loading ? (
-      <h3>Loading</h3>
+      <Heading.h3>Loading</Heading.h3>
     ) : this.state.error ? (
-      <h3>error</h3>
+      <Heading.h3>error</Heading.h3>
     ) : (
       <React.Fragment>
-        <Grid>
-          <Row>
-            <Col xs={12}>
-              <PageHeader>
-                View Team{' '}
-                <small>{this.state.team && this.state.team.name}</small>
-              </PageHeader>
-            </Col>
+        {this.props.onViewParent &&
+          Boolean(this.props.parentTeamId) && (
+            <Button
+              style={{ margin: '20px 0' }}
+              onClick={() => this.props.onViewParent(this.props.parentTeamId)}
+            >
+              <Icon name="arrowUp" size={16} /> View Parent
+            </Button>
+          )}
 
-            {this.props.onViewParent &&
-              Boolean(this.props.parentTeamId) && (
-                <Col xs={12}>
-                  <Button
-                    style={{ margin: '20px 0' }}
-                    onClick={() =>
-                      this.props.onViewParent(this.props.parentTeamId)
-                    }
-                  >
-                    <Glyphicon glyph="arrow-up" /> View Parent
-                  </Button>
-                </Col>
-              )}
+        <Team {...this.state.team} />
 
-            <Team {...this.state.team} />
-
-            <TeamUsers
-              id={this.props.id}
-              udaruUrl={this.props.udaruUrl}
-              authorization={this.props.authorization}
-              org={this.props.org}
-            />
-
-            <Col xs={12}>
-              <Button bsStyle="link" onClick={this.props.onCancel}>
-                Go Back
-              </Button>
-            </Col>
-          </Row>
-        </Grid>
+        <TeamUsers
+          id={this.props.id}
+          udaruUrl={this.props.udaruUrl}
+          authorization={this.props.authorization}
+          org={this.props.org}
+        />
+        <Button variant="link" onClick={this.props.onCancel}>
+          Go Back
+        </Button>
       </React.Fragment>
     )
   }

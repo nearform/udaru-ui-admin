@@ -1,16 +1,21 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import CreateTeamForm from 'create-team-form'
+import { createSerializer } from 'jest-emotion'
+import * as emotion from 'emotion'
+import theme from '../lib/components/theme'
+
+expect.addSnapshotSerializer(createSerializer(emotion))
 
 it('should render with default props', () => {
-  const component = renderer.create(<CreateTeamForm />)
+  const component = renderer.create(<CreateTeamForm theme={theme} />)
   const tree = component.toJSON()
 
   expect(tree).toMatchSnapshot()
 })
 
 it('should warn user if no onFormSubmit function is passed into component', () => {
-  const component = renderer.create(<CreateTeamForm />)
+  const component = renderer.create(<CreateTeamForm theme={theme} />)
   const instance = component.root.instance
   const spy = jest.spyOn(global.console, 'log')
 
@@ -28,7 +33,7 @@ it('should warn user if no onFormSubmit function is passed into component', () =
 })
 
 it('should submit handle invalid form', () => {
-  const component = renderer.create(<CreateTeamForm />)
+  const component = renderer.create(<CreateTeamForm theme={theme} />)
   const instance = component.root.instance
   const e = {
     preventDefault: () => ({})
@@ -42,7 +47,7 @@ it('should submit handle invalid form', () => {
 
 it('should update form values on change and blur', () => {
   const testId = 'test value 1'
-  const component = renderer.create(<CreateTeamForm />)
+  const component = renderer.create(<CreateTeamForm theme={theme} />)
   const instance = component.root.instance
   const e = {
     target: {
@@ -62,7 +67,7 @@ it('should update form values on change and blur', () => {
 
 it('should update form values on change and blur with invalid field', () => {
   const testId = ''
-  const component = renderer.create(<CreateTeamForm />)
+  const component = renderer.create(<CreateTeamForm theme={theme} />)
   const instance = component.root.instance
   const e = {
     target: {
@@ -82,7 +87,7 @@ it('should update form values on change and blur with invalid field', () => {
 
 it('should set success on valid form', () => {
   const value = 'random value'
-  const component = renderer.create(<CreateTeamForm />)
+  const component = renderer.create(<CreateTeamForm theme={theme} />)
   const instance = component.root.instance
   const valueFormData = [
     { id: 'id', value },
@@ -112,7 +117,7 @@ it('should set success on valid form', () => {
 
 it('should set success on valid form when blur has not run', () => {
   const value = 'random value'
-  const component = renderer.create(<CreateTeamForm />)
+  const component = renderer.create(<CreateTeamForm theme={theme} />)
   const instance = component.root.instance
   const valueFormData = [
     { id: 'id', value },
@@ -156,7 +161,7 @@ it('should set success on valid form when blur has not run', () => {
   }, {})
 
   const component = renderer.create(
-    <CreateTeamForm onFormSubmit={onFormSubmit} />
+    <CreateTeamForm theme={theme} onFormSubmit={onFormSubmit} />
   )
   const instance = component.root.instance
 

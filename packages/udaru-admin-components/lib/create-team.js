@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import CreateTeamForm from './create-team-form'
-import { Grid, Row, Col, Alert } from 'react-bootstrap'
+import { Alert, Box, Text } from './components'
 
 class CreateTeam extends React.Component {
   state = {
@@ -101,33 +101,27 @@ class CreateTeam extends React.Component {
 
   render() {
     return this.state.success ? (
-      <Grid>
-        <Row>
-          <Col xs={12}>
-            <Alert bsStyle="success" onDismiss={this.props.onCancel}>
-              <strong>Team Successfully Created!</strong>
-            </Alert>
-          </Col>
-        </Row>
-      </Grid>
+      <Box m={4}>
+        <Alert variant="success" onDismiss={this.props.onCancel}>
+          <Text.span bold>Team Successfully Created!</Text.span>
+        </Alert>
+      </Box>
     ) : (
-      <Grid>
-        <Row>
-          <Col xs={12}>
-            {this.state.hasError && (
-              <Alert bsStyle="danger" onDismiss={this.onDismiss}>
-                <strong>Oops! There was an error</strong>
-                {this.state.errorMessage && <p>{this.state.errorMessage}</p>}
-              </Alert>
+      <Box m={4}>
+        {this.state.hasError && (
+          <Alert variant="danger" onDismiss={this.onDismiss}>
+            <Text.span bold>Oops! There was an error</Text.span>
+            {this.state.errorMessage && (
+              <Text.p>{this.state.errorMessage}</Text.p>
             )}
-            <CreateTeamForm
-              headerText={this.props.headerText}
-              onFormSubmit={this.onFormSubmit}
-              onCancel={this.props.onCancel}
-            />
-          </Col>
-        </Row>
-      </Grid>
+          </Alert>
+        )}
+        <CreateTeamForm
+          headerText={this.props.headerText}
+          onFormSubmit={this.onFormSubmit}
+          onCancel={this.props.onCancel}
+        />
+      </Box>
     )
   }
 }

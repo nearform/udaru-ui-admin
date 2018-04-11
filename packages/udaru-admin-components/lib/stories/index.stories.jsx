@@ -11,12 +11,12 @@ import {
   TeamsPoliciesMapper,
   Toolbar,
   ViewTeam
-} from '../dist/es'
+} from '../../dist/es'
 
 const LoadingCmp = () => <h1>Custom Loading...</h1>
 const ErrorCmp = () => <h1>Custom Error Message.</h1>
 
-storiesOf('Teams Table', module)
+storiesOf('Views/Teams Table', module)
   .add('default props', () => {
     return (
       <div style={{ margin: '50px', minHeight: '100px' }}>
@@ -69,11 +69,11 @@ storiesOf('Teams Table', module)
     )
   })
 
-storiesOf('Create Team', module).add('create team', () => {
+storiesOf('Views/Create Team', module).add('create team', () => {
   return <CreateTeam udaruUrl="http://localhost:8080" authorization="ROOTid" />
 })
 
-storiesOf('Update Team', module).add('update team', () => {
+storiesOf('Views/Update Team', module).add('update team', () => {
   return (
     <UpdateTeam
       udaruUrl="http://localhost:8080"
@@ -87,7 +87,7 @@ storiesOf('Update Team', module).add('update team', () => {
   )
 })
 
-storiesOf('Delete Team', module).add('delete team', () => {
+storiesOf('Views/Delete Team', module).add('delete team', () => {
   return (
     <DeleteTeam
       udaruUrl="http://localhost:8080"
@@ -97,7 +97,7 @@ storiesOf('Delete Team', module).add('delete team', () => {
   )
 })
 
-storiesOf('View Team', module).add('View team', () => {
+storiesOf('Views/View Team', module).add('View team', () => {
   return (
     <ViewTeam
       udaruUrl="http://localhost:8080"
@@ -108,7 +108,7 @@ storiesOf('View Team', module).add('View team', () => {
   )
 })
 
-storiesOf('Toolbar', module).add('toolbar', () => {
+storiesOf('Views/Toolbar', module).add('toolbar', () => {
   return (
     <Toolbar
       onCreate={action('on create')}
@@ -118,7 +118,7 @@ storiesOf('Toolbar', module).add('toolbar', () => {
   )
 })
 
-storiesOf('TeamsPoliciesMapper', module).add('TeamsPoliciesMapper', () => {
+storiesOf('Views/TeamsPoliciesMapper', module).add('TeamsPoliciesMapper', () => {
   return (
     <TeamsPoliciesMapper
       udaruUrl="http://localhost:8080"

@@ -1,16 +1,23 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import UpdateTeam from 'update-team'
+import { createSerializer } from 'jest-emotion'
+import * as emotion from 'emotion'
+import theme from '../lib/components/theme'
+
+expect.addSnapshotSerializer(createSerializer(emotion))
 
 it('should render with default props', () => {
-  const component = renderer.create(<UpdateTeam team={{ id: '1' }} />)
+  const component = renderer.create(
+    <UpdateTeam theme={theme} team={{ id: '1' }} />
+  )
   const tree = component.toJSON()
 
   expect(tree).toMatchSnapshot()
 })
 
 it('should warn user if no onCancel function is passed into component', () => {
-  const component = renderer.create(<UpdateTeam />)
+  const component = renderer.create(<UpdateTeam theme={theme} />)
   const instance = component.root.instance
   const spy = jest.spyOn(global.console, 'log')
 
@@ -28,7 +35,9 @@ it('should warn user if no onCancel function is passed into component', () => {
 })
 
 it('should reset state on dismissable error', () => {
-  const component = renderer.create(<UpdateTeam team={{ id: '1' }} />)
+  const component = renderer.create(
+    <UpdateTeam theme={theme} team={{ id: '1' }} />
+  )
   const instance = component.root.instance
 
   instance.setState({ success: true, hasError: true, errorMessage: 'foo' })
@@ -44,7 +53,7 @@ it('should reset state on dismissable error', () => {
 })
 
 it('empty render if no team passed', () => {
-  const component = renderer.create(<UpdateTeam />)
+  const component = renderer.create(<UpdateTeam theme={theme} />)
   const json = component.toJSON()
 
   expect(json).toMatchSnapshot()
@@ -54,7 +63,9 @@ it('should throw error in render and catch in error boundary', () => {
   const error = new Error('oops')
   const info = 'some info'
   const logError = jest.fn()
-  const component = renderer.create(<UpdateTeam logError={logError} />)
+  const component = renderer.create(
+    <UpdateTeam theme={theme} logError={logError} />
+  )
   const instance = component.root.instance
 
   instance.componentDidCatch(error, info)
@@ -90,6 +101,7 @@ it('should successfully submit form', async () => {
 
   const component = renderer.create(
     <UpdateTeam
+      theme={theme}
       udaruUrl="my-udaru-url"
       authorization="my-authorization"
       org="my-org"
@@ -118,6 +130,7 @@ it('should successfully submit form', async () => {
 it('should error if no url set', async () => {
   const component = renderer.create(
     <UpdateTeam
+      theme={theme}
       authorization="my-authorization"
       org="my-org"
       team={{ id: '1' }}
@@ -144,7 +157,12 @@ it('should error if no url set', async () => {
 
 it('should error if no authorization set', async () => {
   const component = renderer.create(
-    <UpdateTeam udaruUrl="my-udaru-url" org="my-org" team={{ id: '1' }} />
+    <UpdateTeam
+      theme={theme}
+      udaruUrl="my-udaru-url"
+      org="my-org"
+      team={{ id: '1' }}
+    />
   )
   const instance = component.root.instance
 
@@ -190,6 +208,7 @@ it('should handle error when updating team', async () => {
 
   const component = renderer.create(
     <UpdateTeam
+      theme={theme}
       udaruUrl="my-udaru-url"
       authorization="my-authorization"
       org="my-org"

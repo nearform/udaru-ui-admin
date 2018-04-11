@@ -1,16 +1,21 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import UpdateTeamForm from 'update-team-form'
+import { createSerializer } from 'jest-emotion'
+import * as emotion from 'emotion'
+import theme from '../lib/components/theme'
+
+expect.addSnapshotSerializer(createSerializer(emotion))
 
 it('should render with default props', () => {
-  const component = renderer.create(<UpdateTeamForm />)
+  const component = renderer.create(<UpdateTeamForm theme={theme} />)
   const tree = component.toJSON()
 
   expect(tree).toMatchSnapshot()
 })
 
 it('should warn user if no onFormSubmit function is passed into component', () => {
-  const component = renderer.create(<UpdateTeamForm />)
+  const component = renderer.create(<UpdateTeamForm theme={theme} />)
   const instance = component.root.instance
   const spy = jest.spyOn(global.console, 'log')
 
@@ -28,7 +33,7 @@ it('should warn user if no onFormSubmit function is passed into component', () =
 })
 
 it('should validate form with correct input', () => {
-  const component = renderer.create(<UpdateTeamForm />)
+  const component = renderer.create(<UpdateTeamForm theme={theme} />)
   const instance = component.root.instance
 
   instance.handleChange({ target: { id: 'name', value: 'Team Name' } })
@@ -41,7 +46,7 @@ it('should validate form with correct input', () => {
 })
 
 it('should set validation error with invalid input', () => {
-  const component = renderer.create(<UpdateTeamForm />)
+  const component = renderer.create(<UpdateTeamForm theme={theme} />)
   const instance = component.root.instance
 
   instance.handleChange({ target: { id: 'name', value: '' } })
@@ -64,7 +69,7 @@ it('should submit form', () => {
   const onFormSubmit = jest.fn()
 
   const component = renderer.create(
-    <UpdateTeamForm onFormSubmit={onFormSubmit} />
+    <UpdateTeamForm theme={theme} onFormSubmit={onFormSubmit} />
   )
   const instance = component.root.instance
   instance.onSubmit(e)

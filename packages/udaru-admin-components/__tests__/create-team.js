@@ -1,16 +1,23 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import CreateTeam from 'create-team'
+import { createSerializer } from 'jest-emotion'
+import * as emotion from 'emotion'
+import theme from '../lib/components/theme'
+
+expect.addSnapshotSerializer(createSerializer(emotion))
 
 it('should render with default props', () => {
-  const component = renderer.create(<CreateTeam />)
+  const component = renderer.create(<CreateTeam theme={theme} />)
   const tree = component.toJSON()
 
   expect(tree).toMatchSnapshot()
 })
 
 it('should warn user if no onCancel prop passed into component', () => {
-  const component = renderer.create(<CreateTeam udaruUrl="" authorization="" />)
+  const component = renderer.create(
+    <CreateTeam theme={theme} udaruUrl="" authorization="" />
+  )
   const instance = component.root.instance
   const spy = jest.spyOn(global.console, 'log')
 
@@ -32,7 +39,12 @@ it('should catch error in render', () => {
   const error = new Error('oops')
   const info = 'some info about error'
   const component = renderer.create(
-    <CreateTeam udaruUrl="" authorization="" logError={logError} />
+    <CreateTeam
+      theme={theme}
+      udaruUrl=""
+      authorization=""
+      logError={logError}
+    />
   )
   const instance = component.root.instance
 
@@ -45,7 +57,7 @@ it('should catch error in render', () => {
 })
 
 it('should handle dismissing alert message', async () => {
-  const component = renderer.create(<CreateTeam />)
+  const component = renderer.create(<CreateTeam theme={theme} />)
 
   const instance = component.root.instance
 
@@ -67,7 +79,7 @@ it('should error with no url is set', () => {
     userName: 'value'
   }
   const component = renderer.create(
-    <CreateTeam authorization="my-authorization-id" />
+    <CreateTeam theme={theme} authorization="my-authorization-id" />
   )
   const instance = component.root.instance
 
@@ -82,7 +94,9 @@ it('should error with no authorization is set', () => {
     userId: 'value',
     userName: 'value'
   }
-  const component = renderer.create(<CreateTeam udaruUrl="my-url" />)
+  const component = renderer.create(
+    <CreateTeam theme={theme} udaruUrl="my-url" />
+  )
   const instance = component.root.instance
 
   instance.onFormSubmit(formValues)
@@ -110,6 +124,7 @@ it('should submit form successfully', async () => {
   }
   const component = renderer.create(
     <CreateTeam
+      theme={theme}
       udaruUrl="http://my-udaru-url"
       authorization="my-authorization-id"
       org="my-special-org"
@@ -169,6 +184,7 @@ it('should handle error submitting form', async () => {
   }
   const component = renderer.create(
     <CreateTeam
+      theme={theme}
       udaruUrl="http://my-udaru-url"
       authorization="my-authorization-id"
       org="my-special-org"

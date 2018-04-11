@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import UpdateTeamForm from './update-team-form'
-import { Grid, Row, Col, Alert } from 'react-bootstrap'
+import { Alert, Box, Text } from './components'
 
 class UpdateTeam extends React.Component {
   state = {
@@ -108,31 +108,25 @@ class UpdateTeam extends React.Component {
 
   render() {
     return this.state.hasError ? (
-      <Grid>
-        <Row>
-          <Col xs={12}>
-            <Alert
-              bsStyle="danger"
-              {...!this.state.nonDismissableError && {
-                onDismiss: this.onDismiss
-              }}
-            >
-              <strong>Oops! There was an error</strong>
-              {this.state.errorMessage && <p>{this.state.errorMessage}</p>}
-            </Alert>
-          </Col>
-        </Row>
-      </Grid>
+      <Box m={4}>
+        <Alert
+          variant="danger"
+          {...!this.state.nonDismissableError && {
+            onDismiss: this.onDismiss
+          }}
+        >
+          <Text.span bold>Oops! There was an error</Text.span>
+          {this.state.errorMessage && (
+            <Text.p>{this.state.errorMessage}</Text.p>
+          )}
+        </Alert>
+      </Box>
     ) : this.state.success ? (
-      <Grid>
-        <Row>
-          <Col xs={12}>
-            <Alert bsStyle="success" onDismiss={this.props.onCancel}>
-              <strong>Team Successfully Updated!</strong>
-            </Alert>
-          </Col>
-        </Row>
-      </Grid>
+      <Box m={4}>
+        <Alert variant="success" onDismiss={this.props.onCancel}>
+          <Text.span bold>Team Successfully Updated!</Text.span>
+        </Alert>
+      </Box>
     ) : (
       <UpdateTeamForm
         id={this.props.team.id}

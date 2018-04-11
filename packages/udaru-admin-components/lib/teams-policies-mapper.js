@@ -2,17 +2,18 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { makeCancellable } from './makeCancellable'
 import {
-  Grid,
-  Row,
-  Col,
+  Alert,
+  Box,
+  Button,
+  Icon,
+  Flex,
+  Heading,
+  InputGroup,
   PageHeader,
   Panel,
-  FormGroup,
-  FormControl,
-  Button,
-  Alert,
-  Glyphicon
-} from 'react-bootstrap'
+  Select,
+  Text
+} from './components'
 
 export const sort = (a, b) => {
   if (a.name.toUpperCase() < b.name.toUpperCase()) {
@@ -57,7 +58,7 @@ class TeamsPoliciesMapper extends React.Component {
     headerText: 'Team Policies',
     onCancel: () => {
       console.log(
-        'WARNING: No onCancel function passed into the <TeamPoliciesMapper /> component.'
+        'WARNING: No onCancel function passed into the <TeamsPoliciesMapper /> component.'
       )
     }
   }
@@ -290,114 +291,115 @@ class TeamsPoliciesMapper extends React.Component {
   }
 
   render() {
+    if (!this.state.allPolicies.length || this.state.allPolicies.error)
+      return null
     return (
-      <Grid>
+      <Box m={4}>
         <form onSubmit={this.onSubmit}>
-          <Row>
-            <Col xs={12}>
-              <PageHeader>
-                {this.props.headerText} <small>{this.props.name}</small>
-              </PageHeader>
-            </Col>
-          </Row>
+          <PageHeader>
+            {this.props.headerText} <small>{this.props.name}</small>
+          </PageHeader>
+
           {this.state.success && (
-            <Row>
-              <Col xs={12}>
-                <Alert bsStyle="success" onDismiss={this.onDismiss}>
-                  <strong>Team Successfully Updated!</strong>
-                </Alert>
-              </Col>
-            </Row>
+            <Alert variant="success" onDismiss={this.onDismiss}>
+              <Text.span bold>Team Successfully Updated!</Text.span>
+            </Alert>
           )}
           {this.state.error && (
-            <Row>
-              <Col xs={12}>
-                <Alert bsStyle="danger" onDismiss={this.onDismiss}>
-                  <h3 style={{ marginTop: 0 }}>
-                    There was an error saving the team!
-                  </h3>
-                  <strong>REASON: {this.state.error.message}</strong>
-                </Alert>
-              </Col>
-            </Row>
+            <Alert variant="danger" onDismiss={this.onDismiss}>
+              <Heading.h3 mt={0}>
+                There was an error saving the team!
+              </Heading.h3>
+              <Text.span bold>REASON: {this.state.error.message}</Text.span>
+            </Alert>
           )}
-          <Row>
-            <Col xs={5} style={{ paddingRight: 0 }}>
-              <Panel>
-                <Panel.Heading>
-                  <Panel.Title componentClass="h3">
-                    Available Policies
-                  </Panel.Title>
-                </Panel.Heading>
-                <Panel.Body>
-                  <FormGroup controlId="policies-available">
-                    <FormControl
-                      componentClass="select"
-                      multiple
-                      onChange={this.setSelectedAllPolicies}
-                      style={{ height: '60vh' }}
-                    >
-                      {this.state.allPolicies &&
-                        this.state.allPolicies.sort(sort).map(mapPolicies)}
-                    </FormControl>
-                  </FormGroup>
-                </Panel.Body>
+          <Flex>
+            <Box w={0.5}>
+              <Panel title="Available Policies">
+                <InputGroup>
+                  <Select
+                    multiple
+                    onChange={this.setSelectedAllPolicies}
+                    style={{ height: '60vh' }}
+                  >
+                    {this.state.allPolicies
+                      .sort((a, b) => {
+                        if (a.name.toUpperCase() < b.name.toUpperCase()) {
+                          return -1
+                        }
+                        if (a.name.toUpperCase() > b.name.toUpperCase()) {
+                          return 1
+                        }
+
+                        return 0
+                      })
+                      .map(policy => (
+                        <option key={policy.id} value={policy.id}>
+                          {policy.name}
+                        </option>
+                      ))}
+                  </Select>
+                </InputGroup>
               </Panel>
-            </Col>
-            <Col
-              xs={2}
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'flex-end',
-                height: '35vh',
-                padding: '0 10px'
-              }}
+            </Box>
+            <Flex
+              flexDirection="column"
+              justifyContent="center"
+              h="35vh"
+              p="0 10px"
             >
               <Button style={{ margin: '15px 0' }} onClick={this.onMoveRight}>
-                <Glyphicon glyph="arrow-right" />
+                <Icon name="arrowRight" size={16} />
               </Button>
               <Button onClick={this.onMoveLeft}>
-                <Glyphicon glyph="arrow-left" />
+                <Icon name="arrowLeft" size={16} />
               </Button>
-            </Col>
-            <Col xs={5} style={{ paddingLeft: 0 }}>
-              <Panel>
-                <Panel.Heading>
-                  <Panel.Title componentClass="h3">Active Policies</Panel.Title>
-                </Panel.Heading>
-                <Panel.Body>
-                  <FormGroup controlId="policies-available">
-                    <FormControl
-                      componentClass="select"
-                      multiple
-                      onChange={this.setSelectedTeamPolicies}
-                      style={{ height: '60vh' }}
-                    >
-                      {this.state.teamPolicies &&
-                        this.state.teamPolicies.sort(sort).map(mapPolicies)}
-                    </FormControl>
-                  </FormGroup>
-                </Panel.Body>
+            </Flex>
+            <Box w={0.5}>
+              <Panel title="Active Policies">
+                <InputGroup>
+                  <Select
+                    multiple
+                    onChange={this.setSelectedTeamPolicies}
+                    style={{ height: '60vh' }}
+                  >
+                    {this.state.teamPolicies
+                      .sort((a, b) => {
+                        if (a.name.toUpperCase() < b.name.toUpperCase()) {
+                          return -1
+                        }
+                        if (a.name.toUpperCase() > b.name.toUpperCase()) {
+                          return 1
+                        }
+
+                        return 0
+                      })
+                      .map(policy => (
+                        <option key={policy.id} value={policy.id}>
+                          {policy.name}
+                        </option>
+                      ))}
+                  </Select>
+                </InputGroup>
               </Panel>
-            </Col>
-          </Row>
-          <Row style={{ margin: '15px 0 ' }}>
-            <Col xsOffset={7} xs={5}>
+            </Box>
+          </Flex>
+          <Flex style={{ margin: '15px 0 ' }}>
+            <Box w={5 / 12}>
               <Button
-                bsStyle="primary"
+                variant="primary"
                 type="submit"
                 disabled={this.state.loading}
               >
                 SAVE
               </Button>
-              <Button bsStyle="link" onClick={this.props.onCancel}>
+              <Button variant="link" onClick={this.props.onCancel}>
                 CANCEL
               </Button>
-            </Col>
-          </Row>
+            </Box>
+          </Flex>
         </form>
-      </Grid>
+      </Box>
     )
   }
 }

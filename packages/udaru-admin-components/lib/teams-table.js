@@ -130,7 +130,8 @@ class TeamsTable extends React.Component {
   }
 
   onSelect = this.onSelect.bind(this)
-  onSelect(selectedRow) {
+  onSelect(selectedRow, cb) {
+    if (selectedRow === this.state.selectedRow) selectedRow = null
     this.setState({
       selectedRow
     })
@@ -306,6 +307,7 @@ class TeamsTable extends React.Component {
           expandRows={this.props.expandRows}
           ExpandComponent={this.props.expandComponent}
           expandComponentOnClick={this.onNestedView}
+          selectedRow={this.state.selectedRow}
         />
       </React.Fragment>
     ) : (

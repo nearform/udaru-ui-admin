@@ -3,6 +3,7 @@
     "test": {
       "presets": ["env", "stage-2", "react"],
       "plugins": [
+        ["emotion", { "sourceMap": true, "autoLabel": true }],   
         "transform-export-extensions",
         [
           "transform-runtime",
@@ -37,6 +38,7 @@
     "development": {
       "presets": [["env", { "modules": false }], ["stage-2"], ["react"]],
       "plugins": [
+        ["emotion", { "sourceMap": true, "autoLabel": true }],
         "transform-export-extensions",
         [
           "transform-runtime",
